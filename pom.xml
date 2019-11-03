@@ -140,6 +140,20 @@
         <plugins>
 
             <plugin>
+                <!-- Need to create self-executable uber/fat jars -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${version.springboot}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${version.kotlin}</version>
@@ -162,31 +176,36 @@
                         <artifactId>kotlin-maven-noarg</artifactId>
                         <version>${version.kotlin}</version>
                     </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <sourceDir>${project.basedir}/src//kotlin</sourceDir>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                </executions>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-reflect</artifactId>
+                        <version>${version.kotlin}</version>
+                    </dependency>
+                </dependencies><executions>
+                <execution>
+                    <id>compile</id>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                    <configuration>
+                        <sourceDirs>
+                            <sourceDir>${project.basedir}/src//kotlin</sourceDir>
+                        </sourceDirs>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>test-compile</id>
+                    <goals>
+                        <goal>test-compile</goal>
+                    </goals>
+                    <configuration>
+                        <sourceDirs>
+                            <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                            <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+                        </sourceDirs>
+                    </configuration>
+                </execution>
+            </executions>
             </plugin>
         </plugins>
 
