@@ -9,7 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>api</module>
+        <module>movies</module>
+        <module>booking</module>
     </modules>
 
     <properties>
