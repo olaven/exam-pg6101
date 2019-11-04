@@ -20,11 +20,32 @@ services:
   postgres_movies:
     image: "postgres:10"
 
-  movies:
+  movies_0:
     build:
       context: ./movies
       dockerfile: Dockerfile
+    environment:
+      - MOVIES_ID=A
     depends_on:
       - postgres_movies
       - gateway
 
+  movies_1:
+    build:
+      context: ./movies
+      dockerfile: Dockerfile
+    environment:
+      - MOVIES_ID=B
+    depends_on:
+      - postgres_movies
+      - gateway
+
+  movies_2:
+    build:
+      context: ./movies
+      dockerfile: Dockerfile
+    environment:
+      - MOVIES_ID=C
+    depends_on:
+      - postgres_movies
+      - gateway
