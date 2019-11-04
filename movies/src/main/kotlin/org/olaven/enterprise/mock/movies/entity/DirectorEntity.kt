@@ -16,7 +16,7 @@ class DirectorEntity(
         val familyName: String,
 
         @OneToMany
-        val movies: List<MovieEntity>,
+        val movies: List<MovieEntity> = emptyList(),
 
         @Id
         @GeneratedValue
