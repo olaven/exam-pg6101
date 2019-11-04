@@ -13,3 +13,7 @@ spring:
       ddl-auto: validate
     database: h2
     show-sql: true
+eureka:
+  client:
+    enabled: false
+

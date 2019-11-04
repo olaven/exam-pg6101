@@ -1,0 +1,35 @@
+#NOTE: This is a modified version of:
+##https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/microservice/gateway/gateway-scg/src/main/resources/application.yml
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: movies
+          # "lb" stands for Load-Balance, which is done with Ribbon
+          uri: lb://movies
+          predicates:
+            - Path=/api/movies/** #I would expect api/movies -> go to /movies TODO: does this work as expected?
+          filters:
+            - StripPrefix=1
+#        - id: booking #TODO: my guess is that this is the way to separate (see note above)
+#            # "lb" stands for Load-Balance, which is done with Ribbon
+#            uri: lb://movies
+#            predicates:
+#              - Path=/api/booking/**
+#            filters:
+#              - StripPrefix=1
+
+
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://registry:8761/eureka/
