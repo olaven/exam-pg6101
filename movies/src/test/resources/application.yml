@@ -1,4 +1,4 @@
-# NOTE: This file is copied from:
+# NOTE: This file is initially  based on:
 #https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/14f9b4274a9335c41cfe958833e32ee6bc01737c/intro/spring/flyway/src/test/resources/application.yml
 spring:
   datasource:
@@ -13,5 +13,3 @@ spring:
       ddl-auto: validate
     database: h2
     show-sql: true
-
-
