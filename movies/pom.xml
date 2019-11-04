@@ -11,6 +11,8 @@
 
     <groupId>org.olaven.enterprise.mock</groupId>
     <artifactId>movies</artifactId>
+    <packaging>jar</packaging>
+
 
     <dependencies>
 
@@ -26,6 +28,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <!-- Documentation -->
@@ -59,9 +67,7 @@
     </dependencies>
 
     <build>
-
         <plugins>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -69,7 +75,7 @@
                     <finalName>movies</finalName>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
+
 </project>

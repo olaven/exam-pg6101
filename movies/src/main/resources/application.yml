@@ -16,15 +16,14 @@ spring:
     properties:
       hibernate:
         jdbc:
-          lob:  # Disables error-like log in console: 
+          lob:  # Disables error-like log in console:
             non_contextual_creation: true #https://github.com/spring-projects/spring-boot/issues/12007
-  # TODO: add Eureka (modify this part)
-#eureka:
-#  instance:
-#    preferIpAddress: true
-#  client:
-#    healthcheck:
-#      enabled: true
-  #    serviceUrl:
-#      defaultZone: http://eureka:8761/eureka/
-#
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://registry:8761/eureka/

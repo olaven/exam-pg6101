@@ -7,7 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="movies" />
+        <module name="gateway" />
         <module name="booking" />
+        <module name="registry" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

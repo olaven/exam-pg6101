@@ -11,6 +11,8 @@
     <modules>
         <module>movies</module>
         <module>booking</module>
+        <module>gateway</module>
+        <module>registry</module>
     </modules>
 
     <properties>
@@ -89,18 +91,10 @@
             <!-- Spring Cloud  -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${version.springcloud}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-                <version>${version.eureka}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-                <version>${version.eureka}</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
 
             <!-- Documentation -->
@@ -218,7 +212,7 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
-                                <sourceDir>${project.basedir}/src//kotlin</sourceDir>
+                                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
