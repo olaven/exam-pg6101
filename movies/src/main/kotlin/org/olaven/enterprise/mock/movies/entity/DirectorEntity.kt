@@ -17,7 +17,7 @@ class DirectorEntity(
 
         @OneToMany
         val movies: List<MovieEntity>,
-        
+
         @Id
         @GeneratedValue
         val id: Long? = null

@@ -1,0 +1,30 @@
+#NOTE: This file is based on:
+#https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/microservice/gateway/gateway-service/src/main/resources/application.yml
+
+spring:
+  application:
+    name: movies
+  datasource:
+    url: "jdbc:postgresql://postgres_movies:5432/postgres"
+    username: "postgres"
+    password: ""
+    driver-class-name: "org.postgresql.Driver"
+  jpa:
+    database: "postgresql"
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          lob:  # Disables error-like log in console: 
+            non_contextual_creation: true #https://github.com/spring-projects/spring-boot/issues/12007
+  # TODO: add Eureka (modify this part)
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  client:
+#    healthcheck:
+#      enabled: true
+  #    serviceUrl:
+#      defaultZone: http://eureka:8761/eureka/
+#

@@ -22,6 +22,7 @@ class MoviesApplication {
     }
 }
 
+// NOTE: will use postgres, as application.yml in _main_ is used
 fun main(args: Array<String>) {
     SpringApplication.run(MoviesApplication::class.java, *args)
 }

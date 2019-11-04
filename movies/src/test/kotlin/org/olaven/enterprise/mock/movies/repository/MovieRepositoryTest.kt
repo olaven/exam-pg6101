@@ -1,6 +1,5 @@
 package org.olaven.enterprise.mock.movies.repository
 
-import net.bytebuddy.dynamic.loading.ClassInjector
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
