@@ -39,7 +39,7 @@ abstract class ControllerTestBase {
         RestAssured.basePath = ""
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
-        //TODO: clear database  
+        //TODO: clear database
     }
 
     protected fun persistMovies(count: Int) = (0 until count).forEach {
