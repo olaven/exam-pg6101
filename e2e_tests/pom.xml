@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.olaven.enterprise.mock</groupId>
-    <artifactId>ent-to-end-testing</artifactId>
+    <artifactId>e2e_tests</artifactId>
 
     <dependencies>
 

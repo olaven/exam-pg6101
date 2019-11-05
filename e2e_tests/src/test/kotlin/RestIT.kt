@@ -1,22 +1,17 @@
 package org.tsdes.advanced.microservice.gateway.e2etests
 
-package org.tsdes.advanced.microservice.gateway.e2etests
-
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
-import io.restassured.http.ContentType
 import org.awaitility.Awaitility
-import org.hamcrest.CoreMatchers.equalTo
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
+import org.hamcrest.CoreMatchers.containsString
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.concurrent.TimeUnit
 
 /*
 * NOTE: this file is copied from:
-*https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/ec66660b6fc426313d1e6a10623f74d55bab3a59/advanced/microservice/gateway/gateway-e2e-tests/src/test/kotlin/org/tsdes/advanced/microservice/gateway/e2etests/GatewayRestIT.kt
+* https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/ec66660b6fc426313d1e6a10623f74d55bab3a59/advanced/microservice/gateway/gateway-e2e-tests/src/test/kotlin/org/tsdes/advanced/microservice/gateway/e2etests/GatewayRestIT.kt
 * */
 
 @Testcontainers
@@ -28,43 +23,11 @@ class RestIT : GatewayIntegrationDockerTestBase() {
         }
     }
 
-    @BeforeEach
-    fun clean(){
-        given().delete("/service/messages")
-                .then()
-                .statusCode(204)
 
-        given().get("/service/messages")
-                .then()
-                .statusCode(200)
-                .body("size()", equalTo(0))
-    }
-
-    private fun sendMsg(msg: String){
-
-        given().contentType(ContentType.TEXT)
-                .body(msg)
-                .post("/service/messages")
-                .then()
-                .statusCode(201)
-    }
-
-    @Test
+    @Test @Disabled
     fun testIntegration() {
 
-        given().get("/service/messages")
-                .then()
-                .statusCode(200)
-                .body("size()", equalTo(0))
-
-
-        sendMsg("Hail Zuul!!!")
-        sendMsg("Just kidding")
-
-        given().get("/service/messages")
-                .then()
-                .statusCode(200)
-                .body("size()", equalTo(2))
+        //TODO: add tseting of apis
     }
 
     @Test
@@ -74,19 +37,30 @@ class RestIT : GatewayIntegrationDockerTestBase() {
         Awaitility.await().atMost(120, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until{
-                    (0..3).forEach { sendMsg("foo") }
 
-                    val messages = given().get("/api/movies/")
-                            .then()
-                            .statusCode(200)
-                            .extract().body().jsonPath().getList("system", String::class.java)
+                    var passed = false
+                    repeat((0..3).count()) {
 
-                    assertEquals(3, messages.toSet().size)
-                    assertTrue(messages.contains("A"))
-                    assertTrue(messages.contains("B"))
-                    assertTrue(messages.contains("C"))
+                        given().get("/api/movies/lb_id")
+                                .then()
+                                .statusCode(200)
+                                .body("data", containsString("A"))
 
-                    true
+                        given().get("/api/movies/lb_id")
+                                .then()
+                                .statusCode(200)
+                                .body("data", containsString("B"))
+
+
+                        given().get("/api/movies/lb_id")
+                                .then()
+                                .statusCode(200)
+                                .body("data", containsString("C"))
+
+                        passed = true
+                    }
+
+                    passed
                 }
     }
 }
