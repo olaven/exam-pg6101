@@ -2,10 +2,10 @@ package org.olaven.enterprise.mock.movies.controller
 
 import com.github.javafaker.Faker
 import io.restassured.RestAssured
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.olaven.enterprise.mock.movies.MoviesApplication
+import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
@@ -42,6 +42,16 @@ abstract class ControllerTestBase {
         //TODO: clear database
     }
 
+
+    protected fun getDummyMovie(directorID: Long): MovieDTO {
+
+        return MovieDTO(
+                faker.book().title(),
+                faker.number().numberBetween(1900, 2030),
+                directorID.toString()
+        )
+    }
+
     protected fun persistMovies(count: Int) = (0 until count).forEach {
         persistMovie()
     }
@@ -57,7 +67,6 @@ abstract class ControllerTestBase {
         directorRepository.save(director)
         return director
     }
-
 
 
     protected fun persistMovie(director: DirectorEntity = persistDirector()): MovieEntity {

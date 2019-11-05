@@ -10,5 +10,5 @@ class DirectorDTO (
 
     val movies: List<MovieDTO>,
 
-    val id: Long? = null
+    val id: String? = null
 ): WrappedResponse<DirectorDTO>()
