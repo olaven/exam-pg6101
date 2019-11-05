@@ -42,6 +42,28 @@ internal class MovieControllerTest: ControllerTestBase() {
                 .statusCode(201)
     }
 
+    @Test
+    fun `POST to movies returns 409 if client tries to decide ID`() {
+
+        val director = persistDirector()
+        val movie = getDummyMovie(director.id!!)
+        movie.id = "20" //NOTE: not `null`
+
+        post(movie)
+                .statusCode(409)
+    }
+
+    @Test
+    fun `POST to movies returns 400 on constraint violations`() {
+
+        val director = persistDirector()
+        val movie = getDummyMovie(director.id!!)
+        movie.title = "" //NOTE: min title length is 1
+
+        post(movie)
+                .statusCode(400)
+    }
+
     private fun post(movie: MovieDTO) = given()
             .accept(ContentType.JSON)
             .contentType(ContentType.JSON)

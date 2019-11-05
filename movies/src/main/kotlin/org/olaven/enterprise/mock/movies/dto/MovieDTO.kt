@@ -8,7 +8,7 @@ import org.olaven.enterprise.mock.movies.WrappedResponse
 class MovieDTO (
 
         @ApiModelProperty("The movie's title")
-        val title: String,
+        var title: String,
 
         @ApiModelProperty("Release year of the movie")
         val year: Int,
