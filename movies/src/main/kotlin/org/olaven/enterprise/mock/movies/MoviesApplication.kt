@@ -1,9 +1,12 @@
 package org.olaven.enterprise.mock.movies
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Primary
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.spi.DocumentationType
@@ -20,6 +23,12 @@ class MoviesApplication {
                 .select()
                 .paths(PathSelectors.any())
                 .build()
+    }
+
+    @Bean
+    @Primary //configures jackson to work with Kotlin
+    fun objectMapper() = ObjectMapper().apply {
+        registerModule(KotlinModule())
     }
 }
 

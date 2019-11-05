@@ -25,7 +25,7 @@ services:
       context: ./movies
       dockerfile: Dockerfile
     environment:
-      - MOVIES_ID=A
+      - MOVIES_LB_ID=A
     depends_on:
       - postgres_movies
       - gateway
@@ -35,7 +35,7 @@ services:
       context: ./movies
       dockerfile: Dockerfile
     environment:
-      - MOVIES_ID=B
+      - MOVIES_LB_ID=B
     depends_on:
       - postgres_movies
       - gateway
@@ -45,7 +45,7 @@ services:
       context: ./movies
       dockerfile: Dockerfile
     environment:
-      - MOVIES_ID=C
+      - MOVIES_LB_ID=C
     depends_on:
       - postgres_movies
       - gateway

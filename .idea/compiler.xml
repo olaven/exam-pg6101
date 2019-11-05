@@ -10,6 +10,7 @@
         <module name="gateway" />
         <module name="booking" />
         <module name="registry" />
+        <module name="e2e_tests" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
