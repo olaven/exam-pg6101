@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Throwables
 import io.swagger.annotations.*
+import org.bouncycastle.crypto.tls.ContentType
 import org.olaven.enterprise.mock.movies.Transformer
+import org.olaven.enterprise.mock.movies.WrappedResponse
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
-import org.olaven.enterprise.mock.movies.entity.DirectorEntity
+import org.olaven.enterprise.mock.movies.dto.MovieResponseDTO
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
 import org.springframework.http.MediaType
@@ -29,8 +31,36 @@ class MovieController(
             ApiResponse(code = 200, message = "Receiving movies")
     )
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getMovies() = movieRepository.findAll()
-            .map { transformer.movieToDTO(it) }
+    fun getMovies(): ResponseEntity<WrappedResponse<List<MovieDTO>>> {
+
+        val movies = movieRepository.findAll()
+                .map { MovieDTO(it.title, it.year, it.director.id.toString(), it.id.toString()) }
+
+        return ResponseEntity.ok(WrappedResponse(200, data = movies).validated())
+    }
+
+    @ApiOperation("Retrieve specific movie")
+    @ApiResponses(
+            ApiResponse(code = 200, message = "The movie"),
+            ApiResponse(code = 404, message = "Movie was nto found")
+    )
+    @GetMapping("/{id}",  produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getMovie(
+            @ApiParam("The ID of the movie")
+            @PathVariable("id")
+            id: Long
+    ): ResponseEntity<MovieResponseDTO> {
+
+        val movieOptional = movieRepository.findById(id)
+        if (movieOptional.isPresent) {
+
+            val dto = transformer.movieToDTO(movieOptional.get())
+            return ResponseEntity.ok(MovieResponseDTO(200, dto))
+        }
+
+        return ResponseEntity.status(404).body(MovieResponseDTO(404, null))
+    }
+
 
     @ApiOperation("Create a new movie resource")
     @ApiResponses(
@@ -42,10 +72,10 @@ class MovieController(
     fun postMovie(
             @ApiParam("The movie object")
             @RequestBody movieDTO: MovieDTO
-    ): ResponseEntity<MovieDTO> {
+    ): ResponseEntity<WrappedResponse<MovieDTO>> {
 
         if (movieDTO.id != null) {
-            return ResponseEntity.status(409).build<MovieDTO>()
+            return ResponseEntity.status(409).build()
         }
 
         try {
@@ -53,9 +83,10 @@ class MovieController(
             val entity = transformer.movieToEntity(movieDTO)
             movieRepository.save(entity)
 
-            return ResponseEntity.created(URI.create("/api/movies/${entity.id}")).body(movieDTO.apply {
-                id = entity.id.toString()
-            })
+            return ResponseEntity.created(URI.create("/api/movies/${entity.id}")).body(
+                    MovieResponseDTO(201, movieDTO.apply { id = entity.id.toString() }).validated()
+            )
+
         } catch (exception: Exception) {
 
             if (Throwables.getRootCause(exception) is ConstraintViolationException)
@@ -66,16 +97,19 @@ class MovieController(
     }
 
     @ApiOperation("Do a partial update on a movie")
-    //TODO: add response documentation
-    @PatchMapping("(/{id}", consumes = ["application/merge-patch+json"])
-    fun patchMovie(
+    @ApiResponses(
+            ApiResponse(code = 204, message = "The resource was successfully updated"),
+            ApiResponse(code = 400, message = "The body was somehow malformed or had invalid values")
+    )
+    @PatchMapping("/{id}", consumes = ["application/merge-patch+json"])
+    fun patchMovie (
             @PathVariable
             @ApiParam("The ID of given movie")
             id: Long,
             @RequestBody
             @ApiParam("The partial movie update")
             partialUpdate: String
-    ): ResponseEntity<Nothing> {
+    ): ResponseEntity<WrappedResponse<Nothing>> {
 
         val jackson = ObjectMapper()
         val jsonNode: JsonNode
@@ -105,9 +139,11 @@ class MovieController(
 
         if (jsonNode.has("directorID")) {
 
-            val directorID = jsonNode.get("directorID").longValue()
+            val directorID = jsonNode.get("directorID").asLong()
             val directorOptional = directorRepository.findById(directorID)
-            if (!directorOptional.isPresent) return ResponseEntity.notFound().build()
+            if (!directorOptional.isPresent) return ResponseEntity.status(404).body(
+                    WrappedResponse(404, null, "Director was not found").validated()
+            )
 
             movieEntity.director = directorOptional.get()
         }
@@ -120,8 +156,46 @@ class MovieController(
 
             if (Throwables.getRootCause(exception) is ConstraintViolationException) {
 
-                return ResponseEntity.status(400).build<Nothing>()
+                return ResponseEntity.status(400).body(
+                        WrappedResponse(400, null, "Malformed movie object").validated()
+                )
             }
+
+            throw exception
+        }
+    }
+
+    @ApiOperation("Replace a movie")
+    @ApiResponses(
+            ApiResponse(code = 201, message = "The resource was replaced"),
+            ApiResponse(code = 404, message = "Movie was not found")
+    )
+    @PutMapping("/{id}", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun putMovie(
+            @ApiParam("The movie object")
+            @RequestBody()
+            movieDTO: MovieDTO
+    ): ResponseEntity<WrappedResponse<MovieDTO>> {
+
+        val movieOptional = movieRepository.findById(movieDTO.id?.toLong())
+        if (!movieOptional.isPresent)
+            return ResponseEntity.status(404).body(
+                    MovieResponseDTO(404, null).validated()
+            )
+
+        val entity = transformer.movieToEntity(movieDTO)
+        try {
+
+            movieRepository.save(entity)
+            return ResponseEntity.status(204).body(
+                    MovieResponseDTO(204, null).validated()
+            )
+        } catch (exception: Exception) {
+
+            if (Throwables.getRootCause(exception) is ConstraintViolationException)
+                return ResponseEntity.status(400).body(
+                        MovieResponseDTO(400, null, "Movie appears to be malformed").validated()
+                )
 
             throw exception
         }

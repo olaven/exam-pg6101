@@ -5,6 +5,7 @@ import io.restassured.RestAssured
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.olaven.enterprise.mock.movies.MoviesApplication
+import org.olaven.enterprise.mock.movies.Transformer
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
@@ -20,6 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
         webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class ControllerTestBase {
 
+    @Autowired
+    protected lateinit var transformer: Transformer
     @Autowired
     private lateinit var moviesRepository: MovieRepository
     @Autowired
@@ -39,7 +42,8 @@ abstract class ControllerTestBase {
         RestAssured.basePath = ""
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
-        //TODO: clear database
+        moviesRepository.deleteAll()
+        directorRepository.deleteAll()
     }
 
 
@@ -64,8 +68,7 @@ abstract class ControllerTestBase {
                 movies = emptyList()
         )
 
-        directorRepository.save(director)
-        return director
+        return directorRepository.save(director)
     }
 
 
@@ -77,6 +80,7 @@ abstract class ControllerTestBase {
                 director = director
         )
 
-        return movie
+
+        return moviesRepository.save(movie)
     }
 }

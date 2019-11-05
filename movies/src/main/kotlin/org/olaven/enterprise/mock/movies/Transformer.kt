@@ -27,8 +27,8 @@ class Transformer(
      */
     fun movieToEntity(movieDTO: MovieDTO): MovieEntity {
 
-        val directorOptional = directorRepository.findById(movieDTO.directorID.toLong())
-        return MovieEntity(movieDTO.title, movieDTO.year, directorOptional.get(), movieDTO.id?.toLong())
+        val directorOptional = directorRepository.findById(movieDTO.directorID!!.toLong())
+        return MovieEntity(movieDTO.title!!, movieDTO.year!!, directorOptional.get(), movieDTO.id?.toLong())
     }
 
     fun directorToDTO(directorEntity: DirectorEntity) =
