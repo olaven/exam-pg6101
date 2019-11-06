@@ -7,7 +7,9 @@
 - [ ] custom exception handling 
 - [ ] GraphQL 
 - [ ] Stoette XML paa et par endepunkt med content negiotiation
-- [ ] full set of REST-methods in API
-- [ ] Authorization 
+- [X] full set of REST-methods in API
+- [ ] AMQP-kommunikasjon mellom to services 
+- [X] Authorization
+- [ ] Bruke Authorization paa API 
 - [ ] AMPQL 
 - [ ] building frontend 

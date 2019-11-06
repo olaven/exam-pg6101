@@ -19,6 +19,13 @@ spring:
           lob:  # Disables error-like log in console:
             non_contextual_creation: true #https://github.com/spring-projects/spring-boot/issues/12007
 
+# Explicitly tell Spring to throw an exception when 404
+  mvc:
+    throwExceptionIfNoHandlerFound: true
+  resources:
+    add-mappings: false
+
+
 eureka:
   instance:
     preferIpAddress: true

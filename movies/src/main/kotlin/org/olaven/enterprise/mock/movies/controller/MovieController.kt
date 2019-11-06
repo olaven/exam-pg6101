@@ -77,6 +77,14 @@ class MovieController(
             return ResponseEntity.status(409).build()
         }
 
+        val entity = transformer.movieToEntity(movieDTO)
+
+        movieRepository.save(entity)
+
+        return ResponseEntity.created(URI.create("/api/movies/${entity.id}")).body(
+                MovieResponseDTO(201, movieDTO.apply { id = entity.id.toString() }).validated()
+        ) //NOTE: idea is that constraintviolation should be picked up autoamtically
+/*
         try {
 
             val entity = transformer.movieToEntity(movieDTO)
@@ -92,7 +100,7 @@ class MovieController(
                 return ResponseEntity.badRequest().build()
 
             throw exception
-        }
+        }*/
     }
 
     @ApiOperation("Do a partial update on a movie")
