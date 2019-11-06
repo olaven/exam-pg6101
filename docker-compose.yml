@@ -2,6 +2,9 @@ version: '3.3'
 
 services:
 
+  redis:
+    image: "redis:latest"
+
   registry:
     build:
       context: ./registry
@@ -15,10 +18,22 @@ services:
       - "80:8080"
     depends_on:
       - registry
+      - redis
 
+  postgres_authentication:
+    image: "postgres:10"
 
   postgres_movies:
     image: "postgres:10"
+
+  authentication:
+    build:
+      context: ./authentication
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres_authentication
+      - gateway
+
 
   movies_0:
     build:

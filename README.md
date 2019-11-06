@@ -9,5 +9,6 @@
 - [ ] Stoette XML paa et par endepunkt med content negiotiation
 - [ ] full set of REST-methods in API
 - [ ] Authorization 
+- [ ] Pagination
 - [ ] AMPQL 
 - [ ] building frontend 
