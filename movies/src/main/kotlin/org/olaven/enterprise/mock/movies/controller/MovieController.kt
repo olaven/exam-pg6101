@@ -77,22 +77,14 @@ class MovieController(
             return ResponseEntity.status(409).build()
         }
 
-        try {
+        val entity = transformer.movieToEntity(movieDTO)
 
-            val entity = transformer.movieToEntity(movieDTO)
-            movieRepository.save(entity)
+        //NOTE: ConstraintViolation is picked up by exception handlers
+        movieRepository.save(entity)
 
-            return ResponseEntity.created(URI.create("/api/movies/${entity.id}")).body(
-                    MovieResponseDTO(201, movieDTO.apply { id = entity.id.toString() }).validated()
-            )
-
-        } catch (exception: Exception) {
-
-            if (Throwables.getRootCause(exception) is ConstraintViolationException)
-                return ResponseEntity.badRequest().build()
-
-            throw exception
-        }
+        return ResponseEntity.created(URI.create("/api/movies/${entity.id}")).body(
+                MovieResponseDTO(201, movieDTO.apply { id = entity.id.toString() }).validated()
+        )
     }
 
     @ApiOperation("Do a partial update on a movie")
@@ -147,21 +139,9 @@ class MovieController(
             movieEntity.director = directorOptional.get()
         }
 
-        try {
-
-            movieRepository.save(movieEntity)
-            return ResponseEntity.noContent().build()
-        } catch (exception: Exception) {
-
-            if (Throwables.getRootCause(exception) is ConstraintViolationException) {
-
-                return ResponseEntity.status(400).body(
-                        WrappedResponse(400, null, "Malformed movie object").validated()
-                )
-            }
-
-            throw exception
-        }
+        //NOTE: ConstraintViolation is caught by exception handlerD
+        movieRepository.save(movieEntity)
+        return ResponseEntity.noContent().build()
     }
 
     @ApiOperation("Replace a movie")
@@ -183,21 +163,12 @@ class MovieController(
             )
 
         val entity = transformer.movieToEntity(movieDTO)
-        try {
 
-            movieRepository.save(entity)
-            return ResponseEntity.status(204).body(
-                    MovieResponseDTO(204, null).validated()
-            )
-        } catch (exception: Exception) {
-
-            if (Throwables.getRootCause(exception) is ConstraintViolationException)
-                return ResponseEntity.status(400).body(
-                        MovieResponseDTO(400, null, "Movie appears to be malformed").validated()
-                )
-
-            throw exception
-        }
+        //NOTE: Constraint Violation handled by exceptionhandler
+        movieRepository.save(entity)
+        return ResponseEntity.status(204).body(
+                MovieResponseDTO(204, null).validated()
+        )
     }
 
 

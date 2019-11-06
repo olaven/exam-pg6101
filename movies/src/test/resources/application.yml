@@ -13,7 +13,14 @@ spring:
       ddl-auto: validate
     database: h2
     show-sql: true
+
+  # Explicitly tell Spring to throw an exception when 404
+  mvc:
+    throwExceptionIfNoHandlerFound: true
+  resources:
+    add-mappings: false
+
+
 eureka:
   client:
     enabled: false
-

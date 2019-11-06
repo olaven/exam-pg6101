@@ -4,10 +4,12 @@
  
 - [X] Load balancing between three instances of same service
 - [X] end-to-end-tests
-- [ ] custom exception handling 
+- [X] custom exception handling 
 - [ ] GraphQL 
 - [ ] Stoette XML paa et par endepunkt med content negiotiation
-- [ ] full set of REST-methods in API
-- [ ] Authorization 
+- [X] full set of REST-methods in API
+- [ ] AMQP-kommunikasjon mellom to services 
+- [X] Authorization
+- [ ] Bruke Authorization paa API 
 - [ ] AMPQL 
 - [ ] building frontend 
