@@ -135,6 +135,19 @@ internal class MovieControllerTest: ControllerTestBase() {
                 .body("data.directorID", equalTo(originalDirectorID))
     }
 
+    @Test
+    fun `PATCH returns 400 on ConstraintViolation`() {
+
+        val director = persistDirector()
+        val movie = persistMovie(director)
+        val dto = transformer.movieToDTO(movie)
+
+        dto.year = 1799 //NOTE: movie is too old, limit is 1880
+
+        patch(dto)
+                .statusCode(400)
+    }
+
 
     @Test
     fun `PUT returns 204 on successful replace`() {
@@ -150,6 +163,19 @@ internal class MovieControllerTest: ControllerTestBase() {
 
         get(movie.id!!)
                 .body("data.title", equalTo(dto.title))
+    }
+
+    @Test
+    fun `PUT returns 400 con ConstraintViolation`() {
+
+        val director = persistDirector()
+        val movie = persistMovie(director)
+        val dto = transformer.movieToDTO(movie)
+
+        dto.year = 1790 //NOTE: Too old
+
+        put(dto)
+                .statusCode(400)
     }
 
 
