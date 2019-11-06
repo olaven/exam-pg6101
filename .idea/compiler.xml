@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="movies" />
+        <module name="redis" />
         <module name="gateway" />
         <module name="booking" />
-        <module name="registry" />
         <module name="e2e_tests" />
+        <module name="movies" />
+        <module name="registry" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

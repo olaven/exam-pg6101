@@ -15,6 +15,7 @@
         <module>gateway</module>
         <module>registry</module>
         <module>e2e_tests</module>
+        <module>redis</module>
     </modules>
 
     <properties>
