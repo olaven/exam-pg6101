@@ -16,3 +16,8 @@ spring:
     database: "postgresql"
     hibernate:
       ddl-auto: "validate"
+    properties:
+      hibernate:
+        jdbc:
+          lob:  # Disables error-like log in console:
+            non_contextual_creation: true #https://github.com/spring-projects/spring-boot/issues/12007
