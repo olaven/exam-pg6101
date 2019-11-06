@@ -21,10 +21,6 @@ import org.springframework.web.servlet.NoHandlerFoundException
 * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/rest/rest-exception/src/main/kotlin/org/tsdes/advanced/rest/exception/UserInputValidationException.kt
 * */
 
-class UserInputValidationException(
-        message: String,
-        val httpCode : Int = 400
-) : RuntimeException(message)
 
 @ControllerAdvice
 class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
@@ -36,14 +32,6 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
          * class names, or even the fact we are using Spring
          */
         const val INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error"
-
-        fun handlePossibleConstraintViolation(e: Exception){
-            val cause = Throwables.getRootCause(e)
-            if(cause is ConstraintViolationException) {
-                throw cause
-            }
-            throw e
-        }
     }
 
     /*
@@ -61,22 +49,11 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
         spring.resources.add-mappings=false
      */
-    //TODO: below was addeed by me. Test still does not pick up change 
     override fun handleNoHandlerFoundException(ex: NoHandlerFoundException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         return ResponseEntity.status(status).body(WrappedResponse(
-                status.value(), null, "Handler not found"
-        ))
+                status.value(), null, "No handler found"
+        ).validated())
     }
-
-
-    @ExceptionHandler(value = [UserInputValidationException::class])
-    protected fun handleExplicitlyThrownExceptions(ex: UserInputValidationException, request: WebRequest)
-            : ResponseEntity<Any> {
-
-        return handleExceptionInternal(
-                ex, null, HttpHeaders(), HttpStatus.valueOf(ex.httpCode), request)
-    }
-
 
     /*
        This is one case in which JEE is actually better than Spring.
