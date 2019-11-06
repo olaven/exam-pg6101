@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Throwables
 import io.swagger.annotations.*
-import org.bouncycastle.crypto.tls.ContentType
 import org.olaven.enterprise.mock.movies.Transformer
 import org.olaven.enterprise.mock.movies.WrappedResponse
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
@@ -199,6 +198,30 @@ class MovieController(
 
             throw exception
         }
+    }
+
+
+    @ApiOperation("Delete a movie")
+    @ApiResponses(
+            ApiResponse(code = 204, message = "successful delete"),
+            ApiResponse(code = 404, message = "movie was not found")
+    )
+    @DeleteMapping("/{id}")
+    fun deleteMove(
+            @ApiParam("The Id of the movie")
+            @PathVariable id: Long
+    ): ResponseEntity<WrappedResponse<Nothing>> {
+
+        val movieOptional = movieRepository.findById(id)
+        if (!movieOptional.isPresent)
+            return ResponseEntity.status(404).body(
+                    WrappedResponse(404, null).validated()
+            )
+
+        movieRepository.deleteById(id)
+        return ResponseEntity.status(204).body(
+                WrappedResponse(204, null).validated()
+        )
     }
 
 }

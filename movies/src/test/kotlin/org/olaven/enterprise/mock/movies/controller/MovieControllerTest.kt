@@ -118,6 +118,9 @@ internal class MovieControllerTest: ControllerTestBase() {
         val movie = persistMovie(director)
         val dto = transformer.movieToDTO(movie)
 
+        val originalTitle = dto.title
+        val originalDirectorID = dto.directorID
+
         dto.title = null
         dto.id = null
         dto.directorID = null
@@ -126,8 +129,11 @@ internal class MovieControllerTest: ControllerTestBase() {
         patch(dto)
                 .statusCode(204)
 
+        // NOTE year got updated, others were ignored
         get(movie.id!!)
                 .body("data.year", equalTo(1999))
+                .body("data.title", equalTo(originalTitle))
+                .body("data.directorID", equalTo(originalDirectorID))
     }
 
 
@@ -143,9 +149,10 @@ internal class MovieControllerTest: ControllerTestBase() {
         put(dto)
                 .statusCode(204)
 
-        get(movie.id!!) //TODO: for some reason getting 200
-                .body("data.code", equalTo(204))
+        get(movie.id!!)
+                .body("data.title", equalTo(dto.title))
     }
+
 
     private fun put(movie: MovieDTO) = given()
             .contentType(ContentType.JSON)
