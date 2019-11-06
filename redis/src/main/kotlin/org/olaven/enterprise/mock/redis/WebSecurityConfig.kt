@@ -1,4 +1,4 @@
-package org.tsdes.advanced.security.distributedsession.auth.org.olaven.enterprise.mock.redis
+package org.olaven.enterprise.mock.redis
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

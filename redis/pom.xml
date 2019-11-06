@@ -16,7 +16,6 @@
         NOTE: This file is based on:
         https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/security/distributed-session/ds-auth/pom.xml
     -->
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -54,7 +54,7 @@ class SecurityTest {
 
         @ClassRule
         @JvmField
-        val redis = KGenericContainer("redis:latest")
+        val redis: KGenericContainer = KGenericContainer("redis:latest")
                 .withExposedPorts(6379)
 
         class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
