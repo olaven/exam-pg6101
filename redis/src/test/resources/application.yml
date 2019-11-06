@@ -1,0 +1,12 @@
+# NOTE: This file is a slightly modified version of:
+#https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/security/distributed-session/ds-auth/src/test/resources/application.yml
+
+spring:
+  datasource:
+    url: "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
+    driver-class-name: "org.h2.Driver"
+  jpa:
+    database: "h2"
+    hibernate:
+      ddl-auto: "validate"
+    show-sql: true

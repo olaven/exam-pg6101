@@ -1,4 +1,4 @@
-package org.tsdes.advanced.security.distributedsession.auth
+package org.olaven.enterprise.mock.redis
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
