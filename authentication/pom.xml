@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.olaven.enterprise.mock</groupId>
-    <artifactId>redis</artifactId>
+    <artifactId>authentication</artifactId>
 
     <!--
         NOTE: This file is based on:
@@ -84,7 +84,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <finalName>redis</finalName>
+                    <finalName>authentication</finalName>
                 </configuration>
             </plugin>
         </plugins>

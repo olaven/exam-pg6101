@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.redis
+package org.olaven.enterprise.mock.authentication
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
  * Created by arcuri82 on 10-Nov-17.
  */
 @SpringBootApplication
-class RedisApplication{
+class AuthenticationApplication{
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
@@ -25,5 +25,5 @@ class RedisApplication{
 
 
 fun main(args: Array<String>) {
-    SpringApplication.run(RedisApplication::class.java, *args)
+    SpringApplication.run(AuthenticationApplication::class.java, *args)
 }

@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.redis
+package org.olaven.enterprise.mock.authentication
 
 import org.olaven.enterprise.mock.redis.user.UserService
 import org.springframework.http.MediaType
@@ -22,7 +22,7 @@ import java.security.Principal
  * Created by arcuri82 on 08-Nov-17.
  */
 @RestController
-class AuthApi(
+class AuthenticationApi(
         private val service: UserService,
         private val authenticationManager: AuthenticationManager,
         private val userDetailsService: UserDetailsService
@@ -38,7 +38,7 @@ class AuthApi(
 
     @PostMapping(path = ["/signUp"],
             consumes = [(MediaType.APPLICATION_JSON_UTF8_VALUE)])
-    fun signIn(@RequestBody dto: AuthDto)
+    fun signIn(@RequestBody dto: AuthenticationDto)
             : ResponseEntity<Void> {
 
         val userId : String = dto.userId!!
@@ -64,7 +64,7 @@ class AuthApi(
 
     @PostMapping(path = ["/login"],
             consumes = [(MediaType.APPLICATION_JSON_UTF8_VALUE)])
-    fun login(@RequestBody dto: AuthDto)
+    fun login(@RequestBody dto: AuthenticationDto)
             : ResponseEntity<Void> {
 
         val userId : String = dto.userId!!

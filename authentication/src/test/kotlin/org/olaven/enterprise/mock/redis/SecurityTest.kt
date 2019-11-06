@@ -14,6 +14,7 @@ import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.olaven.enterprise.mock.authentication.AuthenticationDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
@@ -54,7 +55,7 @@ class SecurityTest {
 
         @ClassRule
         @JvmField
-        val redis: KGenericContainer = KGenericContainer("redis:latest")
+        val redis: KGenericContainer = KGenericContainer("authentication:latest")
                 .withExposedPorts(6379)
 
         class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -64,7 +65,7 @@ class SecurityTest {
                 val port = redis.getMappedPort(6379)
 
                 TestPropertyValues
-                        .of("spring.redis.host=$host", "spring.redis.port=$port")
+                        .of("spring.authentication.host=$host", "spring.authentication.port=$port")
                         .applyTo(configurableApplicationContext.environment);
             }
         }
@@ -97,7 +98,7 @@ class SecurityTest {
 
 
         val sessionCookie = given().contentType(ContentType.JSON)
-                .body(AuthDto(id, password))
+                .body(AuthenticationDto(id, password))
                 .post("/signUp")
                 .then()
                 .statusCode(204)
@@ -162,7 +163,7 @@ class SecurityTest {
             Same with /login
          */
         val login = given().contentType(ContentType.JSON)
-                .body(AuthDto(name, pwd))
+                .body(AuthenticationDto(name, pwd))
                 .post("/login")
                 .then()
                 .statusCode(204)
@@ -183,7 +184,7 @@ class SecurityTest {
         val pwd = "bar"
 
         val noAuth = given().contentType(ContentType.JSON)
-                .body(AuthDto(name, pwd))
+                .body(AuthenticationDto(name, pwd))
                 .post("/login")
                 .then()
                 .statusCode(400)
@@ -195,7 +196,7 @@ class SecurityTest {
         registerUser(name, pwd)
 
         val auth = given().contentType(ContentType.JSON)
-                .body(AuthDto(name, pwd))
+                .body(AuthenticationDto(name, pwd))
                 .post("/login")
                 .then()
                 .statusCode(204)
