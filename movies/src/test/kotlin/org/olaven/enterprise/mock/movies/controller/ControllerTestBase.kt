@@ -2,10 +2,11 @@ package org.olaven.enterprise.mock.movies.controller
 
 import com.github.javafaker.Faker
 import io.restassured.RestAssured
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.olaven.enterprise.mock.movies.MoviesApplication
+import org.olaven.enterprise.mock.movies.Transformer
+import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
@@ -20,6 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
         webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class ControllerTestBase {
 
+    @Autowired
+    protected lateinit var transformer: Transformer
     @Autowired
     private lateinit var moviesRepository: MovieRepository
     @Autowired
@@ -39,7 +42,18 @@ abstract class ControllerTestBase {
         RestAssured.basePath = ""
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
-        //TODO: clear database
+        moviesRepository.deleteAll()
+        directorRepository.deleteAll()
+    }
+
+
+    protected fun getDummyMovie(directorID: Long): MovieDTO {
+
+        return MovieDTO(
+                faker.book().title(),
+                faker.number().numberBetween(1900, 2030),
+                directorID.toString()
+        )
     }
 
     protected fun persistMovies(count: Int) = (0 until count).forEach {
@@ -54,10 +68,8 @@ abstract class ControllerTestBase {
                 movies = emptyList()
         )
 
-        directorRepository.save(director)
-        return director
+        return directorRepository.save(director)
     }
-
 
 
     protected fun persistMovie(director: DirectorEntity = persistDirector()): MovieEntity {
@@ -68,6 +80,7 @@ abstract class ControllerTestBase {
                 director = director
         )
 
-        return movie
+
+        return moviesRepository.save(movie)
     }
 }

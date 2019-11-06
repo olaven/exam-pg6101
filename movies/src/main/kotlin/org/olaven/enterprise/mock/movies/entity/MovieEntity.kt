@@ -15,15 +15,15 @@ class MovieEntity (
 
         @field:NotNull
         @field:Size(min = 1, max = 150)
-        val title: String,
+        var title: String,
 
         @field:NotNull
         @field:Min(1880)
         @field:Max(2500)
-        val year: Int,
+        var year: Int,
 
         @field:ManyToOne
-        val director: DirectorEntity,
+        var director: DirectorEntity,
 
         @Id
         @GeneratedValue
