@@ -125,18 +125,18 @@ class MovieController(
 
         val movieEntity = entityOptional.get()
 
-        if (jsonNode.has("title")) {
+        if (jsonNode.has("title") && !jsonNode.get("title").isNull) {
 
 
             movieEntity.title = jsonNode.get("title").asText()
         }
 
-        if (jsonNode.has("year")) {
+        if (jsonNode.has("year") && !jsonNode.get("year").isNull) {
 
             movieEntity.year = jsonNode.get("year").intValue()
         }
 
-        if (jsonNode.has("directorID")) {
+        if (jsonNode.has("directorID") && !jsonNode.get("directorID").isNull) {
 
             val directorID = jsonNode.get("directorID").asLong()
             val directorOptional = directorRepository.findById(directorID)
@@ -215,7 +215,7 @@ class MovieController(
         val movieOptional = movieRepository.findById(id)
         if (!movieOptional.isPresent)
             return ResponseEntity.status(404).body(
-                    WrappedResponse(404, null).validated()
+                    WrappedResponse(404, null, "The movie was not found").validated()
             )
 
         movieRepository.deleteById(id)

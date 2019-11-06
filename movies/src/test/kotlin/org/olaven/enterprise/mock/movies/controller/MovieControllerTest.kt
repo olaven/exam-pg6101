@@ -111,7 +111,7 @@ internal class MovieControllerTest: ControllerTestBase() {
             .body("data.title", equalTo(dto.title))
     }
 
-    @Test @Disabled //not sure how to handle null vaules in relevant mapping, as those would go into db and cause exception anyways
+    @Test //TODO: not sure how to handle null vaules in relevant mapping, as those would go into db and cause exception anyways
     fun `PATCH will only update what is specified in JSON merge patch`() {
 
         val director = persistDirector()
@@ -122,7 +122,6 @@ internal class MovieControllerTest: ControllerTestBase() {
         val originalDirectorID = dto.directorID
 
         dto.title = null
-        dto.id = null
         dto.directorID = null
         dto.year = 1999
 
@@ -153,6 +152,30 @@ internal class MovieControllerTest: ControllerTestBase() {
                 .body("data.title", equalTo(dto.title))
     }
 
+
+    @Test
+    fun `DELETE returns 204 on successful deletion`() {
+
+        val director = persistDirector()
+        val movie = persistMovie(director)
+
+
+        delete(movie.id!!)
+                .statusCode(204)
+    }
+
+    @Test
+    fun `DELETE returns 404 if movie does not exist`() {
+
+        val id = 88L
+
+        get(id).statusCode(404) // we are sure it does not exist
+        delete(id).statusCode(404) //DELETE will not accept it either
+    }
+
+    private fun delete(id: Long) = given()
+            .delete("/movies/${id}")
+            .then()
 
     private fun put(movie: MovieDTO) = given()
             .contentType(ContentType.JSON)
