@@ -12,17 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
-
-/*
-* NOTE: This file is a slightly modified version of:
-* https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/security/distributed-session/ds-auth/src/main/kotlin/org/tsdes/advanced/security/distributedsession/auth/RestApi.kt
-* */
-
 /**
  * Created by arcuri82 on 08-Nov-17.
  */
 @RestController
-class AuthenticationApi(
+class RestApi(
         private val service: UserService,
         private val authenticationManager: AuthenticationManager,
         private val userDetailsService: UserDetailsService
