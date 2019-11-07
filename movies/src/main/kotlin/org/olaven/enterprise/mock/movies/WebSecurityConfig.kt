@@ -21,10 +21,11 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/movies").permitAll()
-                .antMatchers(HttpMethod.POST, "/movies").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/movies/{id}/**").access("hasRole('USER') and @userSecurity.checkId(authentication, #id)")
-                .antMatchers(HttpMethod.PATCH, "/movies/{id}/**").access("hasRole('USER') and @userSecurity.checkId(authentication, #id)")
-                .antMatchers(HttpMethod.PUT, "/movies/{id}/**").access("hasRole('USER') and @userSecurity.checkId(authentication, #id)")
+                .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/movies").access("hasRole('ADMIN')")
+                .antMatchers(HttpMethod.DELETE, "/movies/{id}").access("hasRole('ADMIN')")
+                .antMatchers(HttpMethod.PATCH, "/movies/{id}").access("hasRole('ADMIN')")
+                .antMatchers(HttpMethod.PUT, "/movies/{id}").access("hasRole('ADMIN')")
                 //TODO: add directors
                 .anyRequest().denyAll() //enabling whitelist
                 .and()
@@ -47,6 +48,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
  */
 class UserSecurity{
 
+    //TODO: to somwthing like this when booking tickets
     fun checkId(authentication: Authentication, id: String) : Boolean{
 
         //TODO: make this relevant for movies

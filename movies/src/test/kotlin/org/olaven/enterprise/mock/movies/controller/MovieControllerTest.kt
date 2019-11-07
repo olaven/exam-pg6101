@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
+import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake.Companion.ADMIN_USER
+import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake.Companion.FIRST_USER
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 
 internal class MovieControllerTest: ControllerTestBase() {
@@ -25,7 +28,7 @@ internal class MovieControllerTest: ControllerTestBase() {
     }
 
     @Test
-    fun `getting all movies returns Wrapped responses`() {
+    fun `GET all movies returns Wrapped responses`() {
 
         persistMovies(1)
         getAll()
@@ -40,8 +43,23 @@ internal class MovieControllerTest: ControllerTestBase() {
         val director = persistDirector()
         val movie = getDummyMovie(director.id!!)
         
-        post(movie)
+        post(movie, ADMIN_USER)
                 .statusCode(201)
+    }
+
+    @Test
+    fun `POST returns 401 if not authorized`() {
+
+        val director = persistDirector()
+        val movie = getDummyMovie(director.id!!)
+
+        given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .body(movie)
+                .post("/movies")
+                .then()
+                .statusCode(401)
     }
 
     @Test
@@ -51,7 +69,7 @@ internal class MovieControllerTest: ControllerTestBase() {
         val movie = getDummyMovie(director.id!!)
         movie.id = "20" //NOTE: not `null`
 
-        post(movie)
+        post(movie, ADMIN_USER)
                 .statusCode(409)
     }
 
@@ -62,7 +80,7 @@ internal class MovieControllerTest: ControllerTestBase() {
         val movie = getDummyMovie(director.id!!)
         movie.title = "" //NOTE: min title length is 1
 
-        post(movie)
+        post(movie, ADMIN_USER)
                 .statusCode(400)
     }
 
@@ -75,7 +93,7 @@ internal class MovieControllerTest: ControllerTestBase() {
             val director = persistDirector()
             val movie =  getDummyMovie(director.id!!)
 
-            post(movie)
+            post(movie, ADMIN_USER)
                     .statusCode(201)
         }
 
@@ -92,7 +110,7 @@ internal class MovieControllerTest: ControllerTestBase() {
         val dto = transformer.movieToDTO(movie)
 
         dto.title = "UPDATED TITLE"
-        patch(dto)
+        patch(dto, ADMIN_USER)
                 .statusCode(204)
     }
 
@@ -104,7 +122,7 @@ internal class MovieControllerTest: ControllerTestBase() {
         val dto = transformer.movieToDTO(movie)
 
         dto.title = "UPDATED TITLE"
-        patch(dto)
+        patch(dto, ADMIN_USER)
                 .statusCode(204)
 
          get(movie.id!!)
@@ -125,7 +143,7 @@ internal class MovieControllerTest: ControllerTestBase() {
         dto.directorID = null
         dto.year = 1999
 
-        patch(dto)
+        patch(dto, ADMIN_USER)
                 .statusCode(204)
 
         // NOTE year got updated, others were ignored
@@ -145,7 +163,7 @@ internal class MovieControllerTest: ControllerTestBase() {
 
         dto.title = "PUT-ed title"
 
-        put(dto)
+        put(dto, ADMIN_USER)
                 .statusCode(204)
 
         get(movie.id!!)
@@ -160,7 +178,7 @@ internal class MovieControllerTest: ControllerTestBase() {
         val movie = persistMovie(director)
 
 
-        delete(movie.id!!)
+        delete(movie.id!!, ADMIN_USER)
                 .statusCode(204)
     }
 
@@ -170,37 +188,46 @@ internal class MovieControllerTest: ControllerTestBase() {
         val id = 88L
 
         get(id).statusCode(404) // we are sure it does not exist
-        delete(id).statusCode(404) //DELETE will not accept it either
+        delete(id, ADMIN_USER).statusCode(404) //DELETE will not accept it either
     }
 
-    private fun delete(id: Long) = given()
+    private fun authenticated(username: String, password: String) = given()
+            .auth().basic(username, password)
+
+    private fun delete(id: Long, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+        authenticated(user.username, user.password)
             .delete("/movies/${id}")
             .then()
 
-    private fun put(movie: MovieDTO) = given()
+    private fun put(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+        authenticated(user.username, user.password)
             .contentType(ContentType.JSON)
             .body(movie)
             .put("/movies/${movie.id}")
             .then()
 
-    private fun patch(movie: MovieDTO) = given()
+    private fun patch(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+        authenticated(user.username, user.password)
             .contentType("application/merge-patch+json")
             .body(movie)
             .patch("/movies/${movie.id}")
             .then()
 
-    private fun post(movie: MovieDTO) = given()
+    private fun post(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+        authenticated(user.username, user.password)
             .accept(ContentType.JSON)
             .contentType(ContentType.JSON)
             .body(movie)
             .post("/movies")
             .then()
 
-    private fun get(id: Long) = given().accept(ContentType.JSON)
+    private fun get(id: Long) = given()
+            .accept(ContentType.JSON)
             .get("/movies/${id}")
             .then()
 
-    private fun getAll()  = given().accept(ContentType.JSON)
+    private fun getAll()  = given()
+            .accept(ContentType.JSON)
             .get("/movies")
             .then()
 }

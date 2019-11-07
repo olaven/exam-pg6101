@@ -10,8 +10,10 @@ spring:
     database: h2
     show-sql: true
   session:
-    # Disabling redis in tests TODO: may need to add some overriding of beans-allowance as well
+    # Disabling redis in tests
     store-type: none
+  main:
+    allow-bean-definition-overriding: true
 
 eureka:
   client:
