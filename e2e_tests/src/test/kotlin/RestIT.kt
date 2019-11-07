@@ -25,9 +25,15 @@ class RestIT : GatewayIntegrationDockerTestBase() {
 
 
     @Test @Disabled
-    fun testIntegration() {
+    fun `can authenticate and POST movie`() {
 
         //TODO: add tseting of apis
+    }
+
+    @Test @Disabled
+    fun `cannot POST movie if not authenticated` () {
+
+
     }
 
     @Test

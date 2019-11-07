@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.redis.user
+package org.olaven.enterprise.mock.authentication.user
 
 import javax.persistence.ElementCollection
 import javax.persistence.Entity

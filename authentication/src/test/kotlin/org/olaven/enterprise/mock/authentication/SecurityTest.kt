@@ -1,6 +1,6 @@
-package org.olaven.enterprise.mock.redis
+package org.olaven.enterprise.mock.authentication
 
-import org.olaven.enterprise.mock.redis.user.UserRepository
+import org.olaven.enterprise.mock.authentication.user.UserRepository
 
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.olaven.enterprise.mock.authentication.AuthenticationDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
@@ -55,7 +54,7 @@ class SecurityTest {
 
         @ClassRule
         @JvmField
-        val redis: KGenericContainer = KGenericContainer("authentication:latest")
+        val redis = KGenericContainer("redis:latest")
                 .withExposedPorts(6379)
 
         class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -65,7 +64,7 @@ class SecurityTest {
                 val port = redis.getMappedPort(6379)
 
                 TestPropertyValues
-                        .of("spring.authentication.host=$host", "spring.authentication.port=$port")
+                        .of("spring.redis.host=$host", "spring.redis.port=$port")
                         .applyTo(configurableApplicationContext.environment);
             }
         }

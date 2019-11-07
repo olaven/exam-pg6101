@@ -1,6 +1,6 @@
 package org.olaven.enterprise.mock.authentication
 
-import org.olaven.enterprise.mock.redis.user.UserService
+import org.olaven.enterprise.mock.authentication.user.UserService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager

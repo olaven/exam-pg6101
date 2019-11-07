@@ -5,6 +5,12 @@ services:
   redis:
     image: "redis:latest"
 
+  postgres_authentication:
+    image: "postgres:10"
+
+  postgres_movies:
+    image: "postgres:10"
+
   registry:
     build:
       context: ./registry
@@ -18,13 +24,6 @@ services:
       - "80:8080"
     depends_on:
       - registry
-      - redis
-
-  postgres_authentication:
-    image: "postgres:10"
-
-  postgres_movies:
-    image: "postgres:10"
 
   authentication:
     build:
@@ -32,6 +31,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - postgres_authentication
+      - redis
       - gateway
 
 
@@ -42,6 +42,7 @@ services:
     environment:
       - MOVIES_LB_ID=A
     depends_on:
+      - redis
       - postgres_movies
       - gateway
 
@@ -52,6 +53,7 @@ services:
     environment:
       - MOVIES_LB_ID=B
     depends_on:
+      - redis
       - postgres_movies
       - gateway
 
@@ -62,5 +64,6 @@ services:
     environment:
       - MOVIES_LB_ID=C
     depends_on:
+      - redis
       - postgres_movies
       - gateway
