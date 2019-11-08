@@ -191,9 +191,6 @@ internal class MovieControllerTest: ControllerTestBase() {
         delete(id, ADMIN_USER).statusCode(404) //DELETE will not accept it either
     }
 
-    private fun authenticated(username: String, password: String) = given()
-            .auth().basic(username, password)
-
     private fun delete(id: Long, user: WebSecurityConfigLocalFake.Companion.TestUser) =
         authenticated(user.username, user.password)
             .delete("/movies/${id}")

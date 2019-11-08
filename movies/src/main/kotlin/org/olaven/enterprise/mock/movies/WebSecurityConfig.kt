@@ -26,6 +26,9 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.DELETE, "/movies/{id}").access("hasRole('ADMIN')")
                 .antMatchers(HttpMethod.PATCH, "/movies/{id}").access("hasRole('ADMIN')")
                 .antMatchers(HttpMethod.PUT, "/movies/{id}").access("hasRole('ADMIN')")
+                .antMatchers(HttpMethod.GET, "/directors").permitAll()
+                .antMatchers(HttpMethod.GET, "/directors/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/directors").access("hasRole('ADMIN')")
                 //TODO: add directors
                 .anyRequest().denyAll() //enabling whitelist
                 .and()

@@ -38,8 +38,9 @@ class Transformer(
                     movies = directorEntity.movies.map { movieToDTO(it) }
             )
 
-    fun directorToEntity(directorDTO: DirectorDTO) {
-
-
-    }
+    fun directorToEntity(directorDTO: DirectorDTO) = DirectorEntity(
+            givenName = directorDTO.givenName,
+            familyName = directorDTO.familyName,
+            movies = directorDTO.movies.map { movieToEntity(it) }
+    )
 }
