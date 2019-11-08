@@ -16,6 +16,7 @@ import java.security.Principal
  * Created by arcuri82 on 08-Nov-17.
  */
 @RestController
+@RequestMapping("/authentication")
 class RestApi(
         private val service: UserService,
         private val authenticationManager: AuthenticationManager,

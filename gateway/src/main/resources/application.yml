@@ -16,19 +16,11 @@ spring:
           filters:
             - StripPrefix=1
         - id: authentication
-          uri: http://authentication
+          uri: http://authentication:8080
           predicates:
             - Path=/api/authentication/**
           filters:
             - StripPrefix=1
-#        - id: booking #TODO: my guess is that this is the way to separate (see note above)
-#            # "lb" stands for Load-Balance, which is done with Ribbon
-#            uri: lb://movies
-#            predicates:
-#              - Path=/api/booking/**
-#            filters:
-#              - StripPrefix=1
-
 
 
 eureka:

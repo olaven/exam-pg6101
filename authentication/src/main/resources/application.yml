@@ -21,3 +21,5 @@ spring:
         jdbc:
           lob:  # Disables error-like log in console:
             non_contextual_creation: true #https://github.com/spring-projects/spring-boot/issues/12007
+  application:
+    name: authentication
