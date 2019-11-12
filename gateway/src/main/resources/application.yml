@@ -15,6 +15,13 @@ spring:
             - Path=/api/movies/** #I would expect api/movies -> go to /movies
           filters:
             - StripPrefix=1
+        - id: movies
+          # "lb" stands for Load-Balance, which is done with Ribbon
+          uri: lb://movies
+          predicates:
+            - Path=/api/directors/** #I would expect api/movies -> go to /movies
+          filters:
+            - StripPrefix=1
         - id: authentication
           uri: http://authentication:8080
           predicates:
