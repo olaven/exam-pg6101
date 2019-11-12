@@ -1,19 +1,18 @@
 package org.tsdes.advanced.microservice.gateway.e2etests
 
+import com.github.javafaker.Faker
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import junit.framework.Assert.assertTrue
 import org.awaitility.Awaitility
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers.contains
 import org.hamcrest.Matchers.not
-import org.junit.Ignore
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 /*
 * NOTE: this file is based on the following:
@@ -25,6 +24,7 @@ import java.util.concurrent.TimeUnit
 class RestIT : GatewayIntegrationDockerTestBase() {
 
     private var counter = 0
+    private val faker = Faker()
 
     companion object {
         init {
@@ -82,73 +82,43 @@ class RestIT : GatewayIntegrationDockerTestBase() {
 
 
 
-    @Test @Ignore //TODO: write to movies
-    fun testForbiddenToChangeOthers() {
+    @Test           //TODO: allowing non-admins to showcase integraiton testing
+    fun `Can post director and movie, if logged in`() {
 
-        val firstId = createUniqueId()
-        val firstCookie = registerUser(firstId, "123")
-        val firstPath = "/user-service/usersInfo/$firstId"
+        val id = createUniqueId()
+        val pwd = "some_password"
+        val cookie = registerUser(id, pwd)
 
-        /*
-            In general, it can make sense to have the DTOs in their
-            own module, so can be reused in the client directly.
-            Otherwise, we would need to craft the JSON manually,
-            as done in these tests
-         */
-
-        given().cookie("SESSION", firstCookie)
+        given().cookie("SESSION", cookie)
                 .get("/api/authentication/user")
                 .then()
                 .statusCode(200)
-                .body("name", equalTo(firstId))
+                .body("name", equalTo(id))
                 .body("roles", contains("ROLE_USER"))
 
 
-        given().cookie("SESSION", firstCookie)
+        val director  = getDirector()
+
+        val directorID = given().cookie("SESSION", cookie) //TODO: user has to have role "ADMIN"
                 .contentType(ContentType.JSON)
-                .body("""
-                    {
-                        "userId": "$firstId",
-                        "name": "A",
-                        "surname": "B",
-                        "email": "a@a.com"
-                    }
-                    """)
-                .put(firstPath)
+                .body(director)
+                .post("/api/directors")
                 .then()
                 .statusCode(201)
+                .extract()
+                .jsonPath()
+                .get<String>("data.id")
 
 
-        val secondId = createUniqueId()
-        val secondCookie = registerUser(secondId, "123")
-        val secondPath = "/user-service/usersInfo/$secondId"
 
-        given().cookie("SESSION", secondCookie)
+        val movie = getMovie(directorID)
+
+        given().cookie("SESSION", cookie)
                 .contentType(ContentType.JSON)
-                .body("""
-                    {
-                        "userId": "$secondId",
-                        "name": "bla",
-                        "surname": "bla",
-                        "email": "bla@bla.com"
-                    }
-                    """)
-                .put(secondPath)
+                .body(movie)
+                .post("/api/movies")
                 .then()
                 .statusCode(201)
-
-
-
-        given().cookie("SESSION", firstCookie)
-                .contentType(ContentType.JSON)
-                .body("""
-                    {
-                        "userId": "$secondId"
-                    }
-                    """)
-                .put(secondPath)
-                .then()
-                .statusCode(403)
     }
 
 
@@ -187,6 +157,35 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 }
     }
 
+    /*private fun getDirector() = DirectorDTO(
+            givenName = faker.name().firstName(),
+            familyName = faker.name().lastName(),
+            movies = emptyList()
+    )*/
+
+    /*private fun getMovie(directorID: String) = MovieDTO(
+        title = faker.book().title(),
+        year = faker.number().numberBetween(1900, 2000),
+        directorID = directorID
+)*/
+
+
+    private fun getDirector() = """
+        {
+            "givenName": "${faker.name().firstName()}", 
+            "familyName": "${faker.name().lastName()}", 
+            "movies": []
+        }
+    """.trimIndent()
+
+    private fun getMovie(directorID: String) = """
+        {
+            "title": "${faker.book().title()}", 
+            "year": "${faker.number().numberBetween(1900, 2000)}", 
+            "directorID": "$directorID"
+        }
+    """.trimIndent()
+
     private fun registerUser(id: String, password: String): String {
 
         val sessionCookie = given().contentType(ContentType.JSON)
@@ -205,6 +204,8 @@ class RestIT : GatewayIntegrationDockerTestBase() {
 
     private fun createUniqueId(): String {
         counter++
-        return "foo_$counter"
+
+        val random = Random.nextInt()
+        return "foo_$random$counter"
     }
 }

@@ -22,14 +22,14 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
-                .antMatchers(HttpMethod.POST, "/movies").access("hasRole('ADMIN')")
+                .antMatchers(HttpMethod.POST, "/movies").authenticated() //NOTE: same not as on directors
                 .antMatchers(HttpMethod.DELETE, "/movies/{id}").access("hasRole('ADMIN')")
                 .antMatchers(HttpMethod.PATCH, "/movies/{id}").access("hasRole('ADMIN')")
                 .antMatchers(HttpMethod.PUT, "/movies/{id}").access("hasRole('ADMIN')")
                 .antMatchers(HttpMethod.GET, "/directors").permitAll()
                 .antMatchers(HttpMethod.GET, "/directors/{id}").permitAll()
-                .antMatchers(HttpMethod.POST, "/directors").access("hasRole('ADMIN')")
-                //TODO: add directors
+                //TODO/NOTE: below should perhaps only be admin-access, but I wanted to test this in e2e-tests, where I cannot reveal production-admins.
+                .antMatchers(HttpMethod.POST, "/directors").authenticated() //.access("hasRole('ADMIN')")
                 .anyRequest().denyAll() //enabling whitelist
                 .and()
                 .csrf().disable()
