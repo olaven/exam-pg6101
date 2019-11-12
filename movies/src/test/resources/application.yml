@@ -15,7 +15,12 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+  # Explicitly tell Spring to throw an exception when 404
+  mvc:
+    throwExceptionIfNoHandlerFound: true
+  resources:
+    add-mappings: false
+
 eureka:
   client:
     enabled: false
-
