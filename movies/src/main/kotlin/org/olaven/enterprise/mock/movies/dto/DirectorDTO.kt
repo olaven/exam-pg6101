@@ -1,5 +1,6 @@
 package org.olaven.enterprise.mock.movies.dto
 
+import io.swagger.annotations.ApiModelProperty
 import org.olaven.enterprise.mock.movies.WrappedResponse
 
 /*
@@ -9,8 +10,13 @@ import org.olaven.enterprise.mock.movies.WrappedResponse
 
 class DirectorDTO (
 
+        @ApiModelProperty("Given name of the director")
         var givenName: String,
+
+        @ApiModelProperty("Family name of the director")
         var familyName: String,
+
+        @ApiModelProperty("Movies that this director has directed.")
         var movies: List<MovieDTO>,
         id: String? = null // going to base
 

@@ -17,7 +17,6 @@ enum class Room{
 @Entity
 class ScreeningEntity(
 
-        //title, director and year. Also details about when they are going to be shown in the cinema (time/week and room number).
         @field:NotNull
         var time: ZonedDateTime,
 
