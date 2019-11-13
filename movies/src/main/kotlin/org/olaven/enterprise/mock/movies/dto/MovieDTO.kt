@@ -21,9 +21,9 @@ class MovieDTO (
         @ApiModelProperty("ID of the movie's director")
         var directorID: String?,
 
-        @ApiModelProperty("ID of the movie")
-        var id: String? = null
-)
+        id: String? = null // going to base
+
+): BaseDTO(id)
 
 
 class MovieResponseDTO (

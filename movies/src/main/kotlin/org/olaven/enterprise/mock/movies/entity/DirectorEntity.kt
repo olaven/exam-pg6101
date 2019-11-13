@@ -7,7 +7,7 @@ import javax.persistence.OneToMany
 import javax.validation.constraints.Size
 
 @Entity
-class DirectorEntity(
+class DirectorEntity (
 
         @field:Size(min = 2, max = 100)
         val givenName: String,
@@ -20,5 +20,6 @@ class DirectorEntity(
 
         @Id
         @GeneratedValue
-        var id: Long? = null
-)
+        override var id: Long? = null
+
+): BaseEntity

@@ -70,7 +70,62 @@ internal class DirectorControllerTest: ControllerTestBase() {
 
         getAll()
                 .statusCode(200)
-                .body("data", Matchers.iterableWithSize<MovieDTO>(n))
+                .body("data.list", Matchers.iterableWithSize<MovieDTO>(n))
+    }
+
+    @Test
+    fun `GET is paginated`() {
+
+        persistDirectors(1)
+        getAll()
+                .statusCode(200)
+                .body("data.list", Matchers.notNullValue())
+                .body("data.next", Matchers.nullValue()) //as only one is persisted
+    }
+
+    @Test
+    fun `pagination only returns 10 per page`() {
+
+        persistDirectors(15) //NOTE: more than page size
+        getAll()
+                .statusCode(200)
+                .body("data.list.size()", Matchers.equalTo(10))
+    }
+
+    @Test
+    fun `can follow pagination next-links`() {
+
+        persistDirectors(25) //NOTE: should equal three pages with 5 on last
+        val toSecondPage = getAll()
+                .statusCode(200)
+                .body("data.list.size()", Matchers.equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        val toThirdPage = getAll(toSecondPage).statusCode(200)
+                .body("data.list.size()", Matchers.equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getAll(toThirdPage)
+                .statusCode(200)
+                .body("data.list.size()", Matchers.equalTo(5))
+    }
+
+    @Test
+    fun `pagination next-link is null on last page`() {
+
+        persistDirectors(15) //NOTE: more than page size
+        val toSecondPage = getAll()
+                .body("data.next", Matchers.notNullValue())
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getAll(toSecondPage)
+                .body("data.next", Matchers.nullValue())
     }
 
     private fun post(movie: DirectorDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
@@ -86,8 +141,8 @@ internal class DirectorControllerTest: ControllerTestBase() {
             .get("/directors/${id}")
             .then()
 
-    private fun getAll()  = given()
+    private fun getAll(path: String? = null)  = given()
             .accept(ContentType.JSON)
-            .get("/directors")
+            .get(path ?: "/directors")
             .then()
 }

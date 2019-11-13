@@ -3,13 +3,15 @@ package org.olaven.enterprise.mock.movies.controller
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
-import org.olaven.enterprise.mock.movies.Page
 import org.olaven.enterprise.mock.movies.Transformer
 import org.olaven.enterprise.mock.movies.WrappedResponse
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.dto.MovieResponseDTO
+import org.olaven.enterprise.mock.movies.entity.MovieEntity
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
+import org.olaven.enterprise.mock.movies.repository.Page
+import org.olaven.enterprise.mock.movies.repository.paginatedResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -33,19 +35,8 @@ class MovieController(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
             keysetId: Long?
-    ): ResponseEntity<WrappedResponse<Page<MovieDTO>>> {
-
-        val pageSize = 10
-        val movies = movieRepository
-                .getNextPage(pageSize, keysetId)
-                .map { transformer.movieToDTO(it) }
-        val nextLocation =
-                if (movies.count() == pageSize)
-                    "/movies?keysetId=${movies.last().id}"
-                else null
-
-        val page = Page(movies, nextLocation)
-        return ResponseEntity.ok(WrappedResponse(200, data = page).validated())
+    ) = paginatedResponse("movies", movieRepository, keysetId) {
+        transformer.movieToDTO(it)
     }
 
     @ApiOperation("Retrieve specific movie")

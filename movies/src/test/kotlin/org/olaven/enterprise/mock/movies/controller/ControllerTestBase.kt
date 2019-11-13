@@ -70,6 +70,10 @@ abstract class ControllerTestBase {
         persistMovie()
     }
 
+    protected fun persistDirectors(count: Int) = (0 until count).forEach {
+        persistDirector()
+    }
+
     protected fun persistDirector(): DirectorEntity {
 
         val director = DirectorEntity(
