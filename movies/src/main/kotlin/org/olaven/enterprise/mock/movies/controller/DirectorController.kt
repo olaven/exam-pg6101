@@ -36,9 +36,11 @@ class DirectorController(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
             keysetId: Long?
-    ) = paginatedResponse("directors", directorRepository, keysetId) {
-        transformer.directorToDTO(it)
-    }
+    ) = paginatedResponse(
+            "directors", 10, directorRepository, keysetId) {
+
+            transformer.directorToDTO(it)
+        }
 
     //TODO: generify logic, as very similar to movie
     @ApiOperation("Retrieve specific director")

@@ -11,12 +11,18 @@ import org.olaven.enterprise.mock.movies.dto.DirectorDTO
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
+import org.olaven.enterprise.mock.movies.entity.Room
+import org.olaven.enterprise.mock.movies.entity.ScreeningEntity
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
+import org.olaven.enterprise.mock.movies.repository.ScreeningRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.concurrent.TimeUnit
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [(MoviesApplication::class)],
@@ -29,6 +35,8 @@ abstract class ControllerTestBase {
     private lateinit var moviesRepository: MovieRepository
     @Autowired
     private lateinit var directorRepository: DirectorRepository
+    @Autowired
+    private lateinit var screeningRepository: ScreeningRepository
 
     private val faker = Faker()
 
@@ -44,6 +52,7 @@ abstract class ControllerTestBase {
         RestAssured.basePath = ""
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
+        screeningRepository.deleteAll()
         moviesRepository.deleteAll()
         directorRepository.deleteAll()
     }
@@ -66,13 +75,19 @@ abstract class ControllerTestBase {
             movies = emptyList()
     )
 
-    protected fun persistMovies(count: Int) = (0 until count).forEach {
-        persistMovie()
-    }
 
     protected fun persistDirectors(count: Int) = (0 until count).forEach {
         persistDirector()
     }
+
+    protected fun persistMovies(count: Int) = (0 until count).forEach {
+        persistMovie()
+    }
+
+    protected fun persistScreenings(count: Int) = (0 until count).forEach {
+        persistScreening()
+    }
+
 
     protected fun persistDirector(): DirectorEntity {
 
@@ -94,7 +109,17 @@ abstract class ControllerTestBase {
                 director = director
         )
 
-
         return moviesRepository.save(movie)
+    }
+
+    protected fun persistScreening(movie: MovieEntity = persistMovie()): ScreeningEntity {
+
+        val screening = ScreeningEntity(
+                time = ZonedDateTime.from(faker.date().future(40, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())),
+                movie = movie,
+                room = Room.values().random()
+        )
+
+        return screeningRepository.save(screening)
     }
 }

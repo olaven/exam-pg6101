@@ -18,5 +18,8 @@ class DirectorRepositoryImpl(
 ): PaginatedRepository<DirectorEntity> {
 
     override fun getNextPage(size: Int, keysetId: Long?) =
-            generalGetNextPage<DirectorEntity>(entityManager, keysetId, size)
+            generalGetNextPage<DirectorEntity>(keysetId, size,
+                entityManager.createQuery("select director from DirectorEntity director order by director.id desc, director.givenName", DirectorEntity::class.java),
+                entityManager.createQuery("select director from DirectorEntity director where director.id < :keysetId order by director.id desc, director.givenName", DirectorEntity::class.java)
+            )
 }

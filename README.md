@@ -5,14 +5,15 @@
 - [X] Load balancing between three instances of same service
 - [X] end-to-end-tests
 - [X] custom exception handling 
-- [ ] GraphQL 
+- [ ] GraphQL
+- [ ] Pagination should use responseDTOS 
 - [ ] Stoette XML paa et par endepunkt med content negiotiation
 - [ ] Generify controllers
 - [ ] full set of REST-methods in API 
-- [ ] Pagination
+- [X] Pagination
 - [X] full set of REST-methods in API
 - [ ] AMQP-kommunikasjon mellom to services 
 - [X] Authorization
-- [ ] Bruke Authorization paa API 
+- [X] Bruke Authorization paa API 
 - [ ] AMPQL 
 - [ ] building frontend 
