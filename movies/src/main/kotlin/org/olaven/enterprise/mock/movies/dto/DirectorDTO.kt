@@ -9,13 +9,13 @@ import org.olaven.enterprise.mock.movies.WrappedResponse
 
 class DirectorDTO (
 
-    val givenName: String,
+        var givenName: String,
 
-    val familyName: String,
+        var familyName: String,
 
-    val movies: List<MovieDTO>,
+        var movies: List<MovieDTO>,
 
-    val id: String? = null
+        var id: String? = null
 )
 
 class DirectorResponseDTO(
