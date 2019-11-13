@@ -20,5 +20,5 @@ class DirectorEntity(
 
         @Id
         @GeneratedValue
-        val id: Long? = null
+        var id: Long? = null
 )

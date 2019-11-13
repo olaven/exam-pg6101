@@ -18,6 +18,12 @@ spring:
         jdbc:
           lob:  # Disables error-like log in console:
             non_contextual_creation: true #https://github.com/spring-projects/spring-boot/issues/12007
+  redis:
+    host: redis
+    port: 6379
+  session:
+    # specify that session tokes should be stored in Redis
+    store-type: redis
 
 # Explicitly tell Spring to throw an exception when 404
   mvc:
@@ -33,4 +39,4 @@ eureka:
     healthcheck:
       enabled: true
     serviceUrl:
-      defaultZone: http://registr:8761/eureka/
+      defaultZone: http://registry:8761/eureka/

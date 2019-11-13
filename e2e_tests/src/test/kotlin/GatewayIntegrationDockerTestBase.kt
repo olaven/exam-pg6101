@@ -52,7 +52,6 @@ abstract class GatewayIntegrationDockerTestBase {
                 .withLocalCompose(true)
 
 
-
         @BeforeAll
         @JvmStatic
         fun waitForServer() {
@@ -82,6 +81,8 @@ abstract class GatewayIntegrationDockerTestBase {
                                 .get("/eureka/apps")
                                 .then()
                                 .body("applications.application.instance.size()", equalTo(4))
+
+                        given().get("http://localhost:80/api/authentication/user").then().statusCode(401)
 
                         true
                     }

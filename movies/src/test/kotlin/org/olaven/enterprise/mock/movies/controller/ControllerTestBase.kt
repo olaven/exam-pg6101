@@ -2,10 +2,12 @@ package org.olaven.enterprise.mock.movies.controller
 
 import com.github.javafaker.Faker
 import io.restassured.RestAssured
+import io.restassured.specification.RequestSpecification
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.olaven.enterprise.mock.movies.MoviesApplication
 import org.olaven.enterprise.mock.movies.Transformer
+import org.olaven.enterprise.mock.movies.dto.DirectorDTO
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
@@ -46,6 +48,8 @@ abstract class ControllerTestBase {
         directorRepository.deleteAll()
     }
 
+    protected fun authenticated(username: String, password: String): RequestSpecification = RestAssured.given()
+            .auth().basic(username, password)
 
     protected fun getDummyMovie(directorID: Long): MovieDTO {
 
@@ -55,6 +59,12 @@ abstract class ControllerTestBase {
                 directorID.toString()
         )
     }
+
+    protected fun getDummyDirector() = DirectorDTO(
+            givenName = faker.name().firstName(),
+            familyName = faker.name().lastName(),
+            movies = emptyList()
+    )
 
     protected fun persistMovies(count: Int) = (0 until count).forEach {
         persistMovie()
