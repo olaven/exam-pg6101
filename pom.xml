@@ -16,6 +16,7 @@
         <module>registry</module>
         <module>e2e_tests</module>
         <module>authentication</module>
+        <module>frontend</module>
     </modules>
 
     <properties>
