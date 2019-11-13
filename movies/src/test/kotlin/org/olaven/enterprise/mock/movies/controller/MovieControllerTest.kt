@@ -162,7 +162,7 @@ internal class MovieControllerTest: ControllerTestBase() {
 
         dto.year = 1799 //NOTE: movie is too old, limit is 1880
 
-        patch(dto)
+        patch(dto, ADMIN_USER)
                 .statusCode(400)
     }
 
@@ -192,7 +192,7 @@ internal class MovieControllerTest: ControllerTestBase() {
 
         dto.year = 1790 //NOTE: Too old
 
-        put(dto)
+        put(dto, ADMIN_USER)
                 .statusCode(400)
     }
 
