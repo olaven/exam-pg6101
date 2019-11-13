@@ -17,6 +17,6 @@ class DirectorRepositoryImpl(
         private val entityManager: EntityManager
 ): PaginatedRepository<DirectorEntity> {
 
-    override fun getNextPage(size: Int, keysetId: Long?) =
-            generalGetNextPage<DirectorEntity>(entityManager, keysetId, size)
+    override fun getNextPage(size: Int, keysetId: Long?, sortingProperty: String) =
+            generalGetNextPage<DirectorEntity>(entityManager, keysetId, size, sortingProperty)
 }

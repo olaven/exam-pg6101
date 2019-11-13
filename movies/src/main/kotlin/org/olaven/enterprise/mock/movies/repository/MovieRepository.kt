@@ -15,6 +15,6 @@ class MovieRepositoryImpl(
         private val entityManager: EntityManager
 ): PaginatedRepository<MovieEntity> {
 
-    override fun getNextPage(size: Int, keysetId: Long?) =
-            generalGetNextPage<MovieEntity>(entityManager, keysetId, size)
+    override fun getNextPage(size: Int, keysetId: Long?, sortingProperty: String) =
+            generalGetNextPage<MovieEntity>(entityManager, keysetId, size, sortingProperty)
 }

@@ -24,12 +24,13 @@ class Page<T>(
 
 fun<Entity: BaseEntity, DTO: BaseDTO> paginatedResponse(
         path: String,
+        sortingProperty: String,
+        pageSize: Int,
         repository: PaginatedRepository<Entity>, keysetId: Long?,
         transform: (entity: Entity) -> DTO): ResponseEntity<WrappedResponse<Page<DTO>>> {
 
-    val pageSize = 10
     val retrieved = repository
-            .getNextPage(pageSize, keysetId)
+            .getNextPage(pageSize, keysetId, sortingProperty)
             .map { transform(it) }
 
     val nextLocation =
@@ -41,16 +42,20 @@ fun<Entity: BaseEntity, DTO: BaseDTO> paginatedResponse(
     return ResponseEntity.ok(WrappedResponse(200, data = page).validated())
 }
 
-internal inline fun<reified T> generalGetNextPage(entityManager: EntityManager, keysetId: Long?, size: Int): List<T> {
+internal inline fun<reified T> generalGetNextPage(
+        entityManager: EntityManager,
+        keysetId: Long?,
+        size: Int,
+        sortProperty: String): List<T> {
 
     require(!(size < 0 || size > 100)) { "Invalid size: $size. Must be between 0 and 100, inclusive." }
 
     val query: TypedQuery<T> = if (keysetId == null)
         entityManager
-                .createQuery("select entity from ${T::class.simpleName} entity order by entity.id desc", T::class.java)
+                .createQuery("select entity from ${T::class.simpleName} entity order by entity.id desc, $sortProperty", T::class.java)
     else
         entityManager
-                .createQuery("select entity from ${T::class.simpleName} entity where entity.id < ?1 order by entity.id desc", T::class.java)
+                .createQuery("select entity from ${T::class.simpleName} entity where entity.id < ?1 order by entity.id desc, $sortProperty", T::class.java)
                 .setParameter(1, keysetId)
 
     query.maxResults = size
@@ -59,5 +64,5 @@ internal inline fun<reified T> generalGetNextPage(entityManager: EntityManager, 
 }
 
 interface PaginatedRepository<T>{
-    fun getNextPage(size: Int, keysetId: Long?): List<T>
+    fun getNextPage(size: Int, keysetId: Long?, sortingProperty: String): List<T>
 }

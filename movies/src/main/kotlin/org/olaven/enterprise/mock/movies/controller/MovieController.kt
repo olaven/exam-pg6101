@@ -35,7 +35,7 @@ class MovieController(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
             keysetId: Long?
-    ) = paginatedResponse("movies", movieRepository, keysetId) {
+    ) = paginatedResponse("movies", "year",10, movieRepository, keysetId) {
         transformer.movieToDTO(it)
     }
 
