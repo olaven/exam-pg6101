@@ -10,13 +10,11 @@ import org.olaven.enterprise.mock.movies.WrappedResponse
 class DirectorDTO (
 
         var givenName: String,
-
         var familyName: String,
-
         var movies: List<MovieDTO>,
+        id: String? = null // going to base
 
-        var id: String? = null
-)
+): BaseDTO(id)
 
 class DirectorResponseDTO(
         code: Int? = null,

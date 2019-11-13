@@ -10,6 +10,7 @@ import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.dto.MovieResponseDTO
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
+import org.olaven.enterprise.mock.movies.repository.paginatedResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -31,12 +32,12 @@ class DirectorController(
             ApiResponse(code = 200, message = "Receiving movies")
     )
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getDirectors(): ResponseEntity<WrappedResponse<List<DirectorDTO>>> {
-
-        val directors = directorRepository.findAll()
-                .map { transformer.directorToDTO(it) }
-
-        return ResponseEntity.ok(WrappedResponse(200, data = directors).validated())
+    fun getDirectors(
+            @ApiParam("The pagination keyset id")
+            @RequestParam("keysetId", required = false)
+            keysetId: Long?
+    ) = paginatedResponse("directors", directorRepository, keysetId) {
+        transformer.directorToDTO(it)
     }
 
     //TODO: generify logic, as very similar to movie

@@ -25,10 +25,10 @@ class MovieEntity (
         @field:ManyToOne
         var director: DirectorEntity,
 
+
         @Id
         @GeneratedValue
-        val id: Long? = null
-
+        override var id: Long? = null
         //TODO: rooms (below note)
 //title, director and year. Also details about when they are going to be shown in the cinema (time/week and room number).
-)
+): BaseEntity

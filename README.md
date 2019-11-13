@@ -7,6 +7,7 @@
 - [X] custom exception handling 
 - [ ] GraphQL 
 - [ ] Stoette XML paa et par endepunkt med content negiotiation
+- [ ] Generify controllers
 - [ ] full set of REST-methods in API 
 - [ ] Pagination
 - [X] full set of REST-methods in API
