@@ -2,8 +2,8 @@ package org.olaven.enterprise.mock.movies.controller
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.common.base.Throwables
 import io.swagger.annotations.*
+import org.olaven.enterprise.mock.movies.Page
 import org.olaven.enterprise.mock.movies.Transformer
 import org.olaven.enterprise.mock.movies.WrappedResponse
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
@@ -14,7 +14,6 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
-import javax.validation.ConstraintViolationException
 
 @RestController
 @RequestMapping("/movies")
@@ -25,17 +24,28 @@ class MovieController(
         private val transformer: Transformer
 ) {
 
-    @ApiOperation("Retrieves every movie")
+    @ApiOperation("Retrieves movies, paginated")
     @ApiResponses(
-            ApiResponse(code = 200, message = "Receiving movies")
+            ApiResponse(code = 200, message = "Movies are sent.")
     )
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getMovies(): ResponseEntity<WrappedResponse<List<MovieDTO>>> {
+    fun getMovies(
+            @ApiParam("The pagination keyset id")
+            @RequestParam("keysetId", required = false)
+            keysetId: Long?
+    ): ResponseEntity<WrappedResponse<Page<MovieDTO>>> {
 
-        val movies = movieRepository.findAll()
-                .map { MovieDTO(it.title, it.year, it.director.id.toString(), it.id.toString()) }
+        val pageSize = 10
+        val movies = movieRepository
+                .getNextPage(pageSize, keysetId)
+                .map { transformer.movieToDTO(it) }
+        val nextLocation =
+                if (movies.count() == pageSize)
+                    "/movies?keysetId=${movies.last().id}"
+                else null
 
-        return ResponseEntity.ok(WrappedResponse(200, data = movies).validated())
+        val page = Page(movies, nextLocation)
+        return ResponseEntity.ok(WrappedResponse(200, data = page).validated())
     }
 
     @ApiOperation("Retrieve specific movie")

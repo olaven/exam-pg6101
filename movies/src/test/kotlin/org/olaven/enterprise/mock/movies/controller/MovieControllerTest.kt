@@ -4,15 +4,11 @@ package org.olaven.enterprise.mock.movies.controller
 
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.*
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake.Companion.ADMIN_USER
-import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake.Companion.FIRST_USER
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 
 internal class MovieControllerTest: ControllerTestBase() {
@@ -99,7 +95,7 @@ internal class MovieControllerTest: ControllerTestBase() {
 
         getAll()
                 .statusCode(200)
-                .body("data", iterableWithSize<MovieDTO>(n))
+                .body("data.list", iterableWithSize<MovieDTO>(n))
     }
 
     @Test
@@ -217,6 +213,62 @@ internal class MovieControllerTest: ControllerTestBase() {
         delete(id, ADMIN_USER).statusCode(404) //DELETE will not accept it either
     }
 
+    @Test
+    fun `GET is paginated`() {
+
+        persistMovies(1)
+        getAll()
+                .statusCode(200)
+                .body("data.list", notNullValue())
+                .body("data.next", nullValue()) //as only one is persisted
+    }
+    
+    @Test
+    fun `pagination only returns 10 per page`() {
+
+        persistMovies(15) //NOTE: more than page size 
+        getAll()
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+    }
+
+    @Test
+    fun `can follow pagination next-links`() {
+
+        persistMovies(25) //NOTE: should equal three pages with 5 on last
+
+        val toSecondPage = getAll()
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        val toThirdPage = getAll(toSecondPage).statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getAll(toThirdPage)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(5))
+    }
+
+    @Test
+    fun `pagination next-link is null on last page`() {
+
+        persistMovies(15) //NOTE: more than page size
+        val toSecondPage = getAll()
+                .body("data.next", notNullValue())
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getAll(toSecondPage)
+                .body("data.next", nullValue())
+    }
+
     private fun delete(id: Long, user: WebSecurityConfigLocalFake.Companion.TestUser) =
         authenticated(user.username, user.password)
             .delete("/movies/${id}")
@@ -249,8 +301,8 @@ internal class MovieControllerTest: ControllerTestBase() {
             .get("/movies/${id}")
             .then()
 
-    private fun getAll()  = given()
+    private fun getAll(path: String? = null) = given()
             .accept(ContentType.JSON)
-            .get("/movies")
+            .get(path ?: "/movies")
             .then()
 }
