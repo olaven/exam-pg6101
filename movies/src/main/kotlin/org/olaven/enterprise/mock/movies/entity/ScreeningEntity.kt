@@ -3,8 +3,6 @@ package org.olaven.enterprise.mock.movies.entity
 import org.jetbrains.annotations.NotNull
 import java.time.ZonedDateTime
 import javax.persistence.*
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
 
 enum class Room{
         A1, A2, A3,

@@ -27,7 +27,7 @@ class ScreeningController(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
             keysetId: Long?
-    ) = paginatedResponse("screenings", "time", 20, screeningRepository, keysetId) {
+    ) = paginatedResponse("screenings", 20, screeningRepository, keysetId) {
 
         transformer.screeningToDTO(it)
     }

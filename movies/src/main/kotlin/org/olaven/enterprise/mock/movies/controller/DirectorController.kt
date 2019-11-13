@@ -37,7 +37,7 @@ class DirectorController(
             @RequestParam("keysetId", required = false)
             keysetId: Long?
     ) = paginatedResponse(
-            "directors", "familyName", 10, directorRepository, keysetId) {
+            "directors", 10, directorRepository, keysetId) {
 
             transformer.directorToDTO(it)
         }

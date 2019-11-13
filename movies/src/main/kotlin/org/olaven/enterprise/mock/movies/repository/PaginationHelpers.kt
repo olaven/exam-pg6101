@@ -8,6 +8,7 @@ import org.olaven.enterprise.mock.movies.dto.BaseDTO
 import org.olaven.enterprise.mock.movies.entity.BaseEntity
 import org.springframework.http.ResponseEntity
 import javax.persistence.EntityManager
+import javax.persistence.Query
 import javax.persistence.TypedQuery
 
 @ApiModel(description = "Paginated resources, using keyset pagination")
@@ -24,13 +25,12 @@ class Page<T>(
 
 fun<Entity: BaseEntity, DTO: BaseDTO> paginatedResponse(
         path: String,
-        sortingProperty: String,
         pageSize: Int,
         repository: PaginatedRepository<Entity>, keysetId: Long?,
         transform: (entity: Entity) -> DTO): ResponseEntity<WrappedResponse<Page<DTO>>> {
 
     val retrieved = repository
-            .getNextPage(pageSize, keysetId, sortingProperty)
+            .getNextPage(pageSize, keysetId)
             .map { transform(it) }
 
     val nextLocation =
@@ -43,26 +43,25 @@ fun<Entity: BaseEntity, DTO: BaseDTO> paginatedResponse(
 }
 
 internal inline fun<reified T> generalGetNextPage(
-        entityManager: EntityManager,
         keysetId: Long?,
         size: Int,
-        sortProperty: String): List<T> {
+        standardQuery: TypedQuery<T>,
+        keysetQuery: TypedQuery<T>): List<T> {
 
     require(!(size < 0 || size > 100)) { "Invalid size: $size. Must be between 0 and 100, inclusive." }
 
-    val query: TypedQuery<T> = if (keysetId == null)
-        entityManager
-                .createQuery("select entity from ${T::class.simpleName} entity order by entity.id desc, $sortProperty", T::class.java)
-    else
-        entityManager
-                .createQuery("select entity from ${T::class.simpleName} entity where entity.id < ?1 order by entity.id desc, $sortProperty", T::class.java)
-                .setParameter(1, keysetId)
+    val query = if (keysetId == null) {
+
+        standardQuery
+    } else {
+
+        keysetQuery.setParameter("keysetId", keysetId)
+    }
 
     query.maxResults = size
-
     return query.resultList.toList()
 }
 
 interface PaginatedRepository<T>{
-    fun getNextPage(size: Int, keysetId: Long?, sortingProperty: String): List<T>
+    fun getNextPage(size: Int, keysetId: Long?): List<T>
 }

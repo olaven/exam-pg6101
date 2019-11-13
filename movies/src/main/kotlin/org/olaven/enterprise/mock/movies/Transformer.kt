@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.time.temporal.TemporalAccessor
 
 @Component
 class Transformer(

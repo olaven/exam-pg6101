@@ -1,5 +1,6 @@
 package org.olaven.enterprise.mock.movies.repository
 
+import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
 import org.olaven.enterprise.mock.movies.entity.ScreeningEntity
 import org.springframework.data.repository.CrudRepository
@@ -14,8 +15,11 @@ interface ScreeningRepository: CrudRepository<ScreeningEntity, Long>, PaginatedR
 @Repository
 class ScreeningRepositoryImpl(
         private val entityManager: EntityManager
-): PaginatedRepository<MovieEntity> {
+): PaginatedRepository<ScreeningEntity> {
 
-    override fun getNextPage(size: Int, keysetId: Long?, sortingProperty: String) =
-            generalGetNextPage<MovieEntity>(entityManager, keysetId, size, sortingProperty)
+    override fun getNextPage(size: Int, keysetId: Long?) =
+            generalGetNextPage<ScreeningEntity>(keysetId, size,
+                    entityManager.createQuery("select screening from ScreeningEntity screening order by screening.id desc, screening.time", ScreeningEntity::class.java),
+                    entityManager.createQuery("select screening from ScreeningEntity screening where screening.id < :keysetId order by screening.id desc, screening.time", ScreeningEntity::class.java)
+            )
 }
