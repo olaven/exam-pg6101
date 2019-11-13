@@ -1,7 +1,7 @@
-drop table director_entity if exists;
-drop table director_entity_movies if exists;
-drop table movie_entity if exists;
-drop table screening_entity if exists;
+drop table if exists director_entity;
+drop table if exists director_entity_movies;
+drop table if exists movie_entity;
+drop table if exists screening_entity;
 drop sequence if exists hibernate_sequence;
 create sequence hibernate_sequence start with 1 increment by 1;
 create table director_entity (id bigint not null, family_name varchar(100), given_name varchar(100), primary key (id));
