@@ -17,6 +17,7 @@
         <module>e2e_tests</module>
         <module>authentication</module>
         <module>frontend</module>
+        <module>rest</module>
     </modules>
 
     <properties>

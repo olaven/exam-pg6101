@@ -1,6 +1,7 @@
 package org.olaven.enterprise.mock.movies
 
 import com.google.common.base.Throwables
+import org.olaven.enterprise.mock.rest.WrappedResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
