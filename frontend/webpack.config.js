@@ -22,12 +22,13 @@ module.exports = (env, argv) => {
             filename: 'bundle.js'
         },
         devServer: {
-            contentBase: './dist'
+            contentBase: './dist',
+            historyApiFallback: true, //avoiding 404 when refreshing
         },
         plugins: [
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify(argv.mode)
             })
-        ]
+        ],
     };
 };
