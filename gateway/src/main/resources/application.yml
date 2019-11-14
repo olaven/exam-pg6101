@@ -8,18 +8,6 @@ spring:
         locator:
           enabled: true
       routes:
-#        - id: movies
-#          uri: lb://movies
-#          predicates:
-#            - Path=/api/directors/** #api/directors -> go to /movies
-#          filters:
-#            - StripPrefix=1
-#        - id: movies
-#            uri: lb://movies
-#            predicates:
-#              - Path=/api/screenings/** #I would expect api/screenings -> go to /screenings
-#            filters:
-#              - StripPrefix=1
         - id: authentication
           uri: http://authentication:8080
           predicates:
@@ -32,6 +20,10 @@ spring:
             - Path=/api/** #api/ -> go to /movies, /directors, /screenings if not /authentication as above
           filters:
             - StripPrefix=1
+        - id: frontend
+          uri: http://frontend
+          predicates:
+            - Path=/**
 
 
 eureka:

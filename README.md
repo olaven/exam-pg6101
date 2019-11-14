@@ -1,5 +1,7 @@
 # mock-exam-pg6101
 
+#Extras 
+* I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.
 
  
 - [X] Load balancing between three instances of same service
