@@ -10,10 +10,10 @@
         <module name="gateway" />
         <module name="booking" />
         <module name="authentication" />
-        <module name="frontend" />
         <module name="e2e_tests" />
-        <module name="movies" />
+        <module name="frontend" />
         <module name="registry" />
+        <module name="movies" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
