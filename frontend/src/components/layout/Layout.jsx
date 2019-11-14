@@ -2,10 +2,19 @@ import * as React from "react";
 import {Container} from "semantic-ui-react";
 import Header from "semantic-ui-react/dist/commonjs/elements/Header";
 import {Links} from "./Links";
+import {UserContext} from "../context/UserContext";
 
-export const Layout = props => <Container>
+export const Layout = props => {
 
-    <Header as={"h1"} dividing>Cinama page</Header>
-    <Links pages={props.pages}/>
-    {props.children}
-</Container>;
+
+    const {user} = React.useContext(UserContext);
+
+    return <Container>
+
+        <Header as={"h1"} dividing>Cinama page</Header>
+        <Links pages={props.pages}/>
+        {"Welcome, " + (user? user.username: "dear user")}
+
+        {props.children}
+    </Container>;
+};
