@@ -49,13 +49,13 @@ class MovieController(
             @ApiParam("The ID of the movie")
             @PathVariable("id")
             id: Long
-    ): ResponseEntity<MovieResponseDTO> {
+    ): ResponseEntity<WrappedResponse<MovieDTO>> {
 
         val movieOptional = movieRepository.findById(id)
         if (movieOptional.isPresent) {
 
             val dto = transformer.movieToDTO(movieOptional.get())
-            return ResponseEntity.ok(MovieResponseDTO(200, dto))
+            return ResponseEntity.ok(MovieResponseDTO(200, dto).validated())
         }
 
         return ResponseEntity.status(404).body(MovieResponseDTO(404, null))
@@ -101,7 +101,7 @@ class MovieController(
             @RequestBody
             @ApiParam("The partial movie update")
             partialUpdate: String
-    ): ResponseEntity<WrappedResponse<Nothing>> {
+    ): ResponseEntity<WrappedResponse<MovieDTO>> {
 
         val jackson = ObjectMapper()
         val jsonNode: JsonNode
@@ -109,12 +109,16 @@ class MovieController(
             jsonNode = jackson.readValue(partialUpdate, JsonNode::class.java)
         } catch (e: Exception) {
             //Invalid JSON data as input
-            return ResponseEntity.status(400).build()
+            return ResponseEntity.status(400).body(
+                    MovieResponseDTO(400, null, "JSON was not valid").validated()
+            )
         }
 
         val entityOptional = movieRepository.findById(id)
         if (!entityOptional.isPresent)
-            return ResponseEntity.notFound().build()
+            return ResponseEntity.status(404).body(
+                    MovieResponseDTO(404, null, "Movie was not found").validated()
+            )
 
         val movieEntity = entityOptional.get()
 
@@ -134,7 +138,7 @@ class MovieController(
             val directorID = jsonNode.get("directorID").asLong()
             val directorOptional = directorRepository.findById(directorID)
             if (!directorOptional.isPresent) return ResponseEntity.status(404).body(
-                    WrappedResponse(404, null, "Director was not found").validated()
+                    MovieResponseDTO(404, null, "Director was not found").validated()
             )
 
             movieEntity.director = directorOptional.get()
@@ -182,17 +186,17 @@ class MovieController(
     fun deleteMove(
             @ApiParam("The Id of the movie")
             @PathVariable id: Long
-    ): ResponseEntity<WrappedResponse<Nothing>> {
+    ): ResponseEntity<WrappedResponse<MovieDTO>> {
 
         val movieOptional = movieRepository.findById(id)
         if (!movieOptional.isPresent)
             return ResponseEntity.status(404).body(
-                    WrappedResponse(404, null, "The movie was not found").validated()
+                    MovieResponseDTO(404, null, "The movie was not found").validated()
             )
 
         movieRepository.deleteById(id)
         return ResponseEntity.status(204).body(
-                WrappedResponse(204, null).validated()
+                MovieResponseDTO(204, null).validated()
         )
     }
 

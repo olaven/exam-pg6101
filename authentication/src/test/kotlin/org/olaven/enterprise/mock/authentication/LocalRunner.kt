@@ -5,15 +5,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import java.util.concurrent.ConcurrentHashMap
-import org.springframework.session.MapSessionRepository
-import org.springframework.session.Session
-import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession
-
-
-
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 
 // Disable session-store in test-config before running this!
