@@ -11,10 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
  * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/security/distributed-session/ds-auth/src/main/kotlin/org/tsdes/advanced/security/distributedsession/auth/AuthApplication.kt
  */
 
-/**
- * Created by arcuri82 on 10-Nov-17.
- */
-@SpringBootApplication
+
+@SpringBootApplication(scanBasePackages = ["org.olaven.enterprise.mock"])
 class AuthenticationApplication{
 
     @Bean

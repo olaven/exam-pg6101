@@ -11,8 +11,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
-
-@SpringBootApplication
+                // Look for beans in "rest"-module
+@SpringBootApplication(scanBasePackages = ["org.olaven.enterprise.mock"])
 @EnableEurekaClient
 @EnableSwagger2
 class MoviesApplication {
