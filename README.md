@@ -11,7 +11,7 @@
 - [ ] Pagination should use responseDTOS 
 - [ ] Stoette XML paa et par endepunkt med content negiotiation
 - [ ] Generify controllers
-- [ ] full set of REST-methods in API 
+- [X] full set of REST-methods in API 
 - [ ] Wrapped Responses on everything 
 - [ ] Test data 
 - [X] Pagination

@@ -1,6 +1,7 @@
 import * as React from "react"
 import {Button, Checkbox, Container, Form, Header} from "semantic-ui-react";
 import {ApiFetch} from "../ApiFetch"
+import {UserContext} from "../context/UserContext";
 
 export const User = () => <Container>
     {renderCreateUser()}
@@ -11,6 +12,8 @@ const renderLogin = () => {};
 const renderUserInfo = () => {};
 
 const renderCreateUser = () => {
+
+    const { signUp } = React.useContext(UserContext);
 
     const [username, setUsername] = React.useState(null);
     const [password, setPassword] = React.useState(null);
@@ -24,18 +27,8 @@ const renderCreateUser = () => {
             return;
         }
 
-        const response = await ApiFetch("authentication/signUp", {
-            method: "post",
-            body: JSON.stringify({
-                "userId": username, //TODO: change userId to username in backend
-                "password": password
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        console.log(response);
+        const signupStatus = await signUp(username, password);
+        console.log(signupStatus);
     };
 
     return <Container>
