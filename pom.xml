@@ -17,6 +17,7 @@
         <module>authentication</module>
         <module>frontend</module>
         <module>rest</module>
+        <module>graphql</module>
     </modules>
 
     <properties>
@@ -24,6 +25,8 @@
         <version.java>1.8</version.java>
         <version.springboot>2.1.0.RELEASE</version.springboot>
         <version.springcloud>Greenwich.RELEASE</version.springcloud>
+        <version.graphql-spring>4.2.0</version.graphql-spring>
+        <version.graphql-tools>5.1.0</version.graphql-tools>
         <version.springfox>2.9.2</version.springfox>
         <version.h2>1.4.197</version.h2>
         <version.postgres>42.1.4</version.postgres>
@@ -116,6 +119,28 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-spring-web</artifactId>
                 <version>${version.springfox}</version>
+            </dependency>
+
+            <!-- GraphQL -->
+            <dependency>
+                <groupId>com.graphql-java</groupId>
+                <artifactId>graphql-spring-boot-starter</artifactId>
+                <version>${version.graphql-spring}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.graphql-java</groupId>
+                <artifactId>graphiql-spring-boot-starter</artifactId>
+                <version>${version.graphql-spring}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.graphql-java</groupId>
+                <artifactId>voyager-spring-boot-starter</artifactId>
+                <version>${version.graphql-spring}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.graphql-java</groupId>
+                <artifactId>graphql-java-tools</artifactId>
+                <version>${version.graphql-tools}</version>
             </dependency>
 
             <!-- Database -->

@@ -33,7 +33,7 @@ class OverrideSecurityConfig(
     override fun configure(http: HttpSecurity) {
 
         super.configure(http)
-        http.cors() //TODO: test this in test only -> does it break prod?
+        http.cors()
     }
 }
 
