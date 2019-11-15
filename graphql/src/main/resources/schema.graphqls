@@ -16,13 +16,13 @@ type ReservationOutput {
     screeningID: String!
     username: String!
 }
-#type Query {
+#inputType Query {
 #    countries: [String!]
 #    newsById(id: String!) : News
 #    news(country: String, authorId: String): [News!]
 #}
 #
-#type Mutation {
+#inputType Mutation {
 #    #Create a news. Return the id of the generated News
 #    createNews(news: InputNews): String
 #    deleteNewsById(id: String!): Boolean
@@ -36,7 +36,7 @@ type ReservationOutput {
 ## So we need to implement our own custom parser for it
 scalar MyDateTime
 #
-#type News {
+#inputType News {
 #    # The id of the news
 #    newsId: String,
 #    # The id of the author that wrote/created this news

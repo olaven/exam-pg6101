@@ -11,6 +11,9 @@ services:
   postgres_movies:
     image: "postgres:10"
 
+  postgres_graphql:
+    image: "postgres:10"
+
   registry:
     build:
       context: ./registry
@@ -34,6 +37,14 @@ services:
       - redis
       - gateway
 
+  graphql: # TODO: add to gateway when working
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - postgres_graphql
+      - gateway
 
   movies_0:
     build:
