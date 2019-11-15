@@ -11,7 +11,6 @@
 
     <modules>
         <module>movies</module>
-        <module>booking</module>
         <module>gateway</module>
         <module>registry</module>
         <module>e2e_tests</module>
