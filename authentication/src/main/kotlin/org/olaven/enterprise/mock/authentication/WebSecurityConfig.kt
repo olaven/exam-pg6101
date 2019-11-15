@@ -57,6 +57,12 @@ class WebSecurityConfig(
                 .and()
                 //
                 .authorizeRequests()
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
                 .antMatchers("/authentication/user").authenticated()
                 .antMatchers("/authentication/signUp").permitAll()
                 .antMatchers("/authentication/login").permitAll()

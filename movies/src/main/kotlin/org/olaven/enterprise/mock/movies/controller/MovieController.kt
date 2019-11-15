@@ -6,10 +6,8 @@ import io.swagger.annotations.*
 import org.olaven.enterprise.mock.movies.Transformer
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.dto.MovieResponseDTO
-import org.olaven.enterprise.mock.movies.entity.MovieEntity
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
-import org.olaven.enterprise.mock.movies.repository.Page
 import org.olaven.enterprise.mock.movies.repository.paginatedResponse
 import org.olaven.enterprise.mock.rest.WrappedResponse
 import org.springframework.http.MediaType

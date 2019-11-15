@@ -7,8 +7,7 @@ import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
-import org.hamcrest.Matchers.contains
-import org.hamcrest.Matchers.notNullValue
+import org.hamcrest.Matchers.*
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -66,6 +65,31 @@ class SecurityTest {
                         .applyTo(configurableApplicationContext.environment);
             }
         }
+    }
+
+    @Test
+    fun `getting appropriate response if user is malformed on signup`() {
+
+        given().contentType(ContentType.JSON)
+                .body(AuthenticationDTO(null, "password"))
+                .post("/signUp")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("DTO was malformed"))
+
+        given().contentType(ContentType.JSON)
+                .body(AuthenticationDTO("username", null))
+                .post("/signUp")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("DTO was malformed"))
+
+        given().contentType(ContentType.JSON)
+                .body(AuthenticationDTO(null, null))
+                .post("/signUp")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("DTO was malformed"))
     }
 
 

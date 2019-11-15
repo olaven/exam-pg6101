@@ -19,7 +19,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.sql.DataSource
 
 
-// Disable session-store in test-config before running this!
+/*
+* Before running this:
+* start redis, e.g. with docker run -p 6379:6379 redis for now.
+* */
 fun main(args: Array<String>) {
     SpringApplication.run(AuthenticationApplication::class.java, *args)
 }
@@ -37,12 +40,7 @@ class Config {
                         .allowedOrigins("http://localhost:8081")
                         .allowCredentials(true)
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS")
-
-                /*registry.addMapping("/authentication/logout")
-                        .allowedOrigins("*")
-                        .allowCredentials(true)
-                        .allowedMethods("GET", "POST")*/
             }
-        } //NOTE: need to have redis running with  docker run -p 6379:6379 redis for now. TODO: perhaps override securityconfig like in movies
+        }
     }
 }
