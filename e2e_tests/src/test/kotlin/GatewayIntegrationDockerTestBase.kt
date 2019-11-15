@@ -4,7 +4,6 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import org.awaitility.Awaitility.await
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.BeforeAll
 import org.testcontainers.containers.DockerComposeContainer
 import org.testcontainers.containers.wait.strategy.Wait

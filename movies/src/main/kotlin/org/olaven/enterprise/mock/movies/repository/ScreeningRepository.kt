@@ -1,7 +1,5 @@
 package org.olaven.enterprise.mock.movies.repository
 
-import org.olaven.enterprise.mock.movies.entity.DirectorEntity
-import org.olaven.enterprise.mock.movies.entity.MovieEntity
 import org.olaven.enterprise.mock.movies.entity.ScreeningEntity
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository

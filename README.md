@@ -1,7 +1,11 @@
 # mock-exam-pg6101
 
-#Extras 
+## Extras 
 * I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.
+
+## Assumptions
+* The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
+My assumption is that this is fine in an exam, as I want to show that load-balancing is working. 
 
  
 - [X] Load balancing between three instances of same service

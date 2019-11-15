@@ -1,5 +1,5 @@
 import * as React from "react";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {UserContextProvider} from "./context/UserContext"
 import {Layout} from "./layout/Layout";
 import {pages} from "./pages";

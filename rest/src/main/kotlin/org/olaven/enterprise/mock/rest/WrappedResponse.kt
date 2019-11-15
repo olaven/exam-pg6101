@@ -1,7 +1,5 @@
 package org.olaven.enterprise.mock.rest
 
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
 import io.swagger.annotations.ApiModelProperty
 
 /**

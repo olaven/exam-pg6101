@@ -1,20 +1,18 @@
 package org.olaven.enterprise.mock.authentication
 
-import org.olaven.enterprise.mock.authentication.user.UserRepository
-
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
-import org.hamcrest.Matchers.contains
-import org.hamcrest.Matchers.notNullValue
+import org.hamcrest.Matchers.*
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.olaven.enterprise.mock.authentication.user.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
@@ -66,6 +64,31 @@ class SecurityTest {
                         .applyTo(configurableApplicationContext.environment);
             }
         }
+    }
+
+    @Test
+    fun `getting appropriate response if user is malformed on signup`() {
+
+        given().contentType(ContentType.JSON)
+                .body(AuthenticationDTO(null, "password"))
+                .post("/signUp")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("DTO was malformed"))
+
+        given().contentType(ContentType.JSON)
+                .body(AuthenticationDTO("username", null))
+                .post("/signUp")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("DTO was malformed"))
+
+        given().contentType(ContentType.JSON)
+                .body(AuthenticationDTO(null, null))
+                .post("/signUp")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("DTO was malformed"))
     }
 
 

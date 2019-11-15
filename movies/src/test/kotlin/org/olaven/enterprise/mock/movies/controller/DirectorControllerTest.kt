@@ -4,7 +4,7 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers
-import org.junit.jupiter.api.Assertions.*
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
 import org.olaven.enterprise.mock.movies.dto.DirectorDTO
@@ -13,7 +13,17 @@ import org.olaven.enterprise.mock.movies.dto.MovieDTO
 internal class DirectorControllerTest: ControllerTestBase() {
 
     @Test
-    fun `POST to movies returns 201 if successful`() {
+    fun `can get specific director`() {
+
+        val director = persistDirector()
+        get(director.id!!)
+                .statusCode(200)
+                .body("data.id", equalTo(director.id.toString()))
+                .body("data.givenName", equalTo(director.givenName))
+                .body("data.familyName", equalTo(director.familyName))
+    }
+    @Test
+    fun `POST to directors returns 201 if successful`() {
 
         val director = getDummyDirector()
 
