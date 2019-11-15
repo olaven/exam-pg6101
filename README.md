@@ -15,7 +15,8 @@
 - [ ] Test data 
 - [X] Pagination
 - [X] full set of REST-methods in API
-- [ ] AMQP-kommunikasjon mellom to services 
+- [ ] AMQP-kommunikasjon mellom to services
+    - [ ] Generisk mail-server som man kan nå med amqp  
 - [X] Authorization
 - [X] Bruke Authorization paa API 
 - [ ] AMPQL 
