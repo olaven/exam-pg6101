@@ -10,7 +10,7 @@ export const UserContextProvider = props => {
 
     //NOTE: updating user on first render
     React.useEffect(() => {
-        
+
         updateUser();
     }, []);
 
@@ -26,7 +26,7 @@ export const UserContextProvider = props => {
             setUser(user);
         } else {
 
-            throw "An error has occured -> user was not logged in when calling /user";
+            setUser(null);
         }
     };
 
@@ -39,18 +39,21 @@ export const UserContextProvider = props => {
      * @returns {Promise<number>}
      */
     const login = async (username, password) => {
-
+        
         const body = JSON.stringify({
            userId: username,
            password: password
         });
 
-        const response = await ApiFetch("authentication/user", {
+        const response = await ApiFetch("authentication/login", {
             method: "POST",
-            body: body
+            body: body,
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
-        if (response.status === 200) {
+        if (response.status === 204) {
 
             await updateUser();
         }
@@ -60,7 +63,12 @@ export const UserContextProvider = props => {
 
     const logout = async () => {
 
-        const response = await ApiFetch("authentication/user");
+        const response = await ApiFetch("authentication/logout", {
+            method: "delete"
+        });
+
+        await updateUser();
+        return response;
     };
 
     /**
@@ -85,7 +93,7 @@ export const UserContextProvider = props => {
             }
         });
 
-        if (response.status == 204) {
+        if (response.status === 204) {
             await updateUser();
         }
 

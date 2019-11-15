@@ -17,8 +17,8 @@ export const Login = () => {
             return;
         }
 
-        const loginResponse = await login();
-        if (loginResponse !== 200) {
+        const loginResponse = await login(username, password);
+        if (loginResponse !== 204) {
 
             alert("an error occurred when logging in");
         }

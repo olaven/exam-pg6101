@@ -4,6 +4,7 @@ import {UserContext} from "../../context/UserContext";
 import {UserInfo} from "./UserInfo";
 import {Signup} from "./Signup";
 import {Login} from "./Login";
+import {Logout} from "./Logout";
 
 export const User = () => {
 
@@ -14,7 +15,7 @@ export const User = () => {
         {user?
             <>
                 {UserInfo()}
-                <Button>Log out TODO functionality</Button>
+                {Logout()}
             </>:
             <>
                 {Login()}
