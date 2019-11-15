@@ -3,13 +3,24 @@ package org.olaven.enterprise.mock.movies.controller
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class ScreeningControllerTest: ControllerTestBase() {
 
     @Test
-    fun `GET is paginated`() {
+    fun `can GET specific screening`() {
+
+        val screening = persistScreening()
+        get(screening.id!!)
+                .statusCode(200)
+                .body("data.room", equalTo(screening.room.toString()))
+                .body("data.movieID", equalTo(screening.movie.id.toString()))
+    }
+
+    @Test
+    fun `GET collection is paginated`() {
 
         persistScreenings(1)
         getAll()
@@ -63,6 +74,11 @@ internal class ScreeningControllerTest: ControllerTestBase() {
         getAll(toSecondPage)
                 .body("data.next", Matchers.nullValue())
     }
+
+    private fun get(id: Long) = given()
+            .contentType(ContentType.JSON)
+            .get("/screenings/$id")
+            .then()
 
     private fun getAll(path: String? = null) = given()
             .contentType(ContentType.JSON)

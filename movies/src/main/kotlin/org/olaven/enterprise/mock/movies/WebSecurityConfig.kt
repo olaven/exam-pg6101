@@ -38,6 +38,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 //TODO/NOTE: below should probably only be admin-access, but I wanted to test this in e2e-tests, where I cannot reveal production-admins.
                 .antMatchers(HttpMethod.POST, "/directors").authenticated() //.access("hasRole('ADMIN')")
                 .antMatchers(HttpMethod.GET, "/screenings").permitAll()
+                .antMatchers(HttpMethod.GET, "/screenings/{id}").permitAll()
                 .anyRequest().denyAll() //enabling whitelist
                 .and()
                 .csrf().disable()

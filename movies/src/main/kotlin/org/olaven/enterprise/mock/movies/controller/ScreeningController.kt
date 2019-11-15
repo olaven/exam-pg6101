@@ -32,12 +32,12 @@ class ScreeningController(
         transformer.screeningToDTO(it)
     }
 
-    @ApiOperation("Get specific screning")
+    @ApiOperation("Get specific screening")
     @ApiResponses(
             ApiResponse(code = 200, message = "Retrieved screening succesfully"),
             ApiResponse(code = 404, message = "Screening was not found")
     )
-    @GetMapping("/{id}get one")
+    @GetMapping("/{id}")
     fun getScreening(
             @ApiParam("The ID of the screening")
             @PathVariable("id", required = true)
