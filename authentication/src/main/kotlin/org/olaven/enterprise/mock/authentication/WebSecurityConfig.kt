@@ -43,8 +43,6 @@ class WebSecurityConfig(
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase);
                 }
                 .and()
-                .cors() //TODO: test this in test only -> does it break prod?
-                .and()
                 .logout()
                 .logoutUrl("/authentication/logout")
                 .and()
