@@ -6,21 +6,9 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop # validate
     database: h2
     show-sql: true
-  session:
-    # Disabling redis in tests
-    store-type: none
-  main:
-    allow-bean-definition-overriding: true
-
-  # Explicitly tell Spring to throw an exception when 404
-  mvc:
-    throwExceptionIfNoHandlerFound: true
-  resources:
-    # add-mappings: false # TODO: This may be needed for exception handling, but destroys swagger. Figure out.
-
 eureka:
   client:
     enabled: false
