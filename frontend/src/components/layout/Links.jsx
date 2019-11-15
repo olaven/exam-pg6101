@@ -1,4 +1,4 @@
-import  * as React from "react";
+import * as React from "react";
 import {Menu, MenuItem} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 

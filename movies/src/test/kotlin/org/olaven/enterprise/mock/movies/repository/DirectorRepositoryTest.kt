@@ -3,7 +3,6 @@ package org.olaven.enterprise.mock.movies.repository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.olaven.enterprise.mock.movies.MoviesApplication
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

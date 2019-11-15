@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.Size
-import kotlin.math.min
 
 @Entity
 class MovieEntity (

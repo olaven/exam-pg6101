@@ -5,7 +5,6 @@ import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
 import org.olaven.enterprise.mock.movies.dto.DirectorDTO

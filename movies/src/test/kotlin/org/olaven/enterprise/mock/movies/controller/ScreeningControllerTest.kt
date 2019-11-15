@@ -4,7 +4,6 @@ import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class ScreeningControllerTest: ControllerTestBase() {
