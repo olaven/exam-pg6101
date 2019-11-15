@@ -11,7 +11,8 @@ export const ApiFetch = (path, config) => {
         "http://gateway:80/api/":
         "http://localhost:8080/";
 
-    console.log(config);
-
-    return fetch(base + path, config);
+    return fetch(base + path, {
+        ...config,
+        credentials: "include" //needed to send cookies
+    });
 };

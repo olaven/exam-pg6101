@@ -18,15 +18,16 @@ fun main(args: Array<String>) {
 @Configuration
 class MyConfiguration {
 
-    //NOTE: Disabling CORS during test, as will run from different origin when developing frontend.
+    //NOTE: Modifying CORS during test, as will run from different origin when developing frontend.
     @Bean
     fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurerAdapter() {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
+                        .allowedOrigins("http://localhost:8081")
+                        .allowCredentials(true)
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
             }
-        }
+        } //NOTE: need to have redis running with  docker run -p 6379:6379 redis for now. TODO: perhaps override securityconfig like in movies
     }
 }

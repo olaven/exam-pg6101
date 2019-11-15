@@ -1,25 +1,16 @@
-import * as React from "react"
-import {Button, Checkbox, Container, Form, Header} from "semantic-ui-react";
-import {ApiFetch} from "../ApiFetch"
-import {UserContext} from "../context/UserContext";
+import * as React from "react";
+import {UserContext} from "../../context/UserContext";
+import {Button, Container, Form, Header} from "semantic-ui-react";
 
-export const User = () => <Container>
-    {renderCreateUser()}
-</Container>;
+export const Signup = () => {
 
-
-const renderLogin = () => {};
-const renderUserInfo = () => {};
-
-const renderCreateUser = () => {
-
-    const { signUp } = React.useContext(UserContext);
+    const {signUp} = React.useContext(UserContext);
 
     const [username, setUsername] = React.useState(null);
     const [password, setPassword] = React.useState(null);
     const [repeatedPassword, setRepeatedPassword] = React.useState(null);
 
-    const createUser = async () => {
+    const handleSubmit = async () => {
 
         if (password !== repeatedPassword || username === null || password === null || repeatedPassword === null) {
 
@@ -27,8 +18,11 @@ const renderCreateUser = () => {
             return;
         }
 
-        const signupStatus = await signUp(username, password);
-        console.log(signupStatus);
+        const signUpStatus = await signUp(username, password);
+        if (signUpStatus !== 204) {
+
+            alert("error creating user.");
+        }
     };
 
     return <Container>
@@ -54,7 +48,7 @@ const renderCreateUser = () => {
                     type={"password"}
                     onChange={(event => setRepeatedPassword(event.target.value))}/>
             </Form.Field>
-            <Button onClick={createUser}>Submit</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
         </Form>
     </Container>
 };

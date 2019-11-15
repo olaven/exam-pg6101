@@ -8,13 +8,21 @@ export const UserContextProvider = props => {
 
     const [user, setUser] = React.useState(null);
 
+    //NOTE: updating user on first render
+    React.useEffect(() => {
+        
+        updateUser();
+    }, []);
+
     //only used inside this context, not should not be exported
     const updateUser = async () => {
 
         const response = await ApiFetch("authentication/user");
+
         if (response.status === 200) {
 
-            const user = await response.json();
+            const wrappedResponse = await response.json();
+            const user = wrappedResponse.data;
             setUser(user);
         } else {
 
@@ -22,9 +30,37 @@ export const UserContextProvider = props => {
         }
     };
 
-    const logout = () => {
 
-        console.log("TODO: LOGOUT FUNCTION")
+    /**
+     * Tries to login.
+     * Updates user if successful.
+     * @param username
+     * @param password
+     * @returns {Promise<number>}
+     */
+    const login = async (username, password) => {
+
+        const body = JSON.stringify({
+           userId: username,
+           password: password
+        });
+
+        const response = await ApiFetch("authentication/user", {
+            method: "POST",
+            body: body
+        });
+
+        if (response.status === 200) {
+
+            await updateUser();
+        }
+
+        return response.status;
+    };
+
+    const logout = async () => {
+
+        const response = await ApiFetch("authentication/user");
     };
 
     /**
@@ -49,12 +85,14 @@ export const UserContextProvider = props => {
             }
         });
 
-        await updateUser();
+        if (response.status == 204) {
+            await updateUser();
+        }
 
         return response.status;
     };
 
-    return <UserContext.Provider value={{user, setUser, logout, signUp}}>
+    return <UserContext.Provider value={{user, setUser, login,  logout, signUp}}>
         {props.children}
     </UserContext.Provider>
 };

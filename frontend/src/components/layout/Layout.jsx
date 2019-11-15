@@ -8,12 +8,11 @@ export const Layout = props => {
 
 
     const {user} = React.useContext(UserContext);
-
+    console.log("user in layout", user);
     return <Container>
 
-        <Header as={"h1"} dividing>Cinama page</Header>
+        <Header as={"h1"} dividing>Cinama page {user? "- " +user.name: ""}</Header>
         <Links pages={props.pages}/>
-        {"Welcome, " + (user? user.username: "dear user")}
 
         {props.children}
     </Container>;

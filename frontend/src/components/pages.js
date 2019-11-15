@@ -2,7 +2,7 @@ import {Home} from "./pages/Home";
 import {Movies} from "./pages/Movies";
 import {Screenings} from "./pages/Screenings";
 import {Booking} from "./pages/Booking";
-import {User} from "./pages/User";
+import {User} from "./pages/user/User";
 import {Admin} from "./pages/Admin";
 
 /**
