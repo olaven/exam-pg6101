@@ -20,6 +20,13 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/test").permitAll()
                 .antMatchers(HttpMethod.GET,"/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
                 .antMatchers(HttpMethod.POST, "/movies").authenticated() //NOTE: same not as on directors

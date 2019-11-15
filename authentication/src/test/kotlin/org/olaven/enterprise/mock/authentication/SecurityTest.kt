@@ -8,6 +8,7 @@ import io.restassured.http.ContentType
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.contains
+import org.hamcrest.Matchers.notNullValue
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -25,13 +26,10 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.testcontainers.containers.GenericContainer
 
 /*
-* NOTE: This file is copied from:
+* NOTE: This file is a modified version of:
 * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/security/distributed-session/ds-auth/src/test/kotlin/org/tsdes/advanced/security/distributedsession/auth/db/SecurityTest.kt
 * */
 
-/**
- * Created by arcuri82 on 10-Nov-17.
- */
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [(SecurityTest.Companion.Initializer::class)])
@@ -73,16 +71,31 @@ class SecurityTest {
 
     @Before
     fun initialize() {
-        RestAssured.baseURI = "http://localhost"
+        RestAssured.baseURI = "http://localhost/authentication"
         RestAssured.port = port
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
         userRepository.deleteAll()
     }
 
+    @Test
+    fun `responses are wrapped`() {
+
+        val userId = "some user id"
+        val password = "some password"
+        given().contentType(ContentType.JSON)
+                .body("""
+                    {"userId": "$userId", "password": "$password"}
+                """.trimIndent())
+                .post("/login")
+                .then()
+                .body("code", notNullValue())
+                .body("message", notNullValue())
+                .body("status", notNullValue())
+    }
 
     @Test
-    fun testUnauthorizedAccess() {
+    fun `test unauthorized access`() {
 
         given().get("/user")
                 .then()
@@ -97,7 +110,7 @@ class SecurityTest {
 
 
         val sessionCookie = given().contentType(ContentType.JSON)
-                .body(AuthenticationDto(id, password))
+                .body(AuthenticationDTO(id, password))
                 .post("/signUp")
                 .then()
                 .statusCode(204)
@@ -121,7 +134,7 @@ class SecurityTest {
     }
 
     @Test
-    fun testLogin() {
+    fun `can log in`() {
 
         val name = "foo"
         val pwd = "bar"
@@ -138,8 +151,8 @@ class SecurityTest {
                 .get("/user")
                 .then()
                 .statusCode(200)
-                .body("name", equalTo(name))
-                .body("roles", contains("ROLE_USER"))
+                .body("data.name", equalTo(name))
+                .body("data.roles", contains("ROLE_USER"))
 
 
         /*
@@ -151,8 +164,8 @@ class SecurityTest {
                 .then()
                 .statusCode(200)
                 .cookie("SESSION") // new SESSION cookie
-                .body("name", equalTo(name))
-                .body("roles", contains("ROLE_USER"))
+                .body("data.name", equalTo(name))
+                .body("data.roles", contains("ROLE_USER"))
                 .extract().cookie("SESSION")
 
         assertNotEquals(basic, cookie)
@@ -162,7 +175,7 @@ class SecurityTest {
             Same with /login
          */
         val login = given().contentType(ContentType.JSON)
-                .body(AuthenticationDto(name, pwd))
+                .body(AuthenticationDTO(name, pwd))
                 .post("/login")
                 .then()
                 .statusCode(204)
@@ -177,13 +190,13 @@ class SecurityTest {
 
 
     @Test
-    fun testWrongLogin() {
+    fun `400 on wrong login`() {
 
         val name = "foo"
         val pwd = "bar"
 
         val noAuth = given().contentType(ContentType.JSON)
-                .body(AuthenticationDto(name, pwd))
+                .body(AuthenticationDTO(name, pwd))
                 .post("/login")
                 .then()
                 .statusCode(400)
@@ -195,7 +208,7 @@ class SecurityTest {
         registerUser(name, pwd)
 
         val auth = given().contentType(ContentType.JSON)
-                .body(AuthenticationDto(name, pwd))
+                .body(AuthenticationDTO(name, pwd))
                 .post("/login")
                 .then()
                 .statusCode(204)

@@ -49,8 +49,8 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .get("/api/authentication/user")
                 .then()
                 .statusCode(200)
-                .body("name", equalTo(id))
-                .body("roles", contains("ROLE_USER"))
+                .body("data.name", equalTo(id))
+                .body("data.roles", contains("ROLE_USER"))
 
 
         given().auth().basic(id, pwd)
@@ -58,8 +58,8 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .then()
                 .statusCode(200)
                 .cookie("SESSION")
-                .body("name", equalTo(id))
-                .body("roles", contains("ROLE_USER"))
+                .body("data.name", equalTo(id))
+                .body("data.roles", contains("ROLE_USER"))
 
         given().contentType(ContentType.JSON)
                 .body("""
@@ -93,8 +93,8 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .get("/api/authentication/user")
                 .then()
                 .statusCode(200)
-                .body("name", equalTo(id))
-                .body("roles", contains("ROLE_USER"))
+                .body("data.name", equalTo(id))
+                .body("data.roles", contains("ROLE_USER"))
 
 
         val director  = getDirector()
@@ -120,7 +120,6 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .then()
                 .statusCode(201)
     }
-
 
 
     @Test

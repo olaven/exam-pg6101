@@ -180,7 +180,7 @@ internal class MovieControllerTest: ControllerTestBase() {
     }
 
     @Test
-    fun `PUT returns 400 con ConstraintViolation`() {
+    fun `PUT returns 400 on ConstraintViolation`() {
 
         val director = persistDirector()
         val movie = persistMovie(director)

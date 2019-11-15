@@ -3,14 +3,11 @@ package org.olaven.enterprise.mock.movies.controller
 import com.google.common.base.Throwables
 import io.swagger.annotations.*
 import org.olaven.enterprise.mock.movies.Transformer
-import org.olaven.enterprise.mock.movies.WrappedResponse
 import org.olaven.enterprise.mock.movies.dto.DirectorDTO
 import org.olaven.enterprise.mock.movies.dto.DirectorResponseDTO
-import org.olaven.enterprise.mock.movies.dto.MovieDTO
-import org.olaven.enterprise.mock.movies.dto.MovieResponseDTO
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
-import org.olaven.enterprise.mock.movies.repository.MovieRepository
 import org.olaven.enterprise.mock.movies.repository.paginatedResponse
+import org.olaven.enterprise.mock.rest.WrappedResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -21,7 +18,6 @@ import javax.validation.ConstraintViolationException
 @RequestMapping("/directors")
 @Api("/directors", description = "Endpoint for directors")
 class DirectorController(
-        private val movieRepository: MovieRepository,
         private val directorRepository: DirectorRepository,
         private val transformer: Transformer
 ) {
@@ -53,13 +49,13 @@ class DirectorController(
             @ApiParam("The ID of the Director")
             @PathVariable("id")
             id: Long
-    ): ResponseEntity<DirectorResponseDTO> {
+    ): ResponseEntity<WrappedResponse<DirectorDTO>> {
 
         val directorOptional = directorRepository.findById(id)
         if (directorOptional.isPresent) {
 
             val dto = transformer.directorToDTO(directorOptional.get())
-            return ResponseEntity.ok(DirectorResponseDTO(200, dto))
+            return ResponseEntity.ok(DirectorResponseDTO(200, dto).validated())
         }
 
         return ResponseEntity.status(404).body(DirectorResponseDTO(404, null))

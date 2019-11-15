@@ -5,10 +5,14 @@ spring:
   datasource:
     url: "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
     driver-class-name: "org.h2.Driver"
+  main:
+    allow-bean-definition-overriding: true
   jpa:
     database: "h2"
     hibernate:
       ddl-auto: "validate"
     show-sql: true
-#  session: # TODO: remove this
+#  session:
 #    store-type: none
+  profiles:
+    active: "test"

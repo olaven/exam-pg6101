@@ -1,8 +1,8 @@
 package org.olaven.enterprise.mock.movies.dto
 
 import io.swagger.annotations.ApiModelProperty
-import org.olaven.enterprise.mock.movies.WrappedResponse
 import org.olaven.enterprise.mock.movies.entity.Room
+import org.olaven.enterprise.mock.rest.WrappedResponse
 
 class ScreeningDTO (
 

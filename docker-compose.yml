@@ -67,3 +67,8 @@ services:
       - redis
       - postgres_movies
       - gateway
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile

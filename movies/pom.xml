@@ -56,6 +56,13 @@
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
 
+        <!-- Common REST module -->
+        <dependency>
+            <groupId>org.olaven.enterprise.mock</groupId>
+            <artifactId>rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Documentation -->
         <dependency>
             <groupId>io.springfox</groupId>

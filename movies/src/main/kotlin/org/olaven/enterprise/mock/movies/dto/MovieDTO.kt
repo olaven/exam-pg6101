@@ -2,7 +2,7 @@ package org.olaven.enterprise.mock.movies.dto
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
-import org.olaven.enterprise.mock.movies.WrappedResponse
+import org.olaven.enterprise.mock.rest.WrappedResponse
 
 /*
     NOTE: This file is a modified version of:

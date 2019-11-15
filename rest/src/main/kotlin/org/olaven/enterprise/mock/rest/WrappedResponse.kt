@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.movies
+package org.olaven.enterprise.mock.rest
 
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty
 
 /**
  * Copied from:
- * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/rest/rest-dto/src/main/kotlin/org/tsdes/advanced/rest/dto/WrappedResponse.kt
+ * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/rest/rest-dto/src/main/kotlin/org/tsdes/advanced/rest/dto/org.olaven.enterprise.mock.rest.WrappedResponse.kt
  */
 
 /**
@@ -39,7 +39,7 @@ open class WrappedResponse<T>(
      *
      * @throws IllegalStateException if validation fails
      */
-    fun validated() : WrappedResponse<T>{
+    fun validated() : WrappedResponse<T> {
 
         val c : Int = code ?: throw IllegalStateException("Missing HTTP code")
 
@@ -55,9 +55,9 @@ open class WrappedResponse<T>(
                 else -> throw  IllegalStateException("Invalid HTTP code: $code")
             }
         } else {
-            val wrongSuccess =  (status ==  ResponseStatus.SUCCESS && c !in 100..399)
-            val wrongError =  (status ==  ResponseStatus.ERROR && c !in 400..499)
-            val wrongFail =  (status ==  ResponseStatus.FAIL && c !in 500..599)
+            val wrongSuccess =  (status == ResponseStatus.SUCCESS && c !in 100..399)
+            val wrongError =  (status == ResponseStatus.ERROR && c !in 400..499)
+            val wrongFail =  (status == ResponseStatus.FAIL && c !in 500..599)
 
             val wrong = wrongSuccess || wrongError || wrongFail
             if(wrong){
