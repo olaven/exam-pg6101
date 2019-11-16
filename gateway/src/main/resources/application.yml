@@ -14,10 +14,16 @@ spring:
             - Path=/api/authentication/**
           filters:
             - StripPrefix=1
+        - id: graphql
+          uri: http://graphql:8080
+          predicates:
+            - Path=/api/graphql/**
+          filters:
+            - StripPrefix=1
         - id: movies
           uri: lb://movies
           predicates:
-            - Path=/api/** #api/ -> go to /movies, /directors, /screenings if not /authentication as above
+            - Path=/api/** #api/ -> go to /movies, /directors, /screenings if not /authentication or /graphql  above
           filters:
             - StripPrefix=1
         - id: frontend

@@ -37,7 +37,7 @@ services:
       - redis
       - gateway
 
-  graphql: # TODO: add to gateway when working
+  graphql:
     build:
       context: ./graphql
       dockerfile: Dockerfile
