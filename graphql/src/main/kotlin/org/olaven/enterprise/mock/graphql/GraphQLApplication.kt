@@ -14,18 +14,3 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @EnableJpaRepositories(basePackages = ["org.olaven.enterprise.mock"])
 @EntityScan(basePackages = ["org.olaven.enterprise.mock"])
 class GraphQLApplication
-
-/*
-    API accessible at
-    http://localhost:8080/graphql
-
-    UI accessible at
-    http://localhost:8080/graphiql
-    (note the "i" between graph and ql...)
-
-    UI graph representation at
-    http://localhost:8080/voyager
- */
-fun main(args: Array<String>) {
-    SpringApplication.run(GraphQLApplication::class.java, *args)
-}

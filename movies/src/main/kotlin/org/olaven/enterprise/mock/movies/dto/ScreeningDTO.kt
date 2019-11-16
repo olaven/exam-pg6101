@@ -25,20 +25,3 @@ class ScreeningResponseDTO(
         message: String? = null,
         status: ResponseStatus? = null
 ) : WrappedResponse<ScreeningDTO>(code, data, message, status)
-
-
-/*
-*
-*    @field:NotNull
-        var time: ZonedDateTime,
-
-        @field:NotNull
-        @field:ManyToOne
-        var movie: MovieEntity,
-
-        @field:Enumerated(value = EnumType.STRING)
-        var room: Room,
-
-        @field:Id
-        @field:GeneratedValue
-        override var id: Long? = null*/

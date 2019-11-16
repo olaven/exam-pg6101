@@ -1,5 +1,5 @@
 /*
-package org.olaven.enterprise.mock.grapqhql.scalar
+package org.olaven.enterprise.mock.graphql.scalar
 
 
 import graphql.language.StringValue
