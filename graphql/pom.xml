@@ -38,11 +38,7 @@
             <artifactId>graphql-java-tools</artifactId>
         </dependency>
 
-        <!-- Calling External Services -->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-        </dependency>
+        <!-- Converting to JSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -77,6 +73,10 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.tomakehurst</groupId>

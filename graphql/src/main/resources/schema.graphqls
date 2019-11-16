@@ -6,9 +6,10 @@ type Query {
 }
 
 type Reservation {
-    screeningID: String!
+    screeningID: String! # TODO: make into screeningdto
     username: String!
     id: String!
+    # TODO: seat count
 }
 
 #inputType Query {

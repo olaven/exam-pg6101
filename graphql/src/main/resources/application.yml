@@ -36,3 +36,5 @@ graphql:
     mapping: /graphql
     enabled: true
     corsEnabled: false
+external:  #NOTE: This is a bit verbose, as the port is the only thing that really changes. However, it makes the code cleaner
+  api-base: "http://localhost:80/api/"

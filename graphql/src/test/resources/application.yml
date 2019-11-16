@@ -6,6 +6,8 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop # validate
+      ddl-auto: validate
     database: h2
     show-sql: true
+external:
+  api-base: "http://localhost:8099/api/"

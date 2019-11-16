@@ -1,40 +1,24 @@
 package org.olaven.enterprise.mock.graphql
 
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
-import javax.ws.rs.client.ClientBuilder
-import javax.ws.rs.core.UriBuilder
+import org.olaven.enterprise.mock.shared.WrappedResponse
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
+import org.springframework.web.client.RestTemplate
 
-/*
-* NOTE: This file is loosely based on:
-* https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/9416c705eabefa958a276eeb0e68c3ee5ad70bd3/advanced/calling-webservice/from-jvm/src/main/kotlin/org/tsdes/advanced/callingwebservice/fromjvm/OpenWeatherMap.kt
-* */
-
+@Service
 class ScreeningsCaller {
+
+    @Value("\${external.api-base}")
+    private var apiBase: String? = null
 
     fun getAvailableSeats(id: Long): String? {
 
-        val json = fetch("/api/movies/screenings/$id")
-        return getFromJson(json!!, "data.availableSeats") //TODO: is this relevant for circuit breakers?
-    }
+        val client =  RestTemplate()
+        val response = client.getForEntity("$apiBase/screenings/$id", WrappedResponse::class.java)
 
-    private fun fetch(url: String): String? {
 
-        val uri = UriBuilder
-                .fromUri(url)
-                .build()
-
-        val client = ClientBuilder.newClient()
-        val response = client.target(uri).request("application/json").get()
-
-        return response.readEntity(String::class.java)
-    }
-
-    private fun getFromJson(json: String, path: String): String? {
-
-        val parser = JsonParser()
-        val parsed = parser.parse(json) as JsonObject
-
-        return parsed.get(path).asString
+        println(response.body);
+        //return getFromJson(json!!, "data.availableSeats") //TODO: is this relevant for circuit breakers?
+        return "TODO"
     }
 }
