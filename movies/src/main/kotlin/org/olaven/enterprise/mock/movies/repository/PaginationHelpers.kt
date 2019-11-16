@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty
 import org.jetbrains.annotations.NotNull
 import org.olaven.enterprise.mock.shared.dto.BaseDTO
 import org.olaven.enterprise.mock.movies.entity.BaseEntity
-import org.olaven.enterprise.mock.shared.WrappedResponse
+import org.olaven.enterprise.mock.shared.response.WrappedResponse
 import org.springframework.http.ResponseEntity
 import javax.persistence.TypedQuery
 

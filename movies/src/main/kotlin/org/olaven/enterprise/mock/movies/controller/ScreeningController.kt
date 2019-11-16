@@ -2,10 +2,10 @@ package org.olaven.enterprise.mock.movies.controller
 
 import io.swagger.annotations.*
 import org.olaven.enterprise.mock.movies.Transformer
-import org.olaven.enterprise.mock.movies.responseDTO.ScreeningResponseDTO
+import org.olaven.enterprise.mock.shared.response.ScreeningResponseDTO
 import org.olaven.enterprise.mock.movies.repository.ScreeningRepository
 import org.olaven.enterprise.mock.movies.repository.paginatedResponse
-import org.olaven.enterprise.mock.shared.WrappedResponse
+import org.olaven.enterprise.mock.shared.response.WrappedResponse
 import org.olaven.enterprise.mock.shared.dto.ScreeningDTO
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

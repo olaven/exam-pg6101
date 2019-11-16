@@ -2,7 +2,7 @@ package org.olaven.enterprise.mock.movies.controller
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.olaven.enterprise.mock.shared.WrappedResponse
+import org.olaven.enterprise.mock.shared.response.WrappedResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

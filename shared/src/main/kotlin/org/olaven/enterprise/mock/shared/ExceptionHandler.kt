@@ -1,5 +1,6 @@
 package org.olaven.enterprise.mock.shared
 
+import org.olaven.enterprise.mock.shared.response.WrappedResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

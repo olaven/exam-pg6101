@@ -1,6 +1,5 @@
-package org.olaven.enterprise.mock.movies.responseDTO
+package org.olaven.enterprise.mock.shared.response
 
-import org.olaven.enterprise.mock.shared.WrappedResponse
 import org.olaven.enterprise.mock.shared.dto.ScreeningDTO
 
 

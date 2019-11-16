@@ -1,10 +1,10 @@
-package org.olaven.enterprise.mock.shared
+package org.olaven.enterprise.mock.shared.response
 
 import io.swagger.annotations.ApiModelProperty
 
 /**
  * Copied from:
- * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/shared/shared-dto/src/main/kotlin/org/tsdes/advanced/shared/dto/org.olaven.enterprise.mock.shared.WrappedResponse.kt
+ * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/shared/shared-dto/src/main/kotlin/org/tsdes/advanced/shared/dto/org.olaven.enterprise.mock.shared.response.WrappedResponse.kt
  */
 
 /**

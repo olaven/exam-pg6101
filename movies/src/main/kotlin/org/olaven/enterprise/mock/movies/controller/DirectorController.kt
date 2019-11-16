@@ -3,10 +3,10 @@ package org.olaven.enterprise.mock.movies.controller
 import com.google.common.base.Throwables
 import io.swagger.annotations.*
 import org.olaven.enterprise.mock.movies.Transformer
-import org.olaven.enterprise.mock.movies.responseDTO.DirectorResponseDTO
+import org.olaven.enterprise.mock.shared.response.DirectorResponseDTO
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.paginatedResponse
-import org.olaven.enterprise.mock.shared.WrappedResponse
+import org.olaven.enterprise.mock.shared.response.WrappedResponse
 import org.olaven.enterprise.mock.shared.dto.DirectorDTO
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
