@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.grapqhql
+package org.olaven.enterprise.mock.graphql
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -14,3 +14,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @EnableJpaRepositories(basePackages = ["org.olaven.enterprise.mock"])
 @EntityScan(basePackages = ["org.olaven.enterprise.mock"])
 class GraphQLApplication
+
+
+fun main(args: Array<String>) {
+    SpringApplication.run(GraphQLApplication::class.java, *args)
+}

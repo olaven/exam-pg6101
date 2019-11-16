@@ -1,4 +1,4 @@
-import org.olaven.enterprise.mock.grapqhql.GraphQLApplication
+import org.olaven.enterprise.mock.graphql.GraphQLApplication
 import org.springframework.boot.SpringApplication
 
 /*

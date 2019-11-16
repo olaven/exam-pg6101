@@ -1,6 +1,6 @@
-package org.olaven.enterprise.mock.grapqhql.repository
+package org.olaven.enterprise.mock.graphql.repository
 
-import org.olaven.enterprise.mock.grapqhql.entity.ReservationEntity
+import org.olaven.enterprise.mock.graphql.entity.ReservationEntity
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

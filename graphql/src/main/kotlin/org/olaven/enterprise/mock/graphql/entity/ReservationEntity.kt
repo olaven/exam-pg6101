@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.grapqhql.entity
+package org.olaven.enterprise.mock.graphql.entity
 
 import org.jetbrains.annotations.NotNull
 import javax.persistence.Entity

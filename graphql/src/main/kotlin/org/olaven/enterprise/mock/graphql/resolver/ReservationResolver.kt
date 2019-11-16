@@ -1,7 +1,7 @@
-package org.olaven.enterprise.mock.grapqhql.resolver
+package org.olaven.enterprise.mock.graphql.resolver
 
 import com.coxautodev.graphql.tools.GraphQLResolver
-import org.olaven.enterprise.mock.grapqhql.entity.ReservationEntity
+import org.olaven.enterprise.mock.graphql.entity.ReservationEntity
 import org.springframework.stereotype.Component
 
 @Component
