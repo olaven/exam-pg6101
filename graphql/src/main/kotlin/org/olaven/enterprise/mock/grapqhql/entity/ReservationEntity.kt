@@ -7,7 +7,7 @@ import javax.persistence.Id
 import javax.validation.constraints.Size
 
 @Entity
-class ReservationEntity(
+class ReservationEntity (
 
         @field:NotNull
         var screeningID: Long,

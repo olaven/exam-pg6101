@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = ["org.olaven.enterprise.mock"]) //TODO: check if I actually need to scan other packages
 @EnableJpaRepositories(basePackages = ["org.olaven.enterprise.mock"])
 @EntityScan(basePackages = ["org.olaven.enterprise.mock"])
-//TODO: must be eurekaclient / part of docker c ompose / ha ve docker file
 class GraphQLApplication
 
 /*

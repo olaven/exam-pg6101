@@ -9,6 +9,3 @@ spring:
       ddl-auto: create-drop # validate
     database: h2
     show-sql: true
-eureka:
-  client:
-    enabled: false

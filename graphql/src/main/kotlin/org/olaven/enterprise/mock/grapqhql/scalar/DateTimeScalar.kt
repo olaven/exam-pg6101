@@ -1,3 +1,4 @@
+/*
 package org.olaven.enterprise.mock.grapqhql.scalar
 
 
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 
+*/
 /*
     JSON does not define how Date objects should be represented, although
     JavaScript does (ISO-8601).
@@ -27,12 +29,15 @@ import java.time.format.DateTimeParseException
 
     Anyway, even if one day it will be supported by default, it is still
     interesting to use it as an example of how to handle custom types.
- */
+ *//*
 
+
+*/
 /*
 * NOTE: This file is coped from:
 * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/069a2b78c5c7aa59a2a01c1076a1857777b17ba9/advanced/graphql/news-graphql/src/main/kotlin/org/tsdes/advanced/graphql/newsgraphql/scalar/MyDateTimeScalar.kt
-* */
+* *//*
+
 
 @Component
 class MyDateTimeScalar : GraphQLScalarType("MyDateTime", "DataTime scalar", MyDateTimeScalarCoercing())
@@ -78,4 +83,4 @@ private class MyDateTimeScalarCoercing : Coercing<ZonedDateTime, String> {
 
         return null
     }
-}
+}*/

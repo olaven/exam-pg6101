@@ -31,12 +31,8 @@ spring:
   resources:
     add-mappings: false
 
-
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    healthcheck:
-      enabled: true
-    serviceUrl:
-      defaultZone: http://registry:8761/eureka/
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: false

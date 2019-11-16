@@ -9,7 +9,6 @@ class QueryResolver(
         private val reservationRepository: ReservationRepository
 ) : GraphQLQueryResolver {
 
-
     fun reservationsByUser(username: String) =
             reservationRepository.findByUsername(username)
 }
