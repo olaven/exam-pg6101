@@ -20,5 +20,8 @@ class ScreeningDTO(
         @ApiModelProperty("The room where the screening will take place")
         var room: Room,//I may need to make this a string
 
+        @ApiModelProperty("The amount of tickets left on this screening")
+        var availableTickets: Int,
+
         id: String
 ) : BaseDTO(id)

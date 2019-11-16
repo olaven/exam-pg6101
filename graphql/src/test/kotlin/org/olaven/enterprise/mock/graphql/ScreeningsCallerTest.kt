@@ -80,6 +80,7 @@ internal class ScreeningsCallerTest {
             time = faker.date().future(40, TimeUnit.DAYS).toInstant().toEpochMilli(),
             movieID = "SOME MOVIE",
             room = Room.values().random(),
+            availableTickets = faker.number().randomDigitNotZero(),
             id = faker.number().randomNumber().toString()
     )
 }

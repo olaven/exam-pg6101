@@ -54,6 +54,7 @@ class Transformer(
             time = screeningEntity.time.toEpochSecond(),
             movieID = screeningEntity.movie.id.toString(),
             room = screeningEntity.room,
+            availableTickets = screeningEntity.availableTickets,
             id = screeningEntity.id.toString()
     )
 

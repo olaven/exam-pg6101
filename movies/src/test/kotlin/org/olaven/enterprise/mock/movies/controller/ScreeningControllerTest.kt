@@ -9,6 +9,15 @@ import org.junit.jupiter.api.Test
 internal class ScreeningControllerTest : ControllerTestBase() {
 
     @Test
+    fun `A screening has has no tickets sold by default`() {
+
+        val screening = persistScreening()
+        get(screening.id!!)
+                .statusCode(200)
+                .body("data.availableTickets", equalTo(0))
+    }
+
+    @Test
     fun `can GET specific screening`() {
 
         val screening = persistScreening()

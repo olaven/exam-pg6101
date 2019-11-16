@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull
 import org.olaven.enterprise.mock.shared.dto.Room
 import java.time.ZonedDateTime
 import javax.persistence.*
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
 
 @Entity
 class ScreeningEntity(
@@ -17,6 +19,10 @@ class ScreeningEntity(
 
         @field:Enumerated(value = EnumType.STRING)
         var room: Room,
+
+        @field:NotNull
+        @field:Min(0)
+        var availableTickets: Int = 0,
 
         @field:Id
         @field:GeneratedValue
