@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig: WebSecurityConfigurerAdapter() {
+class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
 
     override fun configure(http: HttpSecurity) {
@@ -27,7 +27,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                         "/swagger-ui.html",
                         "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/test").permitAll()
-                .antMatchers(HttpMethod.GET,"/movies").permitAll()
+                .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
                 .antMatchers(HttpMethod.POST, "/movies").authenticated() //NOTE: same not as on directors
                 .antMatchers(HttpMethod.DELETE, "/movies/{id}").access("hasRole('ADMIN')")
@@ -48,7 +48,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     }
 
     @Bean
-    fun userSecurity() : UserSecurity {
+    fun userSecurity(): UserSecurity {
         return UserSecurity()
     }
 }
@@ -58,10 +58,10 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
  * need to make sure that a user can only access his/her data, and not the
  * one of the other users
  */
-class UserSecurity{
+class UserSecurity {
 
     //TODO: to somwthing like this when booking tickets
-    fun checkId(authentication: Authentication, id: String) : Boolean{
+    fun checkId(authentication: Authentication, id: String): Boolean {
 
         //TODO: make this relevant for movies
         val current = (authentication.principal as UserDetails).username

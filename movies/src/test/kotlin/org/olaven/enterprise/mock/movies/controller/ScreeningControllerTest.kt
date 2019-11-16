@@ -6,7 +6,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 
-internal class ScreeningControllerTest: ControllerTestBase() {
+internal class ScreeningControllerTest : ControllerTestBase() {
 
     @Test
     fun `can GET specific screening`() {

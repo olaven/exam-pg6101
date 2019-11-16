@@ -74,7 +74,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     protected fun handleFrameworkExceptionsForUserInputs(ex: Exception, request: WebRequest)
             : ResponseEntity<Any> {
 
-        if(ex is ConstraintViolationException) {
+        if (ex is ConstraintViolationException) {
             val messages = StringBuilder()
 
             for (violation in ex.constraintViolations) {
@@ -108,10 +108,10 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
             headers: HttpHeaders,
             status: HttpStatus,
             request: WebRequest
-    ) : ResponseEntity<Any> {
+    ): ResponseEntity<Any> {
 
         val dto = WrappedResponse<Any>(
-                code  = status.value(),
+                code = status.value(),
                 message = ex.message
         ).validated()
 

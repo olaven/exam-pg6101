@@ -12,16 +12,16 @@ import javax.validation.constraints.NotBlank
 class AuthenticationDTO(
         @ApiModelProperty("The ID of the user")
         @get:NotBlank
-        var userId : String? = null,
+        var userId: String? = null,
 
         @ApiModelProperty("The username of the user")
         @get:NotBlank
         var password: String? = null
 )
 
-class AuthenticatonResponseDTO (
+class AuthenticatonResponseDTO(
         code: Int? = null,
         data: AuthenticationDTO? = null,
         message: String? = null,
         status: ResponseStatus? = null
-): WrappedResponse<AuthenticationDTO>(code, data, message, status)
+) : WrappedResponse<AuthenticationDTO>(code, data, message, status)

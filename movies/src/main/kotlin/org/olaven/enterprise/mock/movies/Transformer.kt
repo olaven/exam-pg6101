@@ -40,7 +40,7 @@ class Transformer(
             DirectorDTO(
                     givenName = directorEntity.givenName,
                     familyName = directorEntity.familyName,
-                    movies = directorEntity.movies.map { movieToDTO(it)},
+                    movies = directorEntity.movies.map { movieToDTO(it) },
                     id = directorEntity.id.toString()
             )
 

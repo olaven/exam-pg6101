@@ -25,7 +25,7 @@ spring:
     # specify that session tokes should be stored in Redis
     store-type: redis
 
-# Explicitly tell Spring to throw an exception when 404
+  # Explicitly tell Spring to throw an exception when 404
   mvc:
     throwExceptionIfNoHandlerFound: true
   resources:

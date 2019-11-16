@@ -7,17 +7,17 @@ import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
 @Repository
-interface DirectorRepository: CrudRepository<DirectorEntity, Long>, PaginatedRepository<DirectorEntity>
+interface DirectorRepository : CrudRepository<DirectorEntity, Long>, PaginatedRepository<DirectorEntity>
 
 @Transactional
 @Repository
 class DirectorRepositoryImpl(
         private val entityManager: EntityManager
-): PaginatedRepository<DirectorEntity> {
+) : PaginatedRepository<DirectorEntity> {
 
     override fun getNextPage(size: Int, keysetId: Long?) =
             generalGetNextPage<DirectorEntity>(keysetId, size,
-                entityManager.createQuery("select director from DirectorEntity director order by director.id desc, director.givenName", DirectorEntity::class.java),
-                entityManager.createQuery("select director from DirectorEntity director where director.id < :keysetId order by director.id desc, director.givenName", DirectorEntity::class.java)
+                    entityManager.createQuery("select director from DirectorEntity director order by director.id desc, director.givenName", DirectorEntity::class.java),
+                    entityManager.createQuery("select director from DirectorEntity director where director.id < :keysetId order by director.id desc, director.givenName", DirectorEntity::class.java)
             )
 }

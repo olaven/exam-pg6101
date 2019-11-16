@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component
 @Component
 class QueryResolver(
         private val reservationRepository: ReservationRepository
-)
-    : GraphQLQueryResolver {
+) : GraphQLQueryResolver {
 
 
     fun reservationsByUser(username: String) =

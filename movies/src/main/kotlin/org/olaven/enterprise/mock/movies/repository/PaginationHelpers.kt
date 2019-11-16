@@ -21,7 +21,7 @@ class Page<T>(
 )
 
 
-fun<Entity: BaseEntity, DTO: BaseDTO> paginatedResponse(
+fun <Entity : BaseEntity, DTO : BaseDTO> paginatedResponse(
         path: String,
         pageSize: Int,
         repository: PaginatedRepository<Entity>, keysetId: Long?,
@@ -40,7 +40,7 @@ fun<Entity: BaseEntity, DTO: BaseDTO> paginatedResponse(
     return ResponseEntity.ok(WrappedResponse(200, data = page).validated())
 }
 
-internal inline fun<reified T> generalGetNextPage(
+internal inline fun <reified T> generalGetNextPage(
         keysetId: Long?,
         size: Int,
         standardQuery: TypedQuery<T>,
@@ -60,6 +60,6 @@ internal inline fun<reified T> generalGetNextPage(
     return query.resultList.toList()
 }
 
-interface PaginatedRepository<T>{
+interface PaginatedRepository<T> {
     fun getNextPage(size: Int, keysetId: Long?): List<T>
 }

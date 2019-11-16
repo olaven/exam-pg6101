@@ -39,10 +39,10 @@ export const UserContextProvider = props => {
      * @returns {Promise<number>}
      */
     const login = async (username, password) => {
-        
+
         const body = JSON.stringify({
-           userId: username,
-           password: password
+            userId: username,
+            password: password
         });
 
         const response = await ApiFetch("authentication/login", {
@@ -100,7 +100,7 @@ export const UserContextProvider = props => {
         return response.status;
     };
 
-    return <UserContext.Provider value={{user, setUser, login,  logout, signUp}}>
+    return <UserContext.Provider value={{user, setUser, login, logout, signUp}}>
         {props.children}
     </UserContext.Provider>
 };

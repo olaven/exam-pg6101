@@ -9,6 +9,6 @@ export const UserInfo = () => {
     return <Segment>
         <Header as={"h2"}>{user.name}</Header>
         <Header as={"h3"}>Roles</Header>
-        <List items={user.roles} />
+        <List items={user.roles}/>
     </Segment>
 };

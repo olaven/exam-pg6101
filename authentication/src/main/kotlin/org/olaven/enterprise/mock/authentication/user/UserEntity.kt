@@ -6,7 +6,6 @@ import javax.persistence.Id
 import javax.persistence.Table
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
 
 /*
 * NOTE: This file is copied from:
@@ -17,7 +16,7 @@ import javax.validation.constraints.Size
  * Created by arcuri82 on 08-Nov-17.
  */
 @Entity
-@Table(name="USERS")
+@Table(name = "USERS")
 class UserEntity(
 
         @get:Id

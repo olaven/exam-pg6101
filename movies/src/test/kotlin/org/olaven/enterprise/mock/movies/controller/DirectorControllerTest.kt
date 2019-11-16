@@ -10,7 +10,7 @@ import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
 import org.olaven.enterprise.mock.movies.dto.DirectorDTO
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 
-internal class DirectorControllerTest: ControllerTestBase() {
+internal class DirectorControllerTest : ControllerTestBase() {
 
     @Test
     fun `can get specific director`() {
@@ -22,6 +22,7 @@ internal class DirectorControllerTest: ControllerTestBase() {
                 .body("data.givenName", equalTo(director.givenName))
                 .body("data.familyName", equalTo(director.familyName))
     }
+
     @Test
     fun `POST to directors returns 201 if successful`() {
 
@@ -151,7 +152,7 @@ internal class DirectorControllerTest: ControllerTestBase() {
             .get("/directors/${id}")
             .then()
 
-    private fun getAll(path: String? = null)  = given()
+    private fun getAll(path: String? = null) = given()
             .accept(ContentType.JSON)
             .get(path ?: "/directors")
             .then()

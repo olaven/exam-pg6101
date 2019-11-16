@@ -2,20 +2,15 @@
 #https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/0bd7a6248ac2a1b497f04cf18d3ce5af02cd8b52/advanced/graphql/news-graphql/src/main/resources/schema.graphqls
 
 type Query {
-    reservationsByUser(username: String!): ReservationOutput
+    reservationsByUser(username: String!): Reservation
 }
 
-type ReservationInput {
+type Reservation {
     id: String
     screeningID: String!
     username: String!
 }
 
-type ReservationOutput {
-    id: String!
-    screeningID: String!
-    username: String!
-}
 #inputType Query {
 #    countries: [String!]
 #    newsById(id: String!) : News
@@ -34,7 +29,7 @@ type ReservationOutput {
 ## to create a custom one. But maybe it will be supported in the future.
 ## See: https://github.com/facebook/graphql/pull/315
 ## So we need to implement our own custom parser for it
-scalar MyDateTime
+# scalar MyDateTime
 #
 #inputType News {
 #    # The id of the news

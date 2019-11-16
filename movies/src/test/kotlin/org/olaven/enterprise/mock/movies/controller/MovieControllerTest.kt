@@ -1,7 +1,6 @@
 package org.olaven.enterprise.mock.movies.controller
 
 
-
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
@@ -10,7 +9,7 @@ import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake.Companion.ADMIN_USER
 import org.olaven.enterprise.mock.movies.dto.MovieDTO
 
-internal class MovieControllerTest: ControllerTestBase() {
+internal class MovieControllerTest : ControllerTestBase() {
 
     @Test
     fun `getting all movies returns 200`() {
@@ -37,7 +36,7 @@ internal class MovieControllerTest: ControllerTestBase() {
 
         val director = persistDirector()
         val movie = getDummyMovie(director.id!!)
-        
+
         post(movie, ADMIN_USER)
                 .statusCode(201)
     }
@@ -86,7 +85,7 @@ internal class MovieControllerTest: ControllerTestBase() {
         (0 until n).forEach {
 
             val director = persistDirector()
-            val movie =  getDummyMovie(director.id!!)
+            val movie = getDummyMovie(director.id!!)
 
             post(movie, ADMIN_USER)
                     .statusCode(201)
@@ -120,8 +119,8 @@ internal class MovieControllerTest: ControllerTestBase() {
         patch(dto, ADMIN_USER)
                 .statusCode(204)
 
-         get(movie.id!!)
-            .body("data.title", equalTo(dto.title))
+        get(movie.id!!)
+                .body("data.title", equalTo(dto.title))
     }
 
     @Test //TODO: not sure how to handle null vaules in relevant mapping, as those would go into db and cause exception anyways
@@ -221,7 +220,7 @@ internal class MovieControllerTest: ControllerTestBase() {
                 .body("data.list", notNullValue())
                 .body("data.next", nullValue()) //as only one is persisted
     }
-    
+
     @Test
     fun `pagination only returns 10 per page`() {
 
@@ -269,31 +268,31 @@ internal class MovieControllerTest: ControllerTestBase() {
     }
 
     private fun delete(id: Long, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-        authenticated(user.username, user.password)
-            .delete("/movies/${id}")
-            .then()
+            authenticated(user.username, user.password)
+                    .delete("/movies/${id}")
+                    .then()
 
     private fun put(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-        authenticated(user.username, user.password)
-            .contentType(ContentType.JSON)
-            .body(movie)
-            .put("/movies/${movie.id}")
-            .then()
+            authenticated(user.username, user.password)
+                    .contentType(ContentType.JSON)
+                    .body(movie)
+                    .put("/movies/${movie.id}")
+                    .then()
 
     private fun patch(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-        authenticated(user.username, user.password)
-            .contentType("application/merge-patch+json")
-            .body(movie)
-            .patch("/movies/${movie.id}")
-            .then()
+            authenticated(user.username, user.password)
+                    .contentType("application/merge-patch+json")
+                    .body(movie)
+                    .patch("/movies/${movie.id}")
+                    .then()
 
     private fun post(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-        authenticated(user.username, user.password)
-            .accept(ContentType.JSON)
-            .contentType(ContentType.JSON)
-            .body(movie)
-            .post("/movies")
-            .then()
+            authenticated(user.username, user.password)
+                    .accept(ContentType.JSON)
+                    .contentType(ContentType.JSON)
+                    .body(movie)
+                    .post("/movies")
+                    .then()
 
     private fun get(id: Long) = given()
             .accept(ContentType.JSON)

@@ -10,7 +10,7 @@ import org.olaven.enterprise.mock.rest.WrappedResponse
  */
 
 @ApiModel("Representing a movie")
-class MovieDTO (
+class MovieDTO(
 
         @ApiModelProperty("The movie's title")
         var title: String?,
@@ -23,12 +23,12 @@ class MovieDTO (
 
         id: String? = null // going to base
 
-): BaseDTO(id)
+) : BaseDTO(id)
 
 
-class MovieResponseDTO (
+class MovieResponseDTO(
         code: Int? = null,
         data: MovieDTO? = null,
         message: String? = null,
         status: ResponseStatus? = null
-): WrappedResponse<MovieDTO>(code, data, message, status)
+) : WrappedResponse<MovieDTO>(code, data, message, status)

@@ -59,7 +59,7 @@ private class MyDateTimeScalarCoercing : Coercing<ZonedDateTime, String> {
 
     override fun parseLiteral(input: Any): ZonedDateTime? {
 
-        if (input !is StringValue){
+        if (input !is StringValue) {
             return null
         }
 

@@ -4,19 +4,19 @@ import io.swagger.annotations.ApiModelProperty
 import org.olaven.enterprise.mock.movies.entity.Room
 import org.olaven.enterprise.mock.rest.WrappedResponse
 
-class ScreeningDTO (
+class ScreeningDTO(
 
-    @ApiModelProperty("The exact time of the screening, in ms (unix date)")
-    val time: Long,
+        @ApiModelProperty("The exact time of the screening, in ms (unix date)")
+        val time: Long,
 
-    @ApiModelProperty("ID of the movie being shown")
-    var movieID: String,
+        @ApiModelProperty("ID of the movie being shown")
+        var movieID: String,
 
-    @ApiModelProperty("The room where the screening will take place")
-    var room: Room,//I may need to make this a string
+        @ApiModelProperty("The room where the screening will take place")
+        var room: Room,//I may need to make this a string
 
-    id: String
-): BaseDTO(id)
+        id: String
+) : BaseDTO(id)
 
 
 class ScreeningResponseDTO(
@@ -24,7 +24,7 @@ class ScreeningResponseDTO(
         data: ScreeningDTO? = null,
         message: String? = null,
         status: ResponseStatus? = null
-): WrappedResponse<ScreeningDTO>(code, data, message, status)
+) : WrappedResponse<ScreeningDTO>(code, data, message, status)
 
 
 /*

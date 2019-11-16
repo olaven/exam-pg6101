@@ -7,8 +7,8 @@
 
 export const ApiFetch = (path, config) => {
 
-    const base = process.env.NODE_ENV === "production"?
-        "http://localhost:80/api/": //gateway
+    const base = process.env.NODE_ENV === "production" ?
+        "http://localhost:80/api/" : //gateway
         "http://localhost:8080/";
 
     return fetch(base + path, {

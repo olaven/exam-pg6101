@@ -19,7 +19,7 @@ spring:
   mvc:
     throwExceptionIfNoHandlerFound: true
   resources:
-    # add-mappings: false # TODO: This may be needed for exception handling, but destroys swagger. Figure out.
+  # add-mappings: false # TODO: This may be needed for exception handling, but destroys swagger. Figure out.
 
 eureka:
   client:

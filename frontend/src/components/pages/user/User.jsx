@@ -12,11 +12,11 @@ export const User = () => {
     console.log("user: ", user);
     return <Container>
 
-        {user?
+        {user ?
             <>
                 {UserInfo()}
                 {Logout()}
-            </>:
+            </> :
             <>
                 {Login()}
                 {Signup()}

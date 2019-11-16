@@ -31,7 +31,7 @@ class WebSecurityConfig(
     }
 
     @Bean
-    override fun authenticationManagerBean() : AuthenticationManager {
+    override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }
 

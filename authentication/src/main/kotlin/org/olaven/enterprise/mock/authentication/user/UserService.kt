@@ -17,10 +17,10 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(
         private val userCrud: UserRepository,
         private val passwordEncoder: PasswordEncoder
-){
+) {
 
 
-    fun createUser(username: String, password: String, roles: Set<String> = setOf()) : Boolean{
+    fun createUser(username: String, password: String, roles: Set<String> = setOf()): Boolean {
 
         try {
             val hash = passwordEncoder.encode(password)
@@ -34,7 +34,7 @@ class UserService(
             userCrud.save(user)
 
             return true
-        } catch (e: Exception){
+        } catch (e: Exception) {
             return false
         }
     }

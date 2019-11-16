@@ -1,13 +1,15 @@
 package org.olaven.enterprise.mock.grapqhql.resolver
 
 import com.coxautodev.graphql.tools.GraphQLResolver
-import org.olaven.enterprise.mock.grapqhql.types.ReservationInputType
-import org.olaven.enterprise.mock.grapqhql.types.ReservationOutputType
+import org.olaven.enterprise.mock.grapqhql.entity.ReservationEntity
 import org.springframework.stereotype.Component
 
 @Component
-class ReservationResolver : GraphQLResolver<ReservationInputType> {
+class ReservationResolver : GraphQLResolver<ReservationEntity> {
 
-    fun getId(reservation: ReservationOutputType) =
+    fun id(reservation: ReservationEntity) =
             reservation.id.toString()
+
+    fun screeningId(reservation: ReservationEntity) =
+            reservation.screeningID.toString()
 }

@@ -12,7 +12,7 @@ spring:
     hibernate:
       ddl-auto: "validate"
     show-sql: true
-#  session:
-#    store-type: none
+  #  session:
+  #    store-type: none
   profiles:
     active: "test"

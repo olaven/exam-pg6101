@@ -149,7 +149,7 @@ class SecurityTest {
         return sessionCookie
     }
 
-    private fun checkAuthenticatedCookie(cookie: String, expectedCode: Int){
+    private fun checkAuthenticatedCookie(cookie: String, expectedCode: Int) {
         given().cookie("SESSION", cookie)
                 .get("/user")
                 .then()
@@ -209,7 +209,6 @@ class SecurityTest {
         assertNotEquals(login, basic)
         checkAuthenticatedCookie(login, 200)
     }
-
 
 
     @Test

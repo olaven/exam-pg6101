@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/screenings")
 @Api("/screenings", description = "Endpoint for screenings")
 class ScreeningController(
-       private val screeningRepository: ScreeningRepository,
-       private val transformer: Transformer
+        private val screeningRepository: ScreeningRepository,
+        private val transformer: Transformer
 ) {
 
     @ApiOperation("Get multiple screnings")
@@ -52,7 +52,7 @@ class ScreeningController(
             return ResponseEntity.ok(wrappedResponse)
         }
 
-        val wrappedResponse =  ScreeningResponseDTO(404, null, "Screening was not found").validated()
+        val wrappedResponse = ScreeningResponseDTO(404, null, "Screening was not found").validated()
         return ResponseEntity.status(404).body(wrappedResponse)
     }
 

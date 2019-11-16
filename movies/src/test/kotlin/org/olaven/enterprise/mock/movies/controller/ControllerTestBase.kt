@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [(MoviesApplication::class)],
-        webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class ControllerTestBase {
 
     @Autowired
