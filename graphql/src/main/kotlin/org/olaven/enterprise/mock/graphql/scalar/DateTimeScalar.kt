@@ -22,7 +22,7 @@ import java.time.format.DateTimeParseException
     static checks on its constraints.
     So, we define a custom-type for GraphQL to represent dates.
 
-    Dates are very common, and it might be that GraphQL libraries do
+    Dates are very shared, and it might be that GraphQL libraries do
     provide custom scalars for them by default.
     This is not the case yet for graphql-java, see:
     https://github.com/graphql-java/graphql-java/issues/991

@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.olaven.enterprise.mock.movies.Transformer
-import org.olaven.enterprise.mock.movies.dto.MovieDTO
-import org.olaven.enterprise.mock.movies.dto.MovieResponseDTO
+import org.olaven.enterprise.mock.movies.responseDTO.MovieResponseDTO
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
 import org.olaven.enterprise.mock.movies.repository.paginatedResponse
-import org.olaven.enterprise.mock.rest.WrappedResponse
+import org.olaven.enterprise.mock.shared.WrappedResponse
+import org.olaven.enterprise.mock.shared.dto.MovieDTO
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.rest
+package org.olaven.enterprise.mock.shared
 
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus

@@ -1,4 +1,4 @@
-package org.olaven.enterprise.mock.movies.dto
+package org.olaven.enterprise.mock.shared.dto
 
 import io.swagger.annotations.ApiModelProperty
 

@@ -1,8 +1,13 @@
-package org.olaven.enterprise.mock.movies.dto
+package org.olaven.enterprise.mock.shared.dto
 
 import io.swagger.annotations.ApiModelProperty
-import org.olaven.enterprise.mock.movies.entity.Room
-import org.olaven.enterprise.mock.rest.WrappedResponse
+
+enum class Room {
+        A1, A2, A3,
+        B1, B2, B3,
+        C1, C2, C3,
+        D1, D2, D3,
+}
 
 class ScreeningDTO(
 
@@ -17,11 +22,3 @@ class ScreeningDTO(
 
         id: String
 ) : BaseDTO(id)
-
-
-class ScreeningResponseDTO(
-        code: Int? = null,
-        data: ScreeningDTO? = null,
-        message: String? = null,
-        status: ResponseStatus? = null
-) : WrappedResponse<ScreeningDTO>(code, data, message, status)

@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="rest" />
         <module name="gateway" />
         <module name="graphql" />
         <module name="booking" />
         <module name="authentication" />
+        <module name="shared" />
         <module name="e2e_tests" />
         <module name="frontend" />
         <module name="registry" />

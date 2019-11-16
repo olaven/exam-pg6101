@@ -1,7 +1,7 @@
 package org.olaven.enterprise.mock.authentication
 
 import io.swagger.annotations.ApiModelProperty
-import org.olaven.enterprise.mock.rest.WrappedResponse
+import org.olaven.enterprise.mock.shared.WrappedResponse
 import javax.validation.constraints.NotBlank
 
 /*

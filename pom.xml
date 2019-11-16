@@ -16,8 +16,8 @@
         <module>e2e_tests</module>
         <module>authentication</module>
         <module>frontend</module>
-        <module>rest</module>
         <module>graphql</module>
+        <module>shared</module>
     </modules>
 
     <properties>

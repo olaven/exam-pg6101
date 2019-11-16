@@ -7,7 +7,7 @@ import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.Test
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake.Companion.ADMIN_USER
-import org.olaven.enterprise.mock.movies.dto.MovieDTO
+import org.olaven.enterprise.mock.shared.dto.MovieDTO
 
 internal class MovieControllerTest : ControllerTestBase() {
 

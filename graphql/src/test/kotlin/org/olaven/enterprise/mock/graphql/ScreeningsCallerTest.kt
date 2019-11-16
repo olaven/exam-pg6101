@@ -1,12 +1,10 @@
 package org.olaven.enterprise.mock.graphql
 
 import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.common.ConsoleNotifier
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
-import org.olaven.enterprise.mock.rest.WrappedResponse
 
 /*
 * NOTE: This file is loosely based on:
@@ -34,7 +32,8 @@ internal class ScreeningsCallerTest {
         }
     }
 
-    private fun stubScreeningsCaller(id: Long, val screening: ScreeningDTO) {
+    //TODO:
+   /* private fun stubScreeningsCaller(id: Long, val screening: ScreeningDTO) {
 
 
         val response = WrappedResponse<ScreeningDTO>(200, screening).validated()
@@ -46,5 +45,5 @@ internal class ScreeningsCallerTest {
                         .willReturn(WireMock.aResponse()
                                 .withHeader("Content-Type", "application/json;")
                                 .withBody(id)))
-    }
+    }*/
 }

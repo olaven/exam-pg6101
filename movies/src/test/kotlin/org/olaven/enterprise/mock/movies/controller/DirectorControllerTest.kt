@@ -7,8 +7,8 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.olaven.enterprise.mock.movies.WebSecurityConfigLocalFake
-import org.olaven.enterprise.mock.movies.dto.DirectorDTO
-import org.olaven.enterprise.mock.movies.dto.MovieDTO
+import org.olaven.enterprise.mock.shared.dto.DirectorDTO
+import org.olaven.enterprise.mock.shared.dto.MovieDTO
 
 internal class DirectorControllerTest : ControllerTestBase() {
 
