@@ -1,5 +1,6 @@
 package org.olaven.enterprise.mock.graphql
 
+import org.olaven.enterprise.mock.shared.dto.ScreeningDTO
 import org.olaven.enterprise.mock.shared.response.ScreeningResponseDTO
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -13,8 +14,14 @@ class ScreeningsCaller {
 
     fun getAvailableSeats(id: Long): Int? {
 
+        val screening = getScreening(id)
+        return screening!!.availableTickets
+    }
+
+    fun getScreening(id: Long): ScreeningDTO? {
+
         val client =  RestTemplate()  //TODO: is this relevant for circuit breakers?
         val response = client.getForEntity("$apiBase/screenings/$id", ScreeningResponseDTO::class.java)
-        return response.body.data!!.availableTickets
+        return response.body.data
     }
 }

@@ -1,15 +1,19 @@
 package org.olaven.enterprise.mock.graphql.resolver
 
 import com.coxautodev.graphql.tools.GraphQLResolver
-import org.olaven.enterprise.mock.graphql.entity.ReservationEntity
+import org.olaven.enterprise.mock.graphql.ScreeningsCaller
+import org.olaven.enterprise.mock.graphql.database.ReservationEntity
 import org.springframework.stereotype.Component
 
 @Component
-class ReservationResolver : GraphQLResolver<ReservationEntity> {
+class ReservationResolver(
+        private val screeningsCaller: ScreeningsCaller
+) : GraphQLResolver<ReservationEntity> {
 
     fun id(reservation: ReservationEntity) =
             reservation.id.toString()
 
-    fun screeningId(reservation: ReservationEntity) =
-            reservation.screeningID.toString()
+    fun screening(reservation: ReservationEntity) =
+            screeningsCaller.getScreening(reservation.screeningID)
+
 }

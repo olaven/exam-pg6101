@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.common.ConsoleNotifier
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.google.gson.Gson
+import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -50,6 +51,18 @@ internal class ScreeningsCallerTest {
         fun tearDown() {
             wiremockServer.stop()
         }
+    }
+
+    @Test
+    fun `can return specific screening`() {
+
+        val screening = getDummyScreening()
+        stubScreeningsCaller(screening)
+        val retrieved = screeningsCaller.getScreening(screening.id!!.toLong())
+
+        assertEquals(retrieved!!.id, screening.id)
+        assertEquals(retrieved.movieID, screening.movieID)
+        assertEquals(retrieved.room, screening.room)
     }
 
     @Test
