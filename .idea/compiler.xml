@@ -14,6 +14,7 @@
         <module name="e2e_tests" />
         <module name="frontend" />
         <module name="registry" />
+        <module name="mail" />
         <module name="movies" />
       </profile>
     </annotationProcessing>

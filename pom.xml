@@ -18,6 +18,7 @@
         <module>frontend</module>
         <module>graphql</module>
         <module>shared</module>
+        <module>mail</module>
     </modules>
 
     <properties>
