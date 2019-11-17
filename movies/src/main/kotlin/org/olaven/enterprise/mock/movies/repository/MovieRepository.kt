@@ -7,13 +7,13 @@ import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
 @Repository
-interface MovieRepository: CrudRepository<MovieEntity, Long>, PaginatedRepository<MovieEntity>
+interface MovieRepository : CrudRepository<MovieEntity, Long>, PaginatedRepository<MovieEntity>
 
 @Transactional
 @Repository
 class MovieRepositoryImpl(
         private val entityManager: EntityManager
-): PaginatedRepository<MovieEntity> {
+) : PaginatedRepository<MovieEntity> {
 
     override fun getNextPage(size: Int, keysetId: Long?) =
             generalGetNextPage<MovieEntity>(keysetId, size,

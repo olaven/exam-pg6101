@@ -72,14 +72,13 @@ class RestIT : GatewayIntegrationDockerTestBase() {
     }
 
     @Test
-    fun `test that GET to movies is open`(){
+    fun `test that GET to movies is open`() {
 
         given().basePath("/api/movies")
                 .get()
                 .then()
                 .statusCode(200)
     }
-
 
 
     @Test           //TODO: allowing non-admins to showcase integraiton testing
@@ -97,7 +96,7 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .body("data.roles", contains("ROLE_USER"))
 
 
-        val director  = getDirector()
+        val director = getDirector()
 
         val directorID = given().cookie("SESSION", cookie) //TODO: user has to have role "ADMIN"
                 .contentType(ContentType.JSON)
@@ -108,7 +107,6 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .extract()
                 .jsonPath()
                 .get<String>("data.id")
-
 
 
         val movie = getMovie(directorID)
@@ -128,7 +126,7 @@ class RestIT : GatewayIntegrationDockerTestBase() {
 
         Awaitility.await().atMost(120, TimeUnit.SECONDS)
                 .ignoreExceptions()
-                .until{
+                .until {
 
                     var passed = false
                     repeat((0..3).count()) {

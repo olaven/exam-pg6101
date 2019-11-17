@@ -12,7 +12,7 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
-// Look for beans in "rest"-module
+// Look for beans in "shared"-module
 @SpringBootApplication(scanBasePackages = ["org.olaven.enterprise.mock"])
 @EnableEurekaClient
 @EnableSwagger2

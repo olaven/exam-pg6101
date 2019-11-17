@@ -25,20 +25,23 @@ class WebSecurityConfigLocalFake : WebSecurityConfig() {
 
     companion object {
 
-        interface TestUser{val username: String; val password: String}
+        interface TestUser {
+            val username: String;
+            val password: String
+        }
 
-        val FIRST_USER =  object: TestUser {
+        val FIRST_USER = object : TestUser {
             override val username = "first_user"
             override val password = "first_password"
         }
 
-        val SECOND_USER = object: TestUser {
+        val SECOND_USER = object : TestUser {
 
             override val username = "second_username"
             override val password = "second_password"
         }
 
-        val ADMIN_USER = object: TestUser {
+        val ADMIN_USER = object : TestUser {
 
             override val username = "admin"
             override val password = "admin"

@@ -7,13 +7,13 @@ import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
 @Repository
-interface ScreeningRepository: CrudRepository<ScreeningEntity, Long>, PaginatedRepository<ScreeningEntity>
+interface ScreeningRepository : CrudRepository<ScreeningEntity, Long>, PaginatedRepository<ScreeningEntity>
 
 @Transactional
 @Repository
 class ScreeningRepositoryImpl(
         private val entityManager: EntityManager
-): PaginatedRepository<ScreeningEntity> {
+) : PaginatedRepository<ScreeningEntity> {
 
     override fun getNextPage(size: Int, keysetId: Long?) =
             generalGetNextPage<ScreeningEntity>(keysetId, size,

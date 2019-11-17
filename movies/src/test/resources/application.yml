@@ -1,4 +1,4 @@
-# NOTE: This file is initially  based on:
+# NOTE: This file was initially based on:
 #https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/14f9b4274a9335c41cfe958833e32ee6bc01737c/intro/spring/flyway/src/test/resources/application.yml
 spring:
   datasource:
@@ -19,7 +19,7 @@ spring:
   mvc:
     throwExceptionIfNoHandlerFound: true
   resources:
-    # add-mappings: false # TODO: This may be needed for exception handling, but destroys swagger. Figure out.
+  # add-mappings: false # TODO: This may be needed for exception handling, but destroys swagger. Figure out.
 
 eureka:
   client:

@@ -66,7 +66,7 @@ abstract class GatewayIntegrationDockerTestBase {
 
             await().atMost(180, TimeUnit.SECONDS)
                     .ignoreExceptions()
-                    .until{
+                    .until {
 
                         //TODO: add back when frontend is up and running
                         //given().get("/index.html").then().statusCode(200)

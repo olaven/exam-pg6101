@@ -31,7 +31,7 @@ class WebSecurityConfig(
     }
 
     @Bean
-    override fun authenticationManagerBean() : AuthenticationManager {
+    override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }
 
@@ -42,8 +42,6 @@ class WebSecurityConfig(
                     // replacing browser popup
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase);
                 }
-                .and()
-                .cors() //TODO: test this in test only -> does it break prod?
                 .and()
                 .logout()
                 .logoutUrl("/authentication/logout")

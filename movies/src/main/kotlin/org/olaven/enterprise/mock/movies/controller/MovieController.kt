@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.olaven.enterprise.mock.movies.Transformer
-import org.olaven.enterprise.mock.movies.dto.MovieDTO
-import org.olaven.enterprise.mock.movies.dto.MovieResponseDTO
+import org.olaven.enterprise.mock.shared.response.MovieResponseDTO
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
 import org.olaven.enterprise.mock.movies.repository.paginatedResponse
-import org.olaven.enterprise.mock.rest.WrappedResponse
+import org.olaven.enterprise.mock.shared.response.WrappedResponse
+import org.olaven.enterprise.mock.shared.dto.MovieDTO
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -33,7 +33,7 @@ class MovieController(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
             keysetId: Long?
-    ) = paginatedResponse("movies",10, movieRepository, keysetId) {
+    ) = paginatedResponse("movies", 10, movieRepository, keysetId) {
         transformer.movieToDTO(it)
     }
 
@@ -42,7 +42,7 @@ class MovieController(
             ApiResponse(code = 200, message = "The movie"),
             ApiResponse(code = 404, message = "Movie was nto found")
     )
-    @GetMapping("/{id}",  produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getMovie(
             @ApiParam("The ID of the movie")
             @PathVariable("id")
@@ -92,7 +92,7 @@ class MovieController(
             ApiResponse(code = 400, message = "The body was somehow malformed or had invalid values")
     )
     @PatchMapping("/{id}", consumes = ["application/merge-patch+json"])
-    fun patchMovie (
+    fun patchMovie(
             @PathVariable
             @ApiParam("The ID of given movie")
             id: Long,

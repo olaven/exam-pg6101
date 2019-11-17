@@ -20,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 @EnableSwagger2
 @SpringBootApplication(scanBasePackages = ["org.olaven.enterprise.mock"])
-class AuthenticationApplication{
+class AuthenticationApplication {
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {

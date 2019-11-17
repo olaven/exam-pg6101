@@ -1,13 +1,13 @@
 package org.olaven.enterprise.mock.movies
 
-import org.olaven.enterprise.mock.movies.dto.DirectorDTO
-import org.olaven.enterprise.mock.movies.dto.MovieDTO
-import org.olaven.enterprise.mock.movies.dto.ScreeningDTO
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
 import org.olaven.enterprise.mock.movies.entity.ScreeningEntity
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
+import org.olaven.enterprise.mock.shared.dto.DirectorDTO
+import org.olaven.enterprise.mock.shared.dto.MovieDTO
+import org.olaven.enterprise.mock.shared.dto.ScreeningDTO
 import org.springframework.stereotype.Component
 import java.time.Instant
 import java.time.ZoneId
@@ -40,7 +40,7 @@ class Transformer(
             DirectorDTO(
                     givenName = directorEntity.givenName,
                     familyName = directorEntity.familyName,
-                    movies = directorEntity.movies.map { movieToDTO(it)},
+                    movies = directorEntity.movies.map { movieToDTO(it) },
                     id = directorEntity.id.toString()
             )
 
@@ -54,6 +54,7 @@ class Transformer(
             time = screeningEntity.time.toEpochSecond(),
             movieID = screeningEntity.movie.id.toString(),
             room = screeningEntity.room,
+            availableTickets = screeningEntity.availableTickets,
             id = screeningEntity.id.toString()
     )
 

@@ -2,11 +2,11 @@ package org.olaven.enterprise.mock.movies.controller
 
 import io.swagger.annotations.*
 import org.olaven.enterprise.mock.movies.Transformer
-import org.olaven.enterprise.mock.movies.dto.ScreeningDTO
-import org.olaven.enterprise.mock.movies.dto.ScreeningResponseDTO
+import org.olaven.enterprise.mock.shared.response.ScreeningResponseDTO
 import org.olaven.enterprise.mock.movies.repository.ScreeningRepository
 import org.olaven.enterprise.mock.movies.repository.paginatedResponse
-import org.olaven.enterprise.mock.rest.WrappedResponse
+import org.olaven.enterprise.mock.shared.response.WrappedResponse
+import org.olaven.enterprise.mock.shared.dto.ScreeningDTO
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/screenings")
 @Api("/screenings", description = "Endpoint for screenings")
 class ScreeningController(
-       private val screeningRepository: ScreeningRepository,
-       private val transformer: Transformer
+        private val screeningRepository: ScreeningRepository,
+        private val transformer: Transformer
 ) {
 
     @ApiOperation("Get multiple screnings")
@@ -52,7 +52,7 @@ class ScreeningController(
             return ResponseEntity.ok(wrappedResponse)
         }
 
-        val wrappedResponse =  ScreeningResponseDTO(404, null, "Screening was not found").validated()
+        val wrappedResponse = ScreeningResponseDTO(404, null, "Screening was not found").validated()
         return ResponseEntity.status(404).body(wrappedResponse)
     }
 

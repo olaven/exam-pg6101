@@ -6,8 +6,8 @@ import {pages} from "./pages";
 
 
 const renderRoutes = (page) => <Route exact path={page.path} render={props =>
-      <page.component key={page.name} {...props}/>
-    }
+    <page.component key={page.name} {...props}/>
+}
 />;
 
 export const App = () => <BrowserRouter>

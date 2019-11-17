@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull
  * Created by arcuri82 on 08-Nov-17.
  */
 @Entity
-@Table(name="USERS")
+@Table(name = "USERS")
 class UserEntity(
 
         @get:Id

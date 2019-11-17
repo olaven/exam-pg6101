@@ -7,15 +7,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.olaven.enterprise.mock.movies.MoviesApplication
 import org.olaven.enterprise.mock.movies.Transformer
-import org.olaven.enterprise.mock.movies.dto.DirectorDTO
-import org.olaven.enterprise.mock.movies.dto.MovieDTO
 import org.olaven.enterprise.mock.movies.entity.DirectorEntity
 import org.olaven.enterprise.mock.movies.entity.MovieEntity
-import org.olaven.enterprise.mock.movies.entity.Room
 import org.olaven.enterprise.mock.movies.entity.ScreeningEntity
 import org.olaven.enterprise.mock.movies.repository.DirectorRepository
 import org.olaven.enterprise.mock.movies.repository.MovieRepository
 import org.olaven.enterprise.mock.movies.repository.ScreeningRepository
+import org.olaven.enterprise.mock.shared.dto.DirectorDTO
+import org.olaven.enterprise.mock.shared.dto.MovieDTO
+import org.olaven.enterprise.mock.shared.dto.Room
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [(MoviesApplication::class)],
-        webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class ControllerTestBase {
 
     @Autowired

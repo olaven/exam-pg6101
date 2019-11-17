@@ -10,7 +10,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.Size
 
 @Entity
-class MovieEntity (
+class MovieEntity(
 
         @field:NotNull
         @field:Size(min = 1, max = 150)
@@ -28,4 +28,4 @@ class MovieEntity (
         @Id
         @GeneratedValue
         override var id: Long? = null
-): BaseEntity
+) : BaseEntity
