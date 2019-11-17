@@ -5,7 +5,9 @@ TODO: Tomorrow:
 - [ ] amqp for updating available tickets in movies 
 - [ ] amqp for general welcome-mail to new user
 - [ ] Fix integration tests 
-- [ ] call frontend 
+- [ ] calls from frontend 
+    - [ ] movies 
+    - [ ] GraphQL
 
 ## Extras 
 * I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.
