@@ -22,7 +22,7 @@ class ScreeningEntity(
 
         @field:NotNull
         @field:Min(0)
-        var availableTickets: Int = 0,
+        var availableTickets: Int = 200,
 
         @field:Id
         @field:GeneratedValue
