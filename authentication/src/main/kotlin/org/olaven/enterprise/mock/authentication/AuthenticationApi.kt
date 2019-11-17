@@ -39,6 +39,7 @@ class RestApi(
     )
     @RequestMapping("/user")
     fun user(user: Principal): ResponseEntity<WrappedResponse<MutableMap<String, Any>>> {
+
         val map = mutableMapOf<String, Any>()
         map["name"] = user.name
         map["roles"] = AuthorityUtils.authorityListToSet((user as Authentication).authorities)
