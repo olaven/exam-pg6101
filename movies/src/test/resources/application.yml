@@ -20,6 +20,8 @@ spring:
     throwExceptionIfNoHandlerFound: true
   resources:
   # add-mappings: false # TODO: This may be needed for exception handling, but destroys swagger. Figure out.
+  profiles:
+    active: test
 
 eureka:
   client:

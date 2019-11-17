@@ -2,7 +2,10 @@ package org.olaven.enterprise.mock.movies.controller
 
 import com.github.javafaker.Faker
 import io.restassured.RestAssured
+import io.restassured.RestAssured.given
 import io.restassured.specification.RequestSpecification
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.olaven.enterprise.mock.movies.MoviesApplication
@@ -57,8 +60,28 @@ abstract class ControllerTestBase {
         directorRepository.deleteAll()
     }
 
-    protected fun authenticated(username: String, password: String): RequestSpecification = RestAssured.given()
+    protected fun authenticated(username: String, password: String): RequestSpecification = given()
+                .auth().basic(username, password)
+
+
+    /*
+    NOTE: THe idea here was to authenticate with cookies instaed of password/username, to avoid annoying popup in browser when developing frontend.
+    protected fun authenticated(username: String, password: String): RequestSpecification {
+
+        val sessionID = getSessionID(username, password)
+        return given()
+                .cookie("SESSION", sessionID)
+    }
+
+    protected fun getSessionID(username: String, password: String) = given()
             .auth().basic(username, password)
+            .get("/movies")
+            .then()
+            .statusCode(200)
+            .header("Set-Cookie", not(equalTo(null)))
+            .extract()
+            .cookie("JSESSIONID")
+*/
 
     protected fun getDummyMovie(directorID: Long): MovieDTO {
 
