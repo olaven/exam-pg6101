@@ -15,7 +15,7 @@ class RabbitConfiguration {
 
     @Bean
     fun fanout(): FanoutExchange {
-        return FanoutExchange("org.enterprise.exm")
+        return FanoutExchange("org.enterprise.exam.mail")
     }
 
     @Bean

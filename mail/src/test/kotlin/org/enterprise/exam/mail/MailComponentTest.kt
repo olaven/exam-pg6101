@@ -3,7 +3,7 @@ package org.enterprise.exam.mail
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import org.awaitility.Awaitility.await
-import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -66,7 +66,49 @@ class RestApiTest {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
 
-    //TODO: IMPLEMENT SOME TESTS HERE
+    @Test
+    fun `emails are added to list`() {
+
+        val email = "mail@example.com"
+        template.convertAndSend(fanout.name, "", email)
+
+        await().atMost(3, TimeUnit.SECONDS)
+                .ignoreExceptions()
+                .until {
+                    given().port(port)
+                            .get("mail")
+                            .then()
+                            .body("data", hasItem(email))
+                            .statusCode(200)
+                    true
+                }
+    }
+
+
+    @Test
+    fun `multiple emails are added to list`() {
+
+        listOf(
+                "first@mail.com",
+                "second@mail.com",
+                "third@mail.com"
+        ).onEach {
+
+            template.convertAndSend(fanout.name, "", it)
+        }.forEach {
+
+            await().atMost(3, TimeUnit.SECONDS)
+                    .ignoreExceptions()
+                    .until {
+                        given().port(port)
+                                .get("mail")
+                                .then()
+                                .body("data", hasItem(it))
+                                .statusCode(200)
+                        true
+                    }
+        }
+    }
 
     @Test
     fun `endpoint actually works`() {
@@ -74,22 +116,6 @@ class RestApiTest {
         given().port(port)
             .get("mail")
             .then()
-            .body("data.size()", equalTo(0))
             .statusCode(200)
-
-      /*  val msg = "foo"
-
-        template.convertAndSend(fanout.name, "", msg)
-
-        await().atMost(3, TimeUnit.SECONDS)
-                .ignoreExceptions()
-                .until {
-                    given().port(port)
-                            .get("counter")
-                            .then()
-                            .statusCode(200)
-                            .body(equalTo("${n + 1}"))
-                    true
-                }*/
     }
 }

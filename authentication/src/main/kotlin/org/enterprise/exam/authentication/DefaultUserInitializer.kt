@@ -1,7 +1,5 @@
 package org.enterprise.exam.authentication
 
-import org.enterprise.exam.authentication.user.UserEntity
-import org.enterprise.exam.authentication.user.UserRepository
 import org.enterprise.exam.authentication.user.UserService
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
