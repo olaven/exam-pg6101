@@ -4,29 +4,29 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>exam</artifactId>
-        <groupId>org.olaven.enterprise</groupId>
+        <groupId>org.enterprise</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.olaven.enterprise.exam</groupId>
+    <groupId>org.enterprise.exam</groupId>
     <artifactId>e2e_tests</artifactId>
 
     <dependencies>
 
         <!-- Force this module to be built last -->
         <dependency>
-            <groupId>org.olaven.enterprise.exam</groupId>
+            <groupId>org.enterprise.exam</groupId>
             <artifactId>registry</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.olaven.enterprise.exam</groupId>
+            <groupId>org.enterprise.exam</groupId>
             <artifactId>movies</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.olaven.enterprise.exam</groupId>
+            <groupId>org.enterprise.exam</groupId>
             <artifactId>gateway</artifactId>
             <version>${project.version}</version>
         </dependency>
