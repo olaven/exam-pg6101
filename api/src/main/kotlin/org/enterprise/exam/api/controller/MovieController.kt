@@ -1,4 +1,4 @@
-package org.olaven.enterprise.exam.api.controller
+package org.enterprise.exam.api.controller
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*
 import java.net.URI
 
 @RestController
-@RequestMapping("/api")
-@Api("/api", description = "Endpoint for api")
+@RequestMapping("/movies")
+@Api("/movies", description = "Endpoint for movies")
 class MovieController(
         private val movieRepository: MovieRepository,
         private val directorRepository: DirectorRepository,
@@ -33,7 +33,7 @@ class MovieController(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
             keysetId: Long?
-    ) = paginatedResponse("api", 10, movieRepository, keysetId) {
+    ) = paginatedResponse("movies", 10, movieRepository, keysetId) {
         transformer.movieToDTO(it)
     }
 

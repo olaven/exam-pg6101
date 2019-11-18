@@ -269,21 +269,21 @@ internal class MovieControllerTest : ControllerTestBase() {
 
     private fun delete(id: Long, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.username, user.password)
-                    .delete("/api/${id}")
+                    .delete("/movies/${id}")
                     .then()
 
     private fun put(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.username, user.password)
                     .contentType(ContentType.JSON)
                     .body(movie)
-                    .put("/api/${movie.id}")
+                    .put("/movies/${movie.id}")
                     .then()
 
     private fun patch(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.username, user.password)
                     .contentType("application/merge-patch+json")
                     .body(movie)
-                    .patch("/api/${movie.id}")
+                    .patch("/movies/${movie.id}")
                     .then()
 
     private fun post(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
@@ -291,16 +291,16 @@ internal class MovieControllerTest : ControllerTestBase() {
                     .accept(ContentType.JSON)
                     .contentType(ContentType.JSON)
                     .body(movie)
-                    .post("/api")
+                    .post("/movies")
                     .then()
 
     private fun get(id: Long) = given()
             .accept(ContentType.JSON)
-            .get("/api/${id}")
+            .get("/movies/${id}")
             .then()
 
     private fun getAll(path: String? = null) = given()
             .accept(ContentType.JSON)
-            .get(path ?: "/api")
+            .get(path ?: "/movies")
             .then()
 }
