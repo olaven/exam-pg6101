@@ -8,19 +8,26 @@
         <outputRelativeToContentRoot value="true" />
         <module name="gateway" />
         <module name="graphql" />
-        <module name="booking" />
+        <module name="api" />
         <module name="authentication" />
         <module name="shared" />
         <module name="e2e_tests" />
         <module name="frontend" />
         <module name="registry" />
         <module name="mail" />
-        <module name="api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="api" target="1.5" />
-      <module name="booking" target="1.5" />
+      <module name="authentication" target="1.5" />
+      <module name="e2e_tests" target="1.5" />
+      <module name="exam" target="1.5" />
+      <module name="frontend" target="1.5" />
+      <module name="gateway" target="1.5" />
+      <module name="graphql" target="1.5" />
+      <module name="mail" target="1.5" />
+      <module name="registry" target="1.5" />
+      <module name="shared" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.enterprise.exam</groupId>
-            <artifactId>movies</artifactId>
+            <artifactId>api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
