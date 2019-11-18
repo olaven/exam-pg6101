@@ -19,16 +19,17 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.concurrent.TimeUnit
 
 /*
 * NOTE: This file is a modified version of: //TODO: actually modify to suit application
 * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/b80a95bb0ba74612183abf7d34b9274640419145/advanced/amqp/amqp-rest/receiver/src/test/kotlin/org/tsdes/advanced/amqp/rest/receiver/RestApiTest.kt
 * */
-
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [(RestApiTest.Companion.Initializer::class)])
+@Testcontainers
 class RestApiTest {
 
     companion object {
