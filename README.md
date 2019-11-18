@@ -12,6 +12,7 @@ TODO: Tomorrow:
 ## Extras 
 * I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.
 * Added Swagger documentation and wrapped responses on authentication API
+* The project is running on Travis-CI
 
 ## Assumptions
 * The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
