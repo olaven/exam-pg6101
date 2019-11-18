@@ -22,6 +22,7 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import org.testcontainers.containers.GenericContainer
+import org.testcontainers.junit.jupiter.Testcontainers
 
 /*
 * NOTE: This file is a modified version of:
@@ -31,6 +32,7 @@ import org.testcontainers.containers.GenericContainer
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [(SecurityTest.Companion.Initializer::class)])
+//@Testcontainers
 class SecurityTest {
 
     @Autowired

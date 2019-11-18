@@ -38,12 +38,12 @@ class WebSecurityConfig(
     override fun configure(http: HttpSecurity) {
 
         http
-/*                .httpBasic()
+                .httpBasic()
                 .authenticationEntryPoint { request, response, exception ->
                     // replacing browser popup
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase);
                 }
-                .and()*/
+                .and()
                 .logout()
                 .logoutUrl("/authentication/logout")
                 .and()

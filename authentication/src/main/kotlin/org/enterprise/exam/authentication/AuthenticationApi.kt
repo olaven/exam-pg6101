@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.enterprise.exam.authentication.user.UserService
 import org.enterprise.exam.shared.response.WrappedResponse
+import org.springframework.amqp.core.FanoutExchange
+import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -31,7 +33,9 @@ import java.security.Principal
 class RestApi(
         private val service: UserService,
         private val authenticationManager: AuthenticationManager,
-        private val userDetailsService: UserDetailsService
+        private val userDetailsService: UserDetailsService,
+        private val rabbitTemplate: RabbitTemplate,
+        private val fanout: FanoutExchange
 ) {
 
     @ApiResponses(
@@ -84,6 +88,7 @@ class RestApi(
             SecurityContextHolder.getContext().authentication = token
         }
 
+        rabbitTemplate.convertAndSend(fanout.name, "", userId)
         return ResponseEntity.status(204).body(
                 AuthenticatonResponseDTO(204, null).validated()
         )
