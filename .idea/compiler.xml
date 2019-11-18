@@ -15,7 +15,7 @@
         <module name="frontend" />
         <module name="registry" />
         <module name="mail" />
-        <module name="movies" />
+        <module name="api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
