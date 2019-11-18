@@ -37,7 +37,8 @@ class WebSecurityConfig(
 
     override fun configure(http: HttpSecurity) {
 
-        http.httpBasic()
+        http
+                .httpBasic()
                 .authenticationEntryPoint { request, response, exception ->
                     // replacing browser popup
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase);

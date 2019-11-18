@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
  */
 
 @EnableSwagger2
-@SpringBootApplication(scanBasePackages = ["org.olaven.enterprise.exam"])
+@SpringBootApplication(scanBasePackages = ["org.enterprise.exam"])
 class AuthenticationApplication {
 
     @Bean
