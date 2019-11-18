@@ -145,18 +145,18 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                     var passed = false
                     repeat((0..3).count()) {
 
-                        given().get("/api/movies/lb_id")
+                        given().get("/api/lb_id")
                                 .then()
                                 .statusCode(200)
                                 .body("data", containsString("A"))
 
-                        given().get("/api/movies/lb_id")
+                        given().get("/api/lb_id")
                                 .then()
                                 .statusCode(200)
                                 .body("data", containsString("B"))
 
 
-                        given().get("/api/movies/lb_id")
+                        given().get("/api/lb_id")
                                 .then()
                                 .statusCode(200)
                                 .body("data", containsString("C"))

@@ -62,7 +62,7 @@ services:
       context: ./api
       dockerfile: Dockerfile
     environment:
-      - MOVIES_LB_ID=A
+      - API_LB_ID=A
     depends_on:
       - redis
       - postgres_movies
@@ -73,7 +73,7 @@ services:
       context: ./api
       dockerfile: Dockerfile
     environment:
-      - MOVIES_LB_ID=B
+      - API_LB_ID=B
     depends_on:
       - redis
       - postgres_movies
@@ -84,7 +84,7 @@ services:
       context: ./api
       dockerfile: Dockerfile
     environment:
-      - MOVIES_LB_ID=C
+      - API_LB_ID=C
     depends_on:
       - redis
       - postgres_movies

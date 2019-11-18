@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @Api("Endpoint for testing load balancing")
-@RequestMapping("api/lb_id")
+@RequestMapping("/lb_id")
 class LoadBalanceController {
 
     @ApiOperation("Get ID of current service")
     @GetMapping
     fun getID() = ResponseEntity.ok(
-            WrappedResponse(200, System.getenv("MOVIES_LB_ID")).validated()
+            WrappedResponse(200, System.getenv("API_LB_ID")).validated()
     )
 }
