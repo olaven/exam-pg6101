@@ -1,4 +1,4 @@
-# Exam Enterprise 
+# Exam Enterprise [![Build Status](https://travis-ci.com/olaven/exam-pg6101.svg?token=zTzVh5wrqM89cpyf9qVd&branch=master)](https://travis-ci.com/olaven/exam-pg6101)
 
 TODO: Tomorrow: 
 - [ ] write gql-tests 
