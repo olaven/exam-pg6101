@@ -27,7 +27,7 @@
         <!-- Common REST module -->
         <dependency>
             <groupId>org.enterprise.exam</groupId>
-            <artifactId>rest</artifactId>
+            <artifactId>shared</artifactId>
             <version>${project.version}</version>
         </dependency>
 
