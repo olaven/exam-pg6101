@@ -16,7 +16,7 @@ TODO: Tomorrow:
 ## Assumptions
 * The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
 My assumption is that this is fine in an exam, as I want to show that load-balancing is working.  
-* I have the basic-auth setup that was shown during class, as it caused an annoying login-popup in the browser. 
+* I have removed the basic-auth setup that was shown during class, as it caused an annoying login-popup in the browser. 
 My assumption is that this is OK, as login with body is still supported.
  
 - [X] Load balancing between three instances of same service

@@ -23,5 +23,5 @@ class WelcomeMessageController {
     }
 
     @GetMapping
-    fun getMails() = "org.olaven.enterprise.mock.shared" //TODO: implement
+    fun getMails() = ""//TODO: fix after rename WrappedResponse(200, emails).validated()
 }
