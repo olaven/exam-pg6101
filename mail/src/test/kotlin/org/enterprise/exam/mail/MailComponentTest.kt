@@ -66,16 +66,18 @@ class RestApiTest {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
 
+    //TODO: IMPLEMENT SOME TESTS HERE
+
     @Test
-    fun testReceive() {
+    fun `endpoint actually works`() {
 
-        val n = given().port(port)
-                .get("counter")
-                .then()
-                .statusCode(200)
-                .extract().body().`as`(Int::class.java)
+        given().port(port)
+            .get("mail")
+            .then()
+            .body("data.size()", equalTo(0))
+            .statusCode(200)
 
-        val msg = "foo"
+      /*  val msg = "foo"
 
         template.convertAndSend(fanout.name, "", msg)
 
@@ -88,6 +90,6 @@ class RestApiTest {
                             .statusCode(200)
                             .body(equalTo("${n + 1}"))
                     true
-                }
+                }*/
     }
 }
