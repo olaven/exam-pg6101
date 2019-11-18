@@ -28,69 +28,31 @@ class TestDataInitializer(
     @PostConstruct
     fun `add test data`() {
 
-        val directors = listOf(
-                DirectorEntity(
-                        givenName = faker.name().firstName(),
-                        familyName = faker.name().lastName()
-                ),
-                DirectorEntity(
-                        givenName = faker.name().firstName(),
-                        familyName = faker.name().lastName()
-                ),
-                DirectorEntity(
-                        givenName = faker.name().firstName(),
-                        familyName = faker.name().lastName()
-                )
-        ).map { directorRepository.save(it) }
+        val directors = (0..3).map {
 
-        val movies = listOf(
-                MovieEntity(
-                        title = faker.book().title(),
-                        year = faker.number().numberBetween(1900, 2020),
-                        director = directors.random()
-                ),
-                MovieEntity(
-                        title = faker.book().title(),
-                        year = faker.number().numberBetween(1900, 2020),
-                        director = directors.random()
-                ),
-                MovieEntity(
-                        title = faker.book().title(),
-                        year = faker.number().numberBetween(1900, 2020),
-                        director = directors.random()
-                ),
-                MovieEntity(
-                        title = faker.book().title(),
-                        year = faker.number().numberBetween(1900, 2020),
-                        director = directors.random()
-                )
-        ).map { movieRepository.save(it) }
+            directorRepository.save( DirectorEntity(
+                    givenName = faker.name().firstName(),
+                    familyName = faker.name().lastName()
+            ))
+        }
 
-        listOf(
-                ScreeningEntity(
-                        time = ZonedDateTime.from(faker.date().future(44, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())),
-                        movie = movies.random(),
-                        room = Room.values().random(),
-                        availableTickets = faker.run { number().numberBetween(0, 200) }
-                ),
-                ScreeningEntity(
-                        time = ZonedDateTime.from(faker.date().future(44, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())),
-                        movie = movies.random(),
-                        room = Room.values().random(),
-                        availableTickets = faker.number().numberBetween(0, 200)
-                ),
-                ScreeningEntity(
-                        time = ZonedDateTime.from(faker.date().future(44, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())),
-                        movie = movies.random(),
-                        room = Room.values().random(),
-                        availableTickets = faker.number().numberBetween(0, 200)
-                ),
-                ScreeningEntity(
-                        time = ZonedDateTime.from(faker.date().future(44, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())),
-                        movie = movies.random(),
-                        room = Room.values().random(),
-                        availableTickets = faker.number().numberBetween(0, 200)
-                )
-        ).map { screeningRepository.save(it) }
+        val movies = (0..25).map {
+
+           movieRepository.save(MovieEntity(
+                   title = faker.book().title(),
+                   year = faker.number().numberBetween(1900, 2020),
+                   director = directors.random()
+           ))
+        }
+
+        val screenings = (0..10).map {
+
+            screeningRepository.save(ScreeningEntity(
+                    time = ZonedDateTime.from(faker.date().future(44, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())),
+                    movie = movies.random(),
+                    room = Room.values().random(),
+                    availableTickets = faker.run { number().numberBetween(0, 200) }
+            ))
+        }
     }
 }

@@ -1,25 +1,29 @@
 import * as React from "react";
 import {ApiFetch} from "../../ApiFetch";
 
-export const MovieFetcher = () => {
+export const MovieFetcher = (next) => {
 
-    const [movies, setMovies] = React.useState([]);
+    const [moviePages, setMoviePages] = React.useState({
+        list: [], next: null
+    });
 
     const doFetch = async () => {
 
-        const response = await ApiFetch("movies");
+        const response = await ApiFetch(next? next: "/movies");
         if (response.status === 200) {
 
-            const movies = (await response.json()).data.list;
-            console.log(movies); //TODO: take pagination into account
-            setMovies(movies);
+            const page = (await response.json()).data;
+            setMoviePages(page);
+        } else {
+
+            console.log("response failed: ", response);
         }
     };
 
     React.useEffect(() => {
 
         doFetch();
-    }, []);
+    }, [next]);
 
-    return movies;
+    return moviePages;
 };

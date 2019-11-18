@@ -21,7 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 @Configuration
 @EnableWebSecurity
 @Order(1)
-class WebSecurityConfigLocalFake : WebSecurityConfig() {
+open class WebSecurityConfigLocalFake : WebSecurityConfig() {
 
     companion object {
 
@@ -52,8 +52,9 @@ class WebSecurityConfigLocalFake : WebSecurityConfig() {
         //call method in parent-class to apply same settings
         super.configure(http)
 
-        http.httpBasic()
-                .and()
+        http
+                /*.httpBasic()
+                .and()*/
                 //but then override the session management
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)

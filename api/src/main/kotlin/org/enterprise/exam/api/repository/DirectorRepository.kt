@@ -11,7 +11,7 @@ interface DirectorRepository : CrudRepository<DirectorEntity, Long>, PaginatedRe
 
 @Transactional
 @Repository
-class DirectorRepositoryImpl(
+open class DirectorRepositoryImpl(
         private val entityManager: EntityManager
 ) : PaginatedRepository<DirectorEntity> {
 

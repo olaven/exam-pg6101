@@ -8,9 +8,10 @@
 export const ApiFetch = (path, config) => {
 
     const base = process.env.NODE_ENV === "production" ?
-        "http://localhost:80/api/" : //gateway
-        "http://localhost:8080/";
+        "http://localhost:80/api" : //gateway
+        "http://localhost:8080";
 
+    console.log("fetching ", base + path);
     return fetch(base + path, {
         ...config,
         credentials: "include" //needed to send cookies

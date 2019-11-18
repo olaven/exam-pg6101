@@ -16,10 +16,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @SpringBootApplication(scanBasePackages = ["org.enterprise.exam"])
 @EnableEurekaClient
 @EnableSwagger2
-class MoviesApplication {
+open class ApiApplication {
 
     @Bean
-    fun swaggerApi(): Docket {
+    open fun swaggerApi(): Docket {
         return Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .paths(PathSelectors.any())
@@ -27,7 +27,8 @@ class MoviesApplication {
     }
 
     @Bean
-    @Primary //configures jackson to work with Kotlin
+    @Primary
+    open //configures jackson to work with Kotlin
     fun objectMapper() = ObjectMapper().apply {
         registerModule(KotlinModule())
     }
@@ -35,5 +36,5 @@ class MoviesApplication {
 
 // NOTE: will use postgres, as application.yml in _main_ is used
 fun main(args: Array<String>) {
-    SpringApplication.run(MoviesApplication::class.java, *args)
+    SpringApplication.run(ApiApplication::class.java, *args)
 }

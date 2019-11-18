@@ -18,7 +18,7 @@ import java.net.URI
 @RestController
 @RequestMapping("/movies")
 @Api("/movies", description = "Endpoint for movies")
-class MovieController(
+class MoviesController(
         private val movieRepository: MovieRepository,
         private val directorRepository: DirectorRepository,
         private val transformer: Transformer

@@ -6,7 +6,7 @@ import io.restassured.RestAssured.given
 import io.restassured.specification.RequestSpecification
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
-import org.enterprise.exam.api.MoviesApplication
+import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.entity.DirectorEntity
 import org.enterprise.exam.api.entity.MovieEntity
@@ -26,7 +26,7 @@ import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [(MoviesApplication::class)],
+@SpringBootTest(classes = [(ApiApplication::class)],
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class ControllerTestBase {
 

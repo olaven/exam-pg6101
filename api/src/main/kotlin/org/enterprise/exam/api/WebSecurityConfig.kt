@@ -12,13 +12,14 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
 
     override fun configure(http: HttpSecurity) {
 
-        http.httpBasic()
-                .and()
+        http
+                /*.httpBasic()
+                .and()*/
                 .authorizeRequests()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
@@ -47,7 +48,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
     @Bean
-    fun userSecurity(): UserSecurity {
+    open fun userSecurity(): UserSecurity {
         return UserSecurity()
     }
 }

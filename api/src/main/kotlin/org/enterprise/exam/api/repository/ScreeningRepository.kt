@@ -11,7 +11,7 @@ interface ScreeningRepository : CrudRepository<ScreeningEntity, Long>, Paginated
 
 @Transactional
 @Repository
-class ScreeningRepositoryImpl(
+open class ScreeningRepositoryImpl(
         private val entityManager: EntityManager
 ) : PaginatedRepository<ScreeningEntity> {
 

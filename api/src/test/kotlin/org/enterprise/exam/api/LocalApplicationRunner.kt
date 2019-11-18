@@ -10,16 +10,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 // NOTE: will use h2, as application.yml in _test_ is used
 fun main(args: Array<String>) {
-    SpringApplication.run(MoviesApplication::class.java, *args)
+    SpringApplication.run(ApiApplication::class.java, *args)
 }
 
 @Profile("test")
 @Configuration
-class Config {
+open class Config {
 
     //NOTE: Modifying CORS during test, as will run from different origin when developing frontend.
     @Bean
-    fun corsConfigurer(): WebMvcConfigurer {
+    open fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurerAdapter() {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**")

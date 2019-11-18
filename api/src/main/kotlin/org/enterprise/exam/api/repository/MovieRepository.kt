@@ -11,7 +11,7 @@ interface MovieRepository : CrudRepository<MovieEntity, Long>, PaginatedReposito
 
 @Transactional
 @Repository
-class MovieRepositoryImpl(
+open class MovieRepositoryImpl(
         private val entityManager: EntityManager
 ) : PaginatedRepository<MovieEntity> {
 

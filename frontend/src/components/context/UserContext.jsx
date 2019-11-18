@@ -17,7 +17,7 @@ export const UserContextProvider = props => {
     //only used inside this context, not should not be exported
     const updateUser = async () => {
 
-        const response = await ApiFetch("authentication/user");
+        const response = await ApiFetch("/authentication/user");
 
         if (response.status === 200) {
 
@@ -45,7 +45,7 @@ export const UserContextProvider = props => {
             password: password
         });
 
-        const response = await ApiFetch("authentication/login", {
+        const response = await ApiFetch("/authentication/login", {
             method: "POST",
             body: body,
             headers: {
@@ -63,7 +63,7 @@ export const UserContextProvider = props => {
 
     const logout = async () => {
 
-        const response = await ApiFetch("authentication/logout", {
+        const response = await ApiFetch("/authentication/logout", {
             method: "delete"
         });
 
@@ -85,7 +85,7 @@ export const UserContextProvider = props => {
             "password": password
         });
 
-        const response = await ApiFetch("authentication/signUp", {
+        const response = await ApiFetch("/authentication/signUp", {
             method: "post",
             body: body,
             headers: {
