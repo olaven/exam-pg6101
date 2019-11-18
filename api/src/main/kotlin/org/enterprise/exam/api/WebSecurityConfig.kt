@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Configuration
 @EnableWebSecurity
-open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
 
     override fun configure(http: HttpSecurity) {
@@ -48,7 +48,7 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
     @Bean
-    open fun userSecurity(): UserSecurity {
+    fun userSecurity(): UserSecurity {
         return UserSecurity()
     }
 }

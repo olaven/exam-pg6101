@@ -68,8 +68,7 @@ abstract class GatewayIntegrationDockerTestBase {
                     .ignoreExceptions()
                     .until {
 
-                        //TODO: add back when frontend is up and running
-                        //given().get("/index.html").then().statusCode(200)
+                        given().get("/index.html").then().statusCode(200)
 
                         given().accept("application/json;charset=UTF-8")
                                 .get("/api/movies")

@@ -12,8 +12,8 @@ class DefaultUserInitializer(
     @PostConstruct
     fun addDefaultUsers(){
 
-        userService.createUser("admin", "admin", setOf("ROLE_USER", "ROLE_ADMIN"))
-        userService.createUser("adam", "adampass", setOf("ROLE_USER"))
-        userService.createUser("charlie", "charliepass", setOf("ROLE_USER"))
+        userService.createUser("admin", "admin", setOf("USER", "ADMIN"))
+        userService.createUser("adam", "adampass", setOf("USER"))
+        userService.createUser("charlie", "charliepass", setOf("USER"))
     }
 }

@@ -81,24 +81,38 @@ class RestIT : GatewayIntegrationDockerTestBase() {
     }
 
 
-    @Test           //TODO: allowing non-admins to showcase integraiton testing
+    @Test
     fun `Can post director and movie, if logged in`() {
 
-        val id = createUniqueId()
-        val pwd = "some_password"
-        val cookie = registerUser(id, pwd)
+        //NOTE: This test depends on default-admin being added.
 
-        given().cookie("SESSION", cookie)
+        val userId = "admin"
+        val password = "admin"
+
+        val sessionCookie = given().contentType(ContentType.JSON)
+                .body("""
+                    {"userId": "$userId", "password": "$password"}
+                """.trimIndent())
+                .post("/api/authentication/login")
+                .then()
+                .statusCode(204)
+                .extract().cookie("SESSION")
+
+  /*      val id = createUniqueId()
+        val pwd = "some_password"
+        val cookie = registerUser(id, pwd)*/
+
+        /*given().cookie("SESSION", cookie)
                 .get("/api/authentication/user")
                 .then()
                 .statusCode(200)
                 .body("data.name", equalTo(id))
-                .body("data.roles", contains("ROLE_USER"))
+                .body("data.roles", contains("ROLE_USER"))*/
 
 
         val director = getDirector()
 
-        val directorID = given().cookie("SESSION", cookie) //TODO: user has to have role "ADMIN"
+        val directorID = given().cookie("SESSION", sessionCookie) //TODO: user has to have role "ADMIN"
                 .contentType(ContentType.JSON)
                 .body(director)
                 .post("/api/directors")
@@ -111,7 +125,7 @@ class RestIT : GatewayIntegrationDockerTestBase() {
 
         val movie = getMovie(directorID)
 
-        given().cookie("SESSION", cookie)
+        given().cookie("SESSION", sessionCookie)
                 .contentType(ContentType.JSON)
                 .body(movie)
                 .post("/api/movies")

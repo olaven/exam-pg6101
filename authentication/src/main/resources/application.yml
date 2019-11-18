@@ -2,9 +2,8 @@
 #https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/security/distributed-session/ds-auth/src/main/resources/application.yml
 
 spring:
-  spring:
-    rabbitmq:
-      host: rabbitmq
+  rabbitmq:
+    host: rabbitmq
   session:
     store-type: redis
   redis:
