@@ -46,9 +46,9 @@ services:
       - postgres_graphql
       - gateway
 
-  movies_0:
+  api_0:
     build:
-      context: ./movies
+      context: ./api
       dockerfile: Dockerfile
     environment:
       - MOVIES_LB_ID=A
@@ -57,9 +57,9 @@ services:
       - postgres_movies
       - gateway
 
-  movies_1:
+  api_1:
     build:
-      context: ./movies
+      context: ./api
       dockerfile: Dockerfile
     environment:
       - MOVIES_LB_ID=B
@@ -68,9 +68,9 @@ services:
       - postgres_movies
       - gateway
 
-  movies_2:
+  api_2:
     build:
-      context: ./movies
+      context: ./api
       dockerfile: Dockerfile
     environment:
       - MOVIES_LB_ID=C
