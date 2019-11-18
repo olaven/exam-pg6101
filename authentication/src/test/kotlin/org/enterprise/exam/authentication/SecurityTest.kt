@@ -3,6 +3,7 @@ package org.enterprise.exam.authentication
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import org.enterprise.exam.authentication.user.UserRepository
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.*
@@ -12,7 +13,6 @@ import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.enterprise.exam.authentication.user.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
@@ -22,6 +22,7 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import org.testcontainers.containers.GenericContainer
+import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
 /*
@@ -32,7 +33,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [(SecurityTest.Companion.Initializer::class)])
-//@Testcontainers
+//Testcontainers
 class SecurityTest {
 
     @Autowired
@@ -55,6 +56,11 @@ class SecurityTest {
         val redis = KGenericContainer("redis:latest")
                 .withExposedPorts(6379)
 
+        @ClassRule
+        @JvmField
+        val rabbitMQ = KGenericContainer("rabbitmq:3")
+                .withExposedPorts(5672)
+
         class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
             override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
 
@@ -62,7 +68,12 @@ class SecurityTest {
                 val port = redis.getMappedPort(6379)
 
                 TestPropertyValues
-                        .of("spring.redis.host=$host", "spring.redis.port=$port")
+                        .of(
+                                "spring.redis.host=$host", "spring.redis.port=$port",
+                                "spring.rabbitmq.host=" + rabbitMQ.containerIpAddress,
+                                "spring.rabbitmq.port=" + rabbitMQ.getMappedPort(5672)
+
+                        )
                         .applyTo(configurableApplicationContext.environment);
             }
         }

@@ -23,7 +23,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.concurrent.TimeUnit
 
 /*
-* NOTE: This file is a modified version of: //TODO: actually modify to suit application
+* NOTE: This file is a modified version of:
 * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/b80a95bb0ba74612183abf7d34b9274640419145/advanced/amqp/amqp-rest/receiver/src/test/kotlin/org/tsdes/advanced/amqp/rest/receiver/RestApiTest.kt
 * */
 @ExtendWith(SpringExtension::class)
