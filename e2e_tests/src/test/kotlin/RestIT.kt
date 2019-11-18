@@ -53,13 +53,13 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .body("data.roles", contains("ROLE_USER"))
 
 
-        given().auth().basic(id, pwd)
+/*        given().auth().basic(id, pwd)
                 .get("/api/authentication/user")
                 .then()
                 .statusCode(200)
                 .cookie("SESSION")
                 .body("data.name", equalTo(id))
-                .body("data.roles", contains("ROLE_USER"))
+                .body("data.roles", contains("ROLE_USER"))*/
 
         given().contentType(ContentType.JSON)
                 .body("""

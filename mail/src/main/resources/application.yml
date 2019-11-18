@@ -1,0 +1,6 @@
+
+spring:
+  application:
+    name: mail
+  rabbitmq:
+    host: rabbitmq # correct domain name when running with docker-compose

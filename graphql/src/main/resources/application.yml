@@ -18,7 +18,7 @@ spring:
         jdbc:
           lob:  # Disables error-like log in console:
             non_contextual_creation: true #https://github.com/spring-projects/spring-boot/issues/12007
-  redis:
+  redis: # TODO: remove redis if not used
     host: redis
     port: 6379
   session:

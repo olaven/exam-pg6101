@@ -14,7 +14,8 @@
         <module name="e2e_tests" />
         <module name="frontend" />
         <module name="registry" />
-        <module name="movies" />
+        <module name="mail" />
+        <module name="api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
