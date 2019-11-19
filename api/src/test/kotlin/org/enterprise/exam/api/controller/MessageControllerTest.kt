@@ -1,5 +1,6 @@
 package org.enterprise.exam.api.controller
 
+import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.ADMIN_USER
@@ -25,7 +26,6 @@ internal class MessageControllerTest: ControllerTestBase() {
         val message = persistMessage(FIRST_USER, SECOND_USER)
         delete(message.id!!, ADMIN_USER)
                 .statusCode(204)
-
     }
 
     @Test
@@ -55,21 +55,50 @@ internal class MessageControllerTest: ControllerTestBase() {
                 .statusCode(201)
     }
 
-    @Test @Disabled
-    fun `Can follow locaiton on valid POST`() {}
+    @Test
+    fun `Can follow location on valid POST`() {
 
-    @Test @Disabled
-    fun `403 if not sender`() {}
+        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        val location = post(message, FIRST_USER)
+                .statusCode(201)
+                .extract()
+                .header("location")
 
-    @Test @Disabled
-    fun `400 on breaking constraint violations`() {}
+        get(location)
+                .statusCode(200)
+    }
 
-    @Test @Disabled
-    fun `400 on user not valid user`() {}
+    @Test
+    fun `403 if not sender`() {
 
-    @Test @Disabled
-    fun `409 on POST if id is not null`() {}
+        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        post(message, ADMIN_USER) //NOTE: not sender
+                .statusCode(403)
+    }
 
+    @Test 
+    fun `400 on breaking constraint violations`() {
+
+        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        message.text = "" //NOTE: can not be empty
+        post(message, FIRST_USER) //NOTE: not sender
+                .statusCode(400)
+    }
+
+    @Test
+    fun `409 on POST if id is not null`() {
+
+        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        message.id = "22" //NOTE: not null
+        post(message, FIRST_USER) //NOTE: not sender
+                .statusCode(409)
+    }
+
+
+    private fun get(path: String) = given()
+            .accept(ContentType.JSON)
+            .get(path)
+            .then()
 
     private fun post(movie: MessageDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)

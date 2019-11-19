@@ -92,4 +92,12 @@ class Transformer(
             sender = userRepository.findById(messageDTO.senderEmail).get(),
             receiver = userRepository.findById(messageDTO.receiverEmail).get()
     )
+
+    fun messageToDto(messageEntity: MessageEntity) = MessageDTO(
+            text = messageEntity.text,
+            creationDate = messageEntity.creationTime.toEpochSecond(),
+            receiverEmail = messageEntity.receiver.email,
+            senderEmail = messageEntity.sender.email,
+            id = messageEntity.id.toString()
+    )
 }

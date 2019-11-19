@@ -77,7 +77,7 @@ class UserController(
 
 
     @PostMapping
-    @PreAuthorize("#userDTO.email == principal.name")
+    @PreAuthorize("#userDTO.email == principal.name") //TODO: make sure that his actualy works
     @ApiOperation("Create a user")
     @ApiResponses(
             ApiResponse(code = 201, message = "The userDTO was created"),

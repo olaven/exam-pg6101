@@ -10,6 +10,7 @@ import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
 import java.lang.NumberFormatException
 import java.net.URI
@@ -21,6 +22,33 @@ class MessageController(
         private val messageRepository: MessageRepository,
         private val transformer: Transformer
 ) {
+
+    @GetMapping("/{id}")
+    @ApiResponses(
+            ApiResponse(code = 200, message = "Successfully retrieved message"),
+            ApiResponse(code = 404, message = "Could not find message")
+    )
+    @ApiOperation("Get single message")
+    fun getMessage(
+            @ApiParam("The ID of the message")
+            @PathVariable("id")
+            id: Long
+    ): ResponseEntity<WrappedResponse<MessageDTO>> {
+
+        val message = messageRepository.findById(id)
+        return if (!message.isPresent) {
+
+            ResponseEntity.status(404).body(
+                    MessageResponseDTO(404, null, "Could not find message").validated()
+            )
+        } else {
+
+            val dto = transformer.messageToDto(message.get())
+            ResponseEntity.ok(
+                    MessageResponseDTO(200, dto).validated()
+            )
+        }
+    }
 
     @DeleteMapping("/{id}")
     @ApiOperation("Delete a message")
@@ -53,7 +81,6 @@ class MessageController(
     }
 
     @PostMapping
-    @PreAuthorize("#messageDTO.sender == principal.name")
     @ApiOperation("Create a new message")
     @ApiResponses(
             ApiResponse(code = 203, message = "Succesfully created message"),
@@ -63,8 +90,16 @@ class MessageController(
     fun createMessage(
             @ApiParam("The message object")
             @RequestBody
-            messageDTO: MessageDTO
+            messageDTO: MessageDTO,
+            authentication: Authentication
     ): ResponseEntity<WrappedResponse<MessageDTO>> {
+
+        if (authentication.name != messageDTO.senderEmail) {
+
+            return ResponseEntity.status(403).body(
+                    MessageResponseDTO(403, null, "You are not allowed to send this message").validated()
+            )
+        }
 
         if (messageDTO.id != null) {
 
@@ -77,10 +112,8 @@ class MessageController(
                 transformer.messageToEntity(messageDTO)
         )
 
-        ResponseEntity.created(URI.create("/messages/${persisted.id}")).body(
+        return ResponseEntity.created(URI.create("/messages/${persisted.id}")).body(
                 MessageResponseDTO(201, messageDTO.apply { id = persisted.id.toString() } ).validated()
         )
-
-        return ResponseEntity.status(2304234).body(MessageResponseDTO( 234, null).validated())
     }
 }

@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty
 class MessageDTO(
 
         @ApiModelProperty("The actual content of the message")
-        val text: String,
+        var text: String,
 
         @ApiModelProperty("The date it was sent")
         val creationDate: Long,

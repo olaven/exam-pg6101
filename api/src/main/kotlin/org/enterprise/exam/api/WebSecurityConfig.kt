@@ -4,6 +4,7 @@ import org.enterprise.exam.shared.dto.UserDTO
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails
 * */
 
 @Configuration
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
@@ -40,6 +42,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.PATCH, "/users/{id}").access("hasRole('USER')")
                 .antMatchers(HttpMethod.DELETE, "/messages/{id}").access("hasRole('ADMIN')")
                 .antMatchers(HttpMethod.POST, "/messages").access("hasRole('USER')")
+                .antMatchers(HttpMethod.GET, "/messages").permitAll()
+                .antMatchers(HttpMethod.GET, "/messages/{id}").permitAll()
                 //TODO: remove the below
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
