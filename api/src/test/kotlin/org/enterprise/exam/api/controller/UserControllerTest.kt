@@ -136,6 +136,63 @@ internal class UserControllerTest: ControllerTestBase() {
                 .body("data.list", Matchers.iterableWithSize<MovieDTO>(1))
     }
 
+
+    @Test
+    fun `GET is paginated`() {
+
+        persistUsers(1)
+        getAll()
+                .statusCode(200)
+                .body("data.list", Matchers.notNullValue())
+                .body("data.next", nullValue()) //as only one is persisted
+    }
+
+    @Test
+    fun `pagination only returns 10 per page`() {
+
+        persistUsers(15) //NOTE: more than page size
+        getAll()
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+    }
+
+    @Test
+    fun `can follow pagination next-links`() {
+
+        persistUsers(25) //NOTE: should equal three pages with 5 on last
+
+        val toSecondPage = getAll()
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        val toThirdPage = getAll(toSecondPage).statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getAll(toThirdPage)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(5))
+    }
+
+    @Test
+    fun `pagination next-link is null on last page`() {
+
+        persistUsers(15) //NOTE: more than page size
+        val toSecondPage = getAll()
+                .body("data.next", Matchers.notNullValue())
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getAll(toSecondPage)
+                .body("data.next", nullValue())
+    }
+
     private fun post(movie: UserDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .accept(ContentType.JSON)

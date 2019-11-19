@@ -3,6 +3,7 @@ package org.enterprise.exam.api
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -65,6 +66,6 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
         auth.inMemoryAuthentication()
                 .withUser(FIRST_USER.email).password("{noop}${FIRST_USER.password}").roles("USER").and()
                 .withUser(SECOND_USER.email).password("{noop}${SECOND_USER.password}").roles("USER").and()
-                .withUser(ADMIN_USER.email).password("{noop}${ADMIN_USER.password}").roles("ADMIN", "USER")
+                .withUser(ADMIN_USER.email).password("{noop}${ADMIN_USER.password}").roles("ADMIN", "USER").and()
     }
 }

@@ -97,6 +97,20 @@ abstract class ControllerTestBase {
             email = user.email
     )
 
+    protected fun persistUsers(count: Int) {
+
+        (0 until count).forEach {
+
+            userRepository.save(
+                    UserEntity(
+                            givenName = faker.name().firstName(),
+                            familyName = faker.name().lastName(),
+                            email = faker.internet().emailAddress()
+                    )
+            )
+        }
+    }
+
     protected fun getDummyMovie(directorID: Long): MovieDTO {
 
         return MovieDTO(

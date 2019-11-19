@@ -3,6 +3,7 @@ package org.enterprise.exam.api.controller
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.repository.UserRepository
+import org.enterprise.exam.api.repository.paginatedResponse
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.response.UserResponseDTO
 import org.enterprise.exam.shared.response.WrappedResponse
@@ -19,9 +20,23 @@ class UserController(
         private val transformer: Transformer
 ) {
 
-    // @GetMapping //all, paginated
 
-    // @GetMapping //users/id/friends (IS THIS OK REST?)
+    @GetMapping
+    @ApiOperation("Retreive all users, using pagination")
+    @ApiResponses(
+            ApiResponse(code = 200, message = "Users are sent.")
+    )
+    fun getAll(
+            @ApiParam("The pagination keyset id")
+            @RequestParam("keysetId", required = false)
+            keysetId: Long?
+    ) = paginatedResponse("users", 10, userRepository, keysetId) {
+
+        transformer.userToDTO(it)
+    }
+
+
+    // TODO@GetMapping //users/id/friends (IS THIS OK REST?)
 
 
     @GetMapping("/{id}")
