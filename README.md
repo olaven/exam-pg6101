@@ -10,20 +10,20 @@
 #### E mark
 #### General
 - [ ] Endpoints 
-    - [ ] GET
-    - [ ] POST
+    - [X] GET
+    - [X] POST
     - [ ] PUT
     - [ ] PATCH (JSON merge patch)
     - [ ] DELETE
-- [ ] Wrapped Responses
-- [ ] Pagination 
-- Swagger Doc
+- [X] Wrapped Responses
+- [X] Pagination 
+- [ ] Swagger Doc
 - [ ] One test per endpoint 
 - [ ] Usingp posgres in production 
-- [ ] Flyway 
+- [X] Flyway 
 - [ ] at least 70% test coverage
 ##### Application
-- [ ] API for user details (bruk custom security funksjon) 
+- [X] API for user details (bruk custom security funksjon) 
 - [ ] Friendship requests
 - [ ] Messages on a users timeline 
 - [ ] Providing default data
@@ -91,9 +91,9 @@ the user receives
 
 ### Test information 
 Some users are added by default: 
-* username: "admin", password, "admin" (is administrator)
-* username: "adam", password, "adampass"
-* username: "charliepass", password, "charliepass" 
+* username: "admin@mail.com", password, "admin" (is administrator)
+* username: "adam@mail.com", password, "adam"
+* username: "charlie@mail.com", password, "charlie" 
 
 ### Extras 
 * I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.

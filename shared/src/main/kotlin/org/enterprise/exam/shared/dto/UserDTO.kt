@@ -10,10 +10,10 @@ class UserDTO(
         var email: String,
 
         @ApiModelProperty("The users given name")
-        var givenName: String,
+        var givenName: String?,
 
         @ApiModelProperty("The users family name")
-        var familyName: String,
+        var familyName: String?,
 
         id: String? = null
 

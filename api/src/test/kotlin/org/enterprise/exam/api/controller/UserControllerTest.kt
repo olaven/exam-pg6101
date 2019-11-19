@@ -1,5 +1,6 @@
 package org.enterprise.exam.api.controller
 
+import com.sun.javafx.fxml.expression.Expression.notEqualTo
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
@@ -10,9 +11,12 @@ import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.nullValue
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-internal class UserControllerTest: ControllerTestBase() {
+internal class UserControllerTest : ControllerTestBase() {
 
 
     @Test
@@ -116,7 +120,7 @@ internal class UserControllerTest: ControllerTestBase() {
 
         val user = getDummyUser(FIRST_USER)
         user.email = FIRST_USER.email
-        user.givenName  = "" //NOTE: min name  length is 1
+        user.givenName = "" //NOTE: min name  length is 1
 
         post(user, FIRST_USER)
                 .statusCode(400)
@@ -192,6 +196,72 @@ internal class UserControllerTest: ControllerTestBase() {
         getAll(toSecondPage)
                 .body("data.next", nullValue())
     }
+
+    class UserPatchDTO(
+            var givenName: String?,
+            var familyName: String?
+    )
+
+    @Test
+    fun `PATCH returns 204 on successful update`() {
+
+        val user = persistUser(FIRST_USER)
+        val dto = UserPatchDTO(user.givenName, user.familyName)
+
+        dto.givenName = "updated given name"
+        patch(user.id!!, dto, FIRST_USER)
+                .statusCode(204)
+    }
+
+    @Test  // see note about implementing this in `UserController.updateUser`
+    fun `PATCH does try to persist null values`() { //TODO: fix, null restriction not being validated
+
+        val user = persistUser(FIRST_USER)
+        val dto = UserPatchDTO(user.givenName, user.familyName)
+
+        dto.familyName = null
+        patch(user.id!!, dto, FIRST_USER)
+                .statusCode(400)
+    }
+
+    @Test
+    fun `PATCH may not modify other users`() {
+
+        val otherUser = persistUser(SECOND_USER)
+        val dto = UserPatchDTO(otherUser.givenName, otherUser.familyName)
+
+        patch(otherUser.id!!, dto, FIRST_USER)
+                .statusCode(403)
+    }
+
+
+    @Test
+    fun `PATCH returns actually updates in db`() {
+
+        val user = persistUser(FIRST_USER)
+        val updatedName = "UPDATED_NAME"
+        val dto = UserPatchDTO(updatedName, user.familyName)
+
+        assertNotEquals(user.givenName, updatedName)
+
+        get(user.id)
+                .statusCode(200)
+                .body("data.givenName", equalTo(user.givenName))
+
+        patch(user.id!!, dto, FIRST_USER)
+                .statusCode(204)
+
+        get(user.id)
+                .statusCode(200)
+                .body("data.givenName", equalTo(updatedName))
+    }
+
+    private fun patch(id: Long, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+            authenticated(user.email, user.password)
+                    .contentType("application/merge-patch+json")
+                    .body(userDTO)
+                    .patch("/users/${id}")
+                    .then()
 
     private fun post(movie: UserDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
