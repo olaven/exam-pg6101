@@ -1,10 +1,8 @@
 package org.enterprise.exam.api.entity
 
+import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.jetbrains.annotations.NotNull
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.OneToOne
+import javax.persistence.*
 
 @Entity
 class FriendRequestEntity(
@@ -16,6 +14,10 @@ class FriendRequestEntity(
         @field:NotNull
         @field:OneToOne
         var receiver: UserEntity,
+
+        @field:NotNull
+        @field:Enumerated(EnumType.STRING)
+        var status: FriendRequestStatus = FriendRequestStatus.PENDING,
 
         @field:Id
         @field:GeneratedValue
