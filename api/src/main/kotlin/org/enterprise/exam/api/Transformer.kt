@@ -1,10 +1,12 @@
 package org.enterprise.exam.api
 
+import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.entity.remove_these.DirectorEntity
 import org.enterprise.exam.api.entity.remove_these.MovieEntity
 import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
+import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
 import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
@@ -18,6 +20,20 @@ class Transformer(
         private val movieRepository: MovieRepository,
         private val directorRepository: DirectorRepository
 ) {
+
+
+    fun userToDTO(user: UserEntity) = UserDTO(
+            user.email,
+            user.givenName,
+            user.familyName,
+            user.id.toString()
+    )
+
+    fun userToEntity(user: UserDTO) = UserEntity(
+            user.email,
+            user.givenName,
+            user.familyName
+    )
 
     fun movieToDTO(movieEntity: MovieEntity): MovieDTO =
             MovieDTO(

@@ -12,12 +12,9 @@ class UserDTO(
         @ApiModelProperty("The users given name")
         var givenName: String,
 
-        @ApiModelProperty("The users users family name")
+        @ApiModelProperty("The users family name")
         var familyName: String,
 
-        @ApiModelProperty("The users  users friends")
-        var friends: List<UserDTO>,
-
-        id: String
+        id: String? = null
 
 ) : BaseDTO(id)

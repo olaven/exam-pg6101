@@ -8,12 +8,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
+import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.entity.remove_these.DirectorEntity
 import org.enterprise.exam.api.entity.remove_these.MovieEntity
 import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
+import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
+import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
 import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.enterprise.exam.shared.dto.remove_these.Room
@@ -32,6 +35,11 @@ abstract class ControllerTestBase {
 
     @Autowired
     protected lateinit var transformer: Transformer
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
+    //TODO: REMOVE THESE
     @Autowired
     private lateinit var moviesRepository: MovieRepository
     @Autowired
@@ -81,6 +89,12 @@ abstract class ControllerTestBase {
             .cookie("JSESSIONID")
 */
 
+    protected fun getDummyUser(friends: List<UserDTO> = emptyList()) = UserDTO(
+            givenName = faker.name().firstName(),
+            familyName = faker.name().lastName(),
+            email = faker.internet().emailAddress()
+    )
+
     protected fun getDummyMovie(directorID: Long): MovieDTO {
 
         return MovieDTO(
@@ -96,6 +110,13 @@ abstract class ControllerTestBase {
             movies = emptyList()
     )
 
+    protected fun persistUser(user: UserDTO = getDummyUser()) = userRepository.save(
+            UserEntity(
+                    user.email,
+                    user.givenName,
+                    user.familyName
+            )
+    )
 
     protected fun persistDirectors(count: Int) = (0 until count).forEach {
         persistDirector()

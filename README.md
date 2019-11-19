@@ -73,6 +73,7 @@ the user receives
 
     
 ### Delivery checklist
+- [ ] Make sure that Swagger doc is available
 - [ ] Make sure that only gateway is exposed on `./docker-compose.yml`
 - [ ] Make sure that jpa is always set to `validate`
 - [ ] Run project with `mvn clean verify`

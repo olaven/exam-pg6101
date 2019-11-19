@@ -28,6 +28,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                         "/swagger-ui.html",
                         "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/lb_id").permitAll()
+                .antMatchers(HttpMethod.GET, "/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/{id}").permitAll()
+                //TODO: remove the below
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
                 .antMatchers(HttpMethod.POST, "/movies").access("hasRole('ADMIN')")

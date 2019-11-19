@@ -11,22 +11,22 @@ import javax.validation.constraints.Size
 @Entity
 class MessageEntity (
 
-        @NotNull
-        @Size(min = 1, max = 1500)
+        @field:NotNull
+        @field:Size(min = 1, max = 1500)
         var text: String,
 
         @field:NotNull
         var creationTime: ZonedDateTime,
 
-        @NotNull
+        @field:NotNull
         @OneToOne
         var sender: UserEntity,
 
-        @NotNull
-        @OneToOne
+        @field:NotNull
+        @field:OneToOne
         var receiver: UserEntity,
 
-        @Id
-        @GeneratedValue
+        @field:Id
+        @field:GeneratedValue
         override var id: Long? = null
 ): BaseEntity

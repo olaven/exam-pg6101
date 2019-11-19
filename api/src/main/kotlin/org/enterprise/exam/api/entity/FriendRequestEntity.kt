@@ -9,15 +9,15 @@ import javax.persistence.OneToOne
 @Entity
 class FriendRequestEntity(
 
-        @NotNull
-        @OneToOne
+        @field:NotNull
+        @field:OneToOne
         var sender: UserEntity,
 
-        @NotNull
-        @OneToOne
+        @field:NotNull
+        @field:OneToOne
         var receiver: UserEntity,
 
-        @Id
-        @GeneratedValue
+        @field:Id
+        @field:GeneratedValue
         override var id: Long? = null
 ): BaseEntity
