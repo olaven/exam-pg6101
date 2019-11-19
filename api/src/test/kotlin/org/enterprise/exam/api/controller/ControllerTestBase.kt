@@ -7,16 +7,21 @@ import io.restassured.specification.RequestSpecification
 import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
+import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.FIRST_USER
+import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
+import org.enterprise.exam.api.entity.FriendRequestEntity
 import org.enterprise.exam.api.entity.MessageEntity
 import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.entity.remove_these.DirectorEntity
 import org.enterprise.exam.api.entity.remove_these.MovieEntity
 import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
+import org.enterprise.exam.api.repository.FriendRequestRepository
 import org.enterprise.exam.api.repository.MessageRepository
 import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
+import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
@@ -44,6 +49,8 @@ abstract class ControllerTestBase {
     private lateinit var userRepository: UserRepository
     @Autowired
     private lateinit var messageRepository: MessageRepository
+    @Autowired
+    private lateinit var friendRequestRepository: FriendRequestRepository
 
     //TODO: REMOVE THESE
     @Autowired
@@ -67,6 +74,7 @@ abstract class ControllerTestBase {
         RestAssured.basePath = ""
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
+        friendRequestRepository.deleteAll()
         messageRepository.deleteAll()
         userRepository.deleteAll()
 
@@ -158,6 +166,24 @@ abstract class ControllerTestBase {
                     creationTime = ZonedDateTime.now()
             ))
 
+    protected fun persistFriendRequest(
+            sender: WebSecurityConfigLocalFake.Companion.TestUser,
+            receiver: WebSecurityConfigLocalFake.Companion.TestUser,
+            status: FriendRequestStatus = FriendRequestStatus.PENDING
+    ) =
+            friendRequestRepository.save(FriendRequestEntity(
+                    sender = userRepository.findById(sender.email).get(),
+                    receiver = userRepository.findById(receiver.email).get(),
+                    status = status
+            ))
+
+    protected fun persistFriendRequests(count: Int, sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser) {
+
+        (0 until count).forEach {
+
+            persistFriendRequest(sender, receiver)
+        }
+    }
 
     protected fun persistDirectors(count: Int) = (0 until count).forEach {
         persistDirector()

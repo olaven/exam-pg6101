@@ -3,8 +3,8 @@
 ## Checklists
 
 ### Startup checklist 
-- [ ] Go through entire task, setting up main checklist 
-- [ ] Think about the schema -> keep it simple
+- [X] Go through entire task, setting up main checklist 
+- [X] Think about the schema -> keep it simple
 
 ### Main checklist
 #### E mark
@@ -19,7 +19,7 @@
 - [X] Pagination 
 - [X] Swagger Doc
 - [ ] One test per endpoint 
-- [ ] Usingp posgres in production 
+- [X] Usingp posgres in production 
 - [X] Flyway 
 - [ ] at least 70% test coverage
 ##### Application

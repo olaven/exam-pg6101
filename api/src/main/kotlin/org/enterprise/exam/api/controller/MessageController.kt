@@ -17,7 +17,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("/messages")
-@Api("/messages", description = "Endpoint for friend messages")
+@Api("/messages", description = "Endpoint for messages")
 class MessageController(
         private val messageRepository: MessageRepository,
         private val transformer: Transformer

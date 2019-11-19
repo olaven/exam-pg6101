@@ -1,5 +1,6 @@
 package org.enterprise.exam.api
 
+import org.enterprise.exam.api.entity.FriendRequestEntity
 import org.enterprise.exam.api.entity.MessageEntity
 import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.entity.remove_these.DirectorEntity
@@ -8,6 +9,7 @@ import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
 import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
+import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
@@ -91,6 +93,7 @@ class Transformer(
             creationTime = Instant.ofEpochMilli(messageDTO.creationDate).atZone(ZoneId.systemDefault()),
             sender = userRepository.findById(messageDTO.senderEmail).get(),
             receiver = userRepository.findById(messageDTO.receiverEmail).get()
+            //id = messageDTO.id.toLong() //TODO :does it crash when addignthis?
     )
 
     fun messageToDto(messageEntity: MessageEntity) = MessageDTO(
@@ -99,5 +102,12 @@ class Transformer(
             receiverEmail = messageEntity.receiver.email,
             senderEmail = messageEntity.sender.email,
             id = messageEntity.id.toString()
+    )
+
+    fun friendRequestToDTO(friendRequest: FriendRequestEntity) = FriendRequestDTO(
+            senderEmail = friendRequest.sender.email,
+            receiverEmail = friendRequest.receiver.email,
+            status = friendRequest.status,
+            id = friendRequest.id.toString()
     )
 }
