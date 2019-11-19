@@ -23,6 +23,10 @@ class MessageController(
         private val transformer: Transformer
 ) {
 
+    /**
+     * NOTE: Getting timeline in UserController, `/user/{id}/timeline`
+     */
+
     @GetMapping("/{id}")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully retrieved message"),

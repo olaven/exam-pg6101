@@ -10,7 +10,7 @@ class MessageDTO(
         var text: String,
 
         @ApiModelProperty("The date it was sent")
-        val creationDate: Long,
+        val creationTime: Long,
 
         @ApiModelProperty("The email of the receiver")
         val receiverEmail: String,

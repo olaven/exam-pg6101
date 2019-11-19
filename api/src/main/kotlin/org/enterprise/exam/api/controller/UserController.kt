@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
-import org.enterprise.exam.api.repository.UserRepository
-import org.enterprise.exam.api.repository.paginatedResponse
+import org.enterprise.exam.api.repository.*
+import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.response.UserResponseDTO
 import org.enterprise.exam.shared.response.WrappedResponse
@@ -20,6 +20,8 @@ import java.net.URI
 @Api("/users", description = "Endpoint for users")
 class UserController(
         private val userRepository: UserRepository,
+        private val messageRepository: MessageRepository,
+        private val friendRequestRepository: FriendRequestRepository,
         private val transformer: Transformer
 ) {
 
@@ -39,9 +41,53 @@ class UserController(
             }) { it.email }
 
 
-    // TODO@GetMapping //users/id/friends (IS THIS OK REST?)
+    @GetMapping("/{email}/friends")
+    @ApiOperation("Get the friends of the user")
+    @ApiResponses(
+            ApiResponse(code = 200, message = "successfully retrieved friends")
+    )
+    fun getFriends(
+            @ApiParam("The email of the given user")
+            @PathVariable("email")
+            id: String
+    ) {
 
-    // TODO@GetMapping //users/id/timeline (IS THIS OK REST?)
+        //PAGINATION
+        TODO("IMPLEMENT")
+    }
+    
+    
+    @GetMapping("/{email}/timeline")
+    @ApiOperation("Get the timeline of the user")
+    @ApiResponses(
+            ApiResponse(code = 200, message = "successfully retrieved timeline")
+    )
+    fun getTimeline(
+            @ApiParam("The email of the given user")
+            @PathVariable("email")
+            email: String,
+            @ApiParam("The pagination keyset date (i.e. date of last fetched, if any)")
+            @RequestParam("keysetDate", required = false)
+            keysetDate: Long?
+    ): ResponseEntity<WrappedResponse<Page<MessageDTO>>> {
+
+
+        val pageSize = 10
+        val messages = messageRepository.getTimeline(email, keysetDate, pageSize)
+                .map { transformer.messageToDto(it) }
+
+        val next = if (messages.size == pageSize) {
+            "/users/$email/timeline?keysetDate=${messages.last().creationTime}"
+        } else {
+            null
+        }
+
+        val all = messageRepository.findAll()
+        val page = Page(messages, next)
+        return ResponseEntity.status(200).body(
+                WrappedResponse(200, page).validated()
+        )
+    }
 
 
     @GetMapping("/{email}")

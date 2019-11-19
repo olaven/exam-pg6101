@@ -90,7 +90,7 @@ class Transformer(
 
     fun messageToEntity(messageDTO: MessageDTO) = MessageEntity(
             text = messageDTO.text,
-            creationTime = Instant.ofEpochMilli(messageDTO.creationDate).atZone(ZoneId.systemDefault()),
+            creationTime = Instant.ofEpochMilli(messageDTO.creationTime).atZone(ZoneId.systemDefault()),
             sender = userRepository.findById(messageDTO.senderEmail).get(),
             receiver = userRepository.findById(messageDTO.receiverEmail).get()
             //id = messageDTO.id.toLong() //TODO :does it crash when addignthis?
@@ -98,7 +98,7 @@ class Transformer(
 
     fun messageToDto(messageEntity: MessageEntity) = MessageDTO(
             text = messageEntity.text,
-            creationDate = messageEntity.creationTime.toEpochSecond(),
+            creationTime = messageEntity.creationTime.toEpochSecond(),
             receiverEmail = messageEntity.receiver.email,
             senderEmail = messageEntity.sender.email,
             id = messageEntity.id.toString()

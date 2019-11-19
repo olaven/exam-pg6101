@@ -16,7 +16,7 @@
     - [ ] PATCH (JSON merge patch)
     - [X] DELETE
 - [X] Wrapped Responses
-- [X] Pagination 
+- [ ] Pagination 
 - [X] Swagger Doc
 - [X] One test per endpoint 
 - [X] Usingp posgres in production 
@@ -24,7 +24,7 @@
 - [ ] at least 70% test coverage
 ##### Application
 - [X] API for user details (bruk custom security funksjon) 
-- [ ] Friendship requests
+- [X] Friendship requests
 - [ ] Messages on a users timeline 
 - [ ] Providing default data
 #### D mark

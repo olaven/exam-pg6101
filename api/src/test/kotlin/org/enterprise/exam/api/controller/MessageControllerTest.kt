@@ -8,7 +8,6 @@ import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.FIRST_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class MessageControllerTest: ControllerTestBase() {
@@ -51,7 +50,7 @@ internal class MessageControllerTest: ControllerTestBase() {
     fun `201 on successful POST`() {
 
         val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
-        post(message, FIRST_USER)
+        postMessage(message, FIRST_USER)
                 .statusCode(201)
     }
 
@@ -59,7 +58,7 @@ internal class MessageControllerTest: ControllerTestBase() {
     fun `Can follow location on valid POST`() {
 
         val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
-        val location = post(message, FIRST_USER)
+        val location = postMessage(message, FIRST_USER)
                 .statusCode(201)
                 .extract()
                 .header("location")
@@ -72,7 +71,7 @@ internal class MessageControllerTest: ControllerTestBase() {
     fun `403 if not sender`() {
 
         val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
-        post(message, ADMIN_USER) //NOTE: not sender
+        postMessage(message, ADMIN_USER) //NOTE: not sender
                 .statusCode(403)
     }
 
@@ -81,7 +80,7 @@ internal class MessageControllerTest: ControllerTestBase() {
 
         val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
         message.text = "" //NOTE: can not be empty
-        post(message, FIRST_USER) //NOTE: not sender
+        postMessage(message, FIRST_USER) //NOTE: not sender
                 .statusCode(400)
     }
 
@@ -90,7 +89,7 @@ internal class MessageControllerTest: ControllerTestBase() {
 
         val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
         message.id = "22" //NOTE: not null
-        post(message, FIRST_USER) //NOTE: not sender
+        postMessage(message, FIRST_USER) //NOTE: not sender
                 .statusCode(409)
     }
 
@@ -99,14 +98,6 @@ internal class MessageControllerTest: ControllerTestBase() {
             .accept(ContentType.JSON)
             .get(path)
             .then()
-
-    private fun post(movie: MessageDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-            authenticated(user.email, user.password)
-                    .accept(ContentType.JSON)
-                    .contentType(ContentType.JSON)
-                    .body(movie)
-                    .post("/messages")
-                    .then()
 
 
     private fun delete(id: Long, user: WebSecurityConfigLocalFake.Companion.TestUser) =

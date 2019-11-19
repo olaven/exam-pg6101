@@ -11,6 +11,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.nullValue
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class UserControllerTest : ControllerTestBase() {
@@ -242,6 +243,77 @@ internal class UserControllerTest : ControllerTestBase() {
                 .body("data.givenName", equalTo(updatedName))
     }
 
+
+    @Test
+    fun `can GET timeline of user`() {
+
+        val user = persistUser(FIRST_USER)
+        getTimeline(user.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(0)) //as no messages are added
+    }
+
+
+    @Test
+    fun `timeline pagination only returns 10 per page`() {
+
+        setupTimelineTest(
+                sender = SECOND_USER,
+                receiver = FIRST_USER,
+                count = 15
+        )
+
+        getTimeline(FIRST_USER.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+    }
+
+    @Test
+    fun `timeline can follow pagination next-links`() {
+
+        setupTimelineTest(
+                sender = SECOND_USER,
+                receiver = FIRST_USER,
+                count = 25
+        )
+
+        val toSecondPage = getTimeline(FIRST_USER.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        val toThirdPage = getTimeline(FIRST_USER.email, toSecondPage).statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getTimeline(FIRST_USER.email, toThirdPage)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(5))
+    }
+
+    @Test
+    fun `timeline pagination next-link is null on last page`() {
+
+        setupTimelineTest(
+                sender = SECOND_USER,
+                receiver = FIRST_USER,
+                count = 15
+        )
+
+        val toSecondPage = getTimeline(FIRST_USER.email)
+                .body("data.next", Matchers.notNullValue())
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getTimeline(FIRST_USER.email, toSecondPage)
+                .body("data.next", nullValue())
+    }
+
     private fun patch(email: String, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .contentType("application/merge-patch+json")
@@ -257,9 +329,29 @@ internal class UserControllerTest : ControllerTestBase() {
                     .post("/users")
                     .then()
 
+    private fun setupTimelineTest(sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser, count: Int) {
+
+        persistUser(sender)
+        persistUser(receiver)
+
+        // second user sends a lot of messages receiver first user
+        (0 until count).forEach {
+
+            val message = getDummyMessage(sender.email, receiver.email)
+            postMessage(message, sender)
+                    .statusCode(201)
+        }
+    }
+
     private fun getAll(path: String? = null) = given()
             .accept(ContentType.JSON)
             .get(path ?: "/users")
+            .then()
+
+    private fun getTimeline(email: String, path: String? = null) = given()
+            .accept(ContentType.JSON)
+            .get(
+                    path ?: "/users/$email/timeline")
             .then()
 
     private fun get(email: String?) = given()

@@ -3,6 +3,8 @@ package org.enterprise.exam.api.controller
 import com.github.javafaker.Faker
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
+import io.restassured.response.ValidatableResponse
 import io.restassured.specification.RequestSpecification
 import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
@@ -116,7 +118,7 @@ abstract class ControllerTestBase {
             text = faker.lorem().paragraph(),
             senderEmail = senderID,
             receiverEmail = receiverID,
-            creationDate = ZonedDateTime.now().toEpochSecond(),
+            creationTime = faker.date().past(3, TimeUnit.HOURS).toInstant().toEpochMilli(),
             id = null
     )
 
@@ -236,4 +238,13 @@ abstract class ControllerTestBase {
 
         return screeningRepository.save(screening)
     }
+
+
+    protected fun postMessage(message: MessageDTO, user: WebSecurityConfigLocalFake.Companion.TestUser): ValidatableResponse =
+            authenticated(user.email, user.password)
+                    .accept(ContentType.JSON)
+                    .contentType(ContentType.JSON)
+                    .body(message)
+                    .post("/messages")
+                    .then()
 }
