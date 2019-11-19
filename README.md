@@ -14,10 +14,10 @@
     - [X] POST
     - [ ] PUT
     - [ ] PATCH (JSON merge patch)
-    - [ ] DELETE
+    - [X] DELETE
 - [X] Wrapped Responses
 - [X] Pagination 
-- [ ] Swagger Doc
+- [X] Swagger Doc
 - [ ] One test per endpoint 
 - [ ] Usingp posgres in production 
 - [X] Flyway 

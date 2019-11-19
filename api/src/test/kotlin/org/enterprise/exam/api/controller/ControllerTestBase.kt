@@ -9,10 +9,12 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
+import org.enterprise.exam.api.entity.MessageEntity
 import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.entity.remove_these.DirectorEntity
 import org.enterprise.exam.api.entity.remove_these.MovieEntity
 import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
+import org.enterprise.exam.api.repository.MessageRepository
 import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
@@ -39,6 +41,8 @@ abstract class ControllerTestBase {
 
     @Autowired
     private lateinit var userRepository: UserRepository
+    @Autowired
+    private lateinit var messageRepository: MessageRepository
 
     //TODO: REMOVE THESE
     @Autowired
@@ -62,7 +66,10 @@ abstract class ControllerTestBase {
         RestAssured.basePath = ""
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
+        messageRepository.deleteAll()
         userRepository.deleteAll()
+
+        //TODO: remove these
         screeningRepository.deleteAll()
         moviesRepository.deleteAll()
         directorRepository.deleteAll()
@@ -133,6 +140,15 @@ abstract class ControllerTestBase {
                     dto.familyName
             )
     )
+
+    protected fun persistMessage(sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser) =
+            messageRepository.save(MessageEntity(
+                    text = faker.lorem().paragraph(),
+                    sender = userRepository.findByEmail(sender.email).get().first(),
+                    receiver = userRepository.findByEmail(receiver.email).get().first(),
+                    creationTime = ZonedDateTime.now()
+            ))
+
 
     protected fun persistDirectors(count: Int) = (0 until count).forEach {
         persistDirector()
