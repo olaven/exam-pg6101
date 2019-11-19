@@ -1,4 +1,4 @@
-package org.enterprise.exam.api.controller
+package org.enterprise.exam.api.controller.remove_these
 
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -7,8 +7,9 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
-import org.enterprise.exam.shared.dto.DirectorDTO
-import org.enterprise.exam.shared.dto.MovieDTO
+import org.enterprise.exam.api.controller.ControllerTestBase
+import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
+import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 
 internal class DirectorControllerTest : ControllerTestBase() {
 

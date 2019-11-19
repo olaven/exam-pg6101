@@ -1,9 +1,8 @@
 package org.enterprise.exam.api.entity.remove_these
 
 import org.enterprise.exam.api.entity.BaseEntity
-import org.enterprise.exam.api.entity.remove_these.MovieEntity
 import org.jetbrains.annotations.NotNull
-import org.enterprise.exam.shared.dto.Room
+import org.enterprise.exam.shared.dto.remove_these.Room
 import java.time.ZonedDateTime
 import javax.persistence.*
 import javax.validation.constraints.Min

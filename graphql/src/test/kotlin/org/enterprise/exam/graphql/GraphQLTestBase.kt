@@ -13,8 +13,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.enterprise.exam.graphql.database.ReservationEntity
 import org.enterprise.exam.graphql.database.ReservationRepository
-import org.enterprise.exam.shared.dto.Room
-import org.enterprise.exam.shared.dto.ScreeningDTO
+import org.enterprise.exam.shared.dto.remove_these.Room
+import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

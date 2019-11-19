@@ -14,9 +14,9 @@ import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
-import org.enterprise.exam.shared.dto.DirectorDTO
-import org.enterprise.exam.shared.dto.MovieDTO
-import org.enterprise.exam.shared.dto.Room
+import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
+import org.enterprise.exam.shared.dto.remove_these.MovieDTO
+import org.enterprise.exam.shared.dto.remove_these.Room
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort

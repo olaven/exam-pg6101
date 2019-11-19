@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
-import org.enterprise.exam.shared.response.MovieResponseDTO
+import org.enterprise.exam.shared.response.remove_these.MovieResponseDTO
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.paginatedResponse
 import org.enterprise.exam.shared.response.WrappedResponse
-import org.enterprise.exam.shared.dto.MovieDTO
+import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

@@ -5,7 +5,7 @@ import org.enterprise.exam.graphql.ScreeningsCaller
 import org.enterprise.exam.graphql.database.ReservationEntity
 import graphql.execution.DataFetcherResult
 import graphql.servlet.GenericGraphQLError
-import org.enterprise.exam.shared.dto.ScreeningDTO
+import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
 import org.springframework.stereotype.Component
 
 @Component

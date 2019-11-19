@@ -5,9 +5,9 @@ import org.enterprise.exam.api.entity.remove_these.MovieEntity
 import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
-import org.enterprise.exam.shared.dto.DirectorDTO
-import org.enterprise.exam.shared.dto.MovieDTO
-import org.enterprise.exam.shared.dto.ScreeningDTO
+import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
+import org.enterprise.exam.shared.dto.remove_these.MovieDTO
+import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
 import org.springframework.stereotype.Component
 import java.time.Instant
 import java.time.ZoneId

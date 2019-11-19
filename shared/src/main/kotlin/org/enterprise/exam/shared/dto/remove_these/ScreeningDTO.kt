@@ -1,6 +1,7 @@
-package org.enterprise.exam.shared.dto
+package org.enterprise.exam.shared.dto.remove_these
 
 import io.swagger.annotations.ApiModelProperty
+import org.enterprise.exam.shared.dto.BaseDTO
 
 enum class Room {
         A1, A2, A3,

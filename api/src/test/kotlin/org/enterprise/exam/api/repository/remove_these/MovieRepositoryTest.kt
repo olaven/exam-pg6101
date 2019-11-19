@@ -1,4 +1,4 @@
-package org.enterprise.exam.api.repository
+package org.enterprise.exam.api.repository.remove_these
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

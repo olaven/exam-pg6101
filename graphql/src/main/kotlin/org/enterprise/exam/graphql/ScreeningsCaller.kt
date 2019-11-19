@@ -1,7 +1,7 @@
 package org.enterprise.exam.graphql
 
-import org.enterprise.exam.shared.dto.ScreeningDTO
-import org.enterprise.exam.shared.response.ScreeningResponseDTO
+import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
+import org.enterprise.exam.shared.response.remove_these.ScreeningResponseDTO
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service

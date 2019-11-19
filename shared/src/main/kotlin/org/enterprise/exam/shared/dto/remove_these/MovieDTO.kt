@@ -1,7 +1,8 @@
-package org.enterprise.exam.shared.dto
+package org.enterprise.exam.shared.dto.remove_these
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
+import org.enterprise.exam.shared.dto.BaseDTO
 
 @ApiModel("Representing a movie")
 class MovieDTO(

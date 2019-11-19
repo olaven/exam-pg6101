@@ -1,7 +1,8 @@
-package org.enterprise.exam.api.controller
+package org.enterprise.exam.api.controller.remove_these
 
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import org.enterprise.exam.api.controller.ControllerTestBase
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test

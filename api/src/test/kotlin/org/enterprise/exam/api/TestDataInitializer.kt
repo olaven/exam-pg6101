@@ -7,7 +7,7 @@ import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
-import org.enterprise.exam.shared.dto.Room
+import org.enterprise.exam.shared.dto.remove_these.Room
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.time.ZoneId
