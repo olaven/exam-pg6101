@@ -10,6 +10,7 @@ import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
 import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
@@ -23,6 +24,54 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
         persistUser(FIRST_USER)
         persistUser(SECOND_USER)
     }
+
+
+    @Test
+    fun `POST returns 201 when successful`() {
+
+        val dto = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
+        post(dto, FIRST_USER)
+                .statusCode(201)
+                .body("data.senderEmail", equalTo(dto.senderEmail))
+                .body("data.receiverEmail", equalTo(dto.receiverEmail))
+    }
+
+    @Test 
+    fun `POST returns 400 on invalid emails`() {
+
+        val dto = FriendRequestDTO(
+                senderEmail = FIRST_USER.email, 
+                receiverEmail = "invalid@mail.com",
+                status = FriendRequestStatus.PENDING
+        )
+
+        post(dto, FIRST_USER)
+                .statusCode(400)
+    }
+
+    @Test 
+    fun `POST returns 409 if trying to decide ID`() {
+
+        val dto = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
+        dto.id = "3434" //NOTE: not null
+        post(dto, FIRST_USER)
+                .statusCode(409)
+    }
+
+    @Test 
+    fun `POST returns 403 if trying to send for someone else`() {
+
+        val dto = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
+        
+        //NOTE: sender is FIRST_USER
+        post(dto, SECOND_USER)
+                .statusCode(403)
+        post(dto, ADMIN_USER)
+                .statusCode(403)
+        post(dto, FIRST_USER)
+                .statusCode(201)
+    }
+
 
     @Test
     fun `PUT returns 204 on update`() {
@@ -149,13 +198,19 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
                 .body("data.next", Matchers.nullValue())
     }
 
+    private fun post(firendRequestDTO: FriendRequestDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+            authenticated(user.email, user.password)
+                    .contentType(ContentType.JSON)
+                    .body(firendRequestDTO)
+                    .post("/requests")
+                    .then()
+
     private fun put(friendRequestDTO: FriendRequestDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .contentType(ContentType.JSON)
                     .body(friendRequestDTO)
                     .put("/requests/${friendRequestDTO.id}")
                     .then()
-
 
     private fun getAll(receiver: String, status: FriendRequestStatus? = null): ValidatableResponse {
 

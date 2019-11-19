@@ -21,6 +21,50 @@ class FriendRequestController(
         private val transformer: Transformer
 ) {
 
+    @PostMapping
+    @ApiOperation("Create a new friend request")
+    @ApiResponses(
+            ApiResponse(code = 201, message = "The request was created"),
+            ApiResponse(code = 400, message = "There was an error in the DTO"),
+            ApiResponse(code = 403, message = "User is not allowed to create this request"),
+            ApiResponse(code = 409, message = "Client tried to decide ID")
+    )
+    fun createFriendRequest(
+            @ApiParam("The request object")
+            @RequestBody
+            friendRequestDTO: FriendRequestDTO,
+            authentication: Authentication
+    ): ResponseEntity<WrappedResponse<FriendRequestDTO>> {
+
+        if (authentication.name != friendRequestDTO.senderEmail)
+            return ResponseEntity.status(403).body(
+                    FriendRequestResponseDTO(403, null, "You are not allowed to create this request").validated()
+            )
+
+        if (friendRequestDTO.id != null) return ResponseEntity.status(409).body(
+                FriendRequestResponseDTO(409, null, "Client wrongly tried to decide ID").validated()
+        )
+
+        return try {
+
+
+            val persisted = friendRequestRepository.save(
+                    transformer.friendRequestToEntity(friendRequestDTO)
+            )
+
+            ResponseEntity.created(URI.create("/requests/${persisted.id}")).body(
+                    FriendRequestResponseDTO(201, friendRequestDTO.apply { id = persisted.id.toString() }).validated()
+            )
+        } catch (exception: NoSuchElementException) {
+
+            // other constraint violations is handled by shared exceptionhandler
+            ResponseEntity.status(400).body(
+                    // NOTE: could arguably have sent 404, as the users were not found.
+                    FriendRequestResponseDTO(400, null, "You entered invalid sender/receiver emails").validated()
+            )
+        }
+    }
+
     @PutMapping("/{id}")
     @ApiOperation("Update/answer a friend request")
     @ApiResponses(
@@ -44,7 +88,7 @@ class FriendRequestController(
         )
 
 
-        if (!friendRequestRepository.existsById(id)){
+        if (!friendRequestRepository.existsById(id)) {
 
             /*
             * NOTE: a PUT could create a resource if it does not exist.
@@ -75,7 +119,7 @@ class FriendRequestController(
 
             ResponseEntity.status(400).body(
                     // NOTE: could arguably have sent 404, as the users were not found.
-                    FriendRequestResponseDTO(400, null, "You entered invalid sender/receiver emails")
+                    FriendRequestResponseDTO(400, null, "You entered invalid sender/receiver emails").validated()
             )
         }
     }

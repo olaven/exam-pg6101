@@ -12,13 +12,13 @@
 - [ ] Endpoints 
     - [X] GET
     - [X] POST
-    - [ ] PUT
+    - [X] PUT
     - [ ] PATCH (JSON merge patch)
     - [X] DELETE
 - [X] Wrapped Responses
 - [X] Pagination 
 - [X] Swagger Doc
-- [ ] One test per endpoint 
+- [X] One test per endpoint 
 - [X] Usingp posgres in production 
 - [X] Flyway 
 - [ ] at least 70% test coverage

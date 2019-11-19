@@ -45,6 +45,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.GET, "/messages").permitAll()
                 .antMatchers(HttpMethod.GET, "/messages/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/requests").permitAll()
+                .antMatchers(HttpMethod.POST, "/requests").access("hasRole('USER')")
                 .antMatchers(HttpMethod.PUT, "/requests/{id}").access("hasRole('USER')")
                 //TODO: remove the below
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
