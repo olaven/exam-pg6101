@@ -1,5 +1,6 @@
 package org.enterprise.exam.shared
 
+import com.google.common.base.Throwables
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -72,17 +73,18 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     */
 
     @ExceptionHandler(value = [ConstraintViolationException::class, TransactionSystemException::class])
-    protected fun handleFrameworkExceptionsForUserInputs(ex: Exception, request: WebRequest)
+    protected fun handleFrameworkExceptionsForUserInputs(exception: Exception, request: WebRequest)
             : ResponseEntity<Any> {
 
-        if (ex is ConstraintViolationException) {
+        val cause = Throwables.getRootCause(exception)
+        if (cause is ConstraintViolationException) {
             val messages = StringBuilder()
 
-            for (violation in ex.constraintViolations) {
+            for (violation in cause.constraintViolations) {
                 messages.append(violation.message + "\n")
             }
 
-            val msg = ex.constraintViolations.map { it.propertyPath.toString() + " " + it.message }
+            val msg = cause.constraintViolations.map { it.propertyPath.toString() + " " + it.message }
                     .joinToString("; ")
 
             return handleExceptionInternal(
@@ -90,7 +92,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         }
 
         return handleExceptionInternal(
-                ex, null, HttpHeaders(), HttpStatus.valueOf(400), request)
+                exception, null, HttpHeaders(), HttpStatus.valueOf(400), request)
     }
 
     @ExceptionHandler(Exception::class)

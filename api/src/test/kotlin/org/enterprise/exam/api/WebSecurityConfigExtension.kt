@@ -26,24 +26,24 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
     companion object {
 
         interface TestUser {
-            val username: String;
+            val email: String;
             val password: String
         }
 
         val FIRST_USER = object : TestUser {
-            override val username = "first_user"
+            override val email = "first_user"
             override val password = "first_password"
         }
 
         val SECOND_USER = object : TestUser {
 
-            override val username = "second_username"
+            override val email = "second_username"
             override val password = "second_password"
         }
 
         val ADMIN_USER = object : TestUser {
 
-            override val username = "admin"
+            override val email = "admin"
             override val password = "admin"
         }
     }
@@ -63,8 +63,8 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
     override fun configure(auth: AuthenticationManagerBuilder) {
 
         auth.inMemoryAuthentication()
-                .withUser(FIRST_USER.username).password("{noop}${FIRST_USER.password}").roles("USER").and()
-                .withUser(SECOND_USER.username).password("{noop}${SECOND_USER.password}").roles("USER").and()
-                .withUser(ADMIN_USER.username).password("{noop}${ADMIN_USER.password}").roles("ADMIN", "USER")
+                .withUser(FIRST_USER.email).password("{noop}${FIRST_USER.password}").roles("USER").and()
+                .withUser(SECOND_USER.email).password("{noop}${SECOND_USER.password}").roles("USER").and()
+                .withUser(ADMIN_USER.email).password("{noop}${ADMIN_USER.password}").roles("ADMIN", "USER")
     }
 }

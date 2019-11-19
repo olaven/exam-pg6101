@@ -141,7 +141,7 @@ internal class DirectorControllerTest : ControllerTestBase() {
     }
 
     private fun post(movie: DirectorDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-            authenticated(user.username, user.password)
+            authenticated(user.email, user.password)
                     .accept(ContentType.JSON)
                     .contentType(ContentType.JSON)
                     .body(movie)

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
+import org.enterprise.exam.api.WebSecurityConfigLocalFake
 import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.entity.remove_these.DirectorEntity
 import org.enterprise.exam.api.entity.remove_these.MovieEntity
@@ -61,6 +62,7 @@ abstract class ControllerTestBase {
         RestAssured.basePath = ""
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
+        userRepository.deleteAll()
         screeningRepository.deleteAll()
         moviesRepository.deleteAll()
         directorRepository.deleteAll()
@@ -89,10 +91,10 @@ abstract class ControllerTestBase {
             .cookie("JSESSIONID")
 */
 
-    protected fun getDummyUser(friends: List<UserDTO> = emptyList()) = UserDTO(
+    protected fun getDummyUser(user: WebSecurityConfigLocalFake.Companion.TestUser) = UserDTO(
             givenName = faker.name().firstName(),
             familyName = faker.name().lastName(),
-            email = faker.internet().emailAddress()
+            email = user.email
     )
 
     protected fun getDummyMovie(directorID: Long): MovieDTO {
@@ -110,11 +112,11 @@ abstract class ControllerTestBase {
             movies = emptyList()
     )
 
-    protected fun persistUser(user: UserDTO = getDummyUser()) = userRepository.save(
+    protected fun persistUser(user: WebSecurityConfigLocalFake.Companion.TestUser, dto: UserDTO = getDummyUser(user)) = userRepository.save(
             UserEntity(
-                    user.email,
-                    user.givenName,
-                    user.familyName
+                    dto.email,
+                    dto.givenName,
+                    dto.familyName
             )
     )
 

@@ -269,26 +269,26 @@ internal class MovieControllerTest : ControllerTestBase() {
     }
 
     private fun delete(id: Long, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-            authenticated(user.username, user.password)
+            authenticated(user.email, user.password)
                     .delete("/movies/${id}")
                     .then()
 
     private fun put(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-            authenticated(user.username, user.password)
+            authenticated(user.email, user.password)
                     .contentType(ContentType.JSON)
                     .body(movie)
                     .put("/movies/${movie.id}")
                     .then()
 
     private fun patch(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-            authenticated(user.username, user.password)
+            authenticated(user.email, user.password)
                     .contentType("application/merge-patch+json")
                     .body(movie)
                     .patch("/movies/${movie.id}")
                     .then()
 
     private fun post(movie: MovieDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
-            authenticated(user.username, user.password)
+            authenticated(user.email, user.password)
                     .accept(ContentType.JSON)
                     .contentType(ContentType.JSON)
                     .body(movie)

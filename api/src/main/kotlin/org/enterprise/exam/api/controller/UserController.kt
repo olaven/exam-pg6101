@@ -7,7 +7,9 @@ import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.response.UserResponseDTO
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import java.net.URI
 
 @RestController
 @RequestMapping("/users")
@@ -17,11 +19,7 @@ class UserController(
         private val transformer: Transformer
 ) {
 
-    enum class Expand {
-        NONE, FRIENDS
-    }
-
-    // @GetMapping //all
+    // @GetMapping //all, paginated
 
     // @GetMapping //users/id/friends (IS THIS OK REST?)
 
@@ -56,5 +54,41 @@ class UserController(
             )
         }
     }
+
+
+    @PostMapping
+    @PreAuthorize("#userDTO.email == principal.name")
+    @ApiOperation("Create a userDTO")
+    @ApiResponses(
+            ApiResponse(code = 201, message = "The userDTO was created"),
+            ApiResponse(code = 400, message = "There was something wrong with the request"),
+            ApiResponse(code = 409, message = "Client wrongly tried to decide ID")
+    )
+    fun createUser(
+            @ApiParam("The userDTO object")
+            @RequestBody userDTO: UserDTO
+    ): ResponseEntity<WrappedResponse<UserDTO>> {
+
+        val alreadyPresentUser = userRepository.findByEmail(userDTO.email)
+        if (alreadyPresentUser.isPresent) return ResponseEntity.status(409).body(
+                UserResponseDTO(409, null, "Data is already registered for this user").validated()
+        )
+
+        if (userDTO.id != null) {
+            return ResponseEntity.status(409).body(
+                    UserResponseDTO(409, null, "ID of new userDTO must be null").validated()
+            )
+        }
+
+        val entity = transformer.userToEntity(userDTO)
+
+        //NOTE: ConstraintViolation is picked up by exception handlers
+        userRepository.save(entity)
+
+        return ResponseEntity.created(URI.create("/api/api/${entity.id}")).body(
+                UserResponseDTO(201, userDTO.apply { id = entity.id.toString() }).validated()
+        )
+    }
+
 
 }

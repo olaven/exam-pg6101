@@ -1,5 +1,6 @@
 package org.enterprise.exam.api
 
+import org.enterprise.exam.shared.dto.UserDTO
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -9,6 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
+
+/*
+* NOTE: This file is a modified version of:
+* https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/6d9189f37424630e5344f2552e50e1183fa9203c/advanced/security/distributed-session/ds-user-service/src/main/kotlin/org/tsdes/advanced/security/distributedsession/userservice/WebSecurityConfig.kt
+* */
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +36,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.GET, "/lb_id").permitAll()
                 .antMatchers(HttpMethod.GET, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").access("hasRole('USER')") // and @userSecurity.checkId(authentication, #userDTO)
                 //TODO: remove the below
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
@@ -63,13 +70,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
  */
 class UserSecurity {
 
-    //TODO: to somwthing like this when booking tickets
     fun checkId(authentication: Authentication, id: String): Boolean {
 
-        //TODO: make this relevant for api
-        val current = (authentication.principal as UserDetails).username
-
-        return current == id
+        val username = (authentication.principal as UserDetails).username
+        return username == id
     }
 }
 
