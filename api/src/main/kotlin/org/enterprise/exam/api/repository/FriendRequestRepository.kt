@@ -1,13 +1,35 @@
 package org.enterprise.exam.api.repository
 
 import org.enterprise.exam.api.entity.FriendRequestEntity
+import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
 @Repository
-interface FriendRequestRepository : CrudRepository<FriendRequestEntity, Long>, CustomFriendRequestRepository  //TODO: pagination
+interface FriendRequestRepository : CrudRepository<FriendRequestEntity, Long>, CustomFriendRequestRepository  //TODO: FIX pagination
+
+
+
+/*@Transactional
+@Repository
+class FriendRequestRepositoryImpl(
+        private val entityManager: EntityManager
+) : PaginatedRepository<FriendRequestEntity> {
+
+    override fun getNextPage(size: Int, keysetId: Any?) =
+            generalGetNextPage<FriendRequestEntity>(keysetId, size,
+                    entityManager.createQuery("select request from FriendRequestEntity request order by request.id desc, request.receiver.email", FriendRequestEntity::class.java),
+                    entityManager.createQuery("select request from FriendRequestEntity request where request.id < :keysetId order by request.id desc, request.receiver.email", FriendRequestEntity::class.java)
+            )
+}*/
+/*
+*
+* entityManager.createQuery("select user from UserEntity user order by user.email desc, user.familyName", UserEntity::class.java),
+entityManager.createQuery("select user from UserEntity user where user.email < :keysetId order by user.email desc, user.familyName", UserEntity::class.java)*/
+
 
 interface CustomFriendRequestRepository {
 
@@ -56,5 +78,6 @@ class FriendRequestRepositoryImpl(
         return query.resultList
     }
 }
+
 
 

@@ -11,7 +11,7 @@ import javax.persistence.EntityManager
 @Repository
 interface UserRepository : CrudRepository<UserEntity, String>, PaginatedRepository<UserEntity> {
     fun findByEmail(email: String): Optional<List<UserEntity>>
-}// TODO , PaginatedRepository<UserEntity
+}
 
 
 @Transactional
