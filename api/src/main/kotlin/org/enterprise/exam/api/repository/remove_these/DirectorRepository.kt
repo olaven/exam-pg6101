@@ -1,6 +1,8 @@
-package org.enterprise.exam.api.repository
+package org.enterprise.exam.api.repository.remove_these
 
-import org.enterprise.exam.api.entity.DirectorEntity
+import org.enterprise.exam.api.entity.remove_these.DirectorEntity
+import org.enterprise.exam.api.repository.PaginatedRepository
+import org.enterprise.exam.api.repository.generalGetNextPage
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional

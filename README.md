@@ -21,6 +21,7 @@
 - [ ] One test per endpoint 
 - [ ] Usingp posgres in production 
 - [ ] Flyway 
+- [ ] at least 70% test coverage
 ##### Application
 - [ ] API for user details (bruk custom security funksjon) 
 - [ ] Friendship requests

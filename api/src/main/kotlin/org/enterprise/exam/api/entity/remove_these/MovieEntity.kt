@@ -1,5 +1,7 @@
-package org.enterprise.exam.api.entity
+package org.enterprise.exam.api.entity.remove_these
 
+import org.enterprise.exam.api.entity.BaseEntity
+import org.enterprise.exam.api.entity.remove_these.DirectorEntity
 import org.jetbrains.annotations.NotNull
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue

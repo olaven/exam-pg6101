@@ -1,10 +1,10 @@
-package org.enterprise.exam.api.controller
+package org.enterprise.exam.api.controller.remove_these
 
 import com.google.common.base.Throwables
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.shared.response.DirectorResponseDTO
-import org.enterprise.exam.api.repository.DirectorRepository
+import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.paginatedResponse
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.enterprise.exam.shared.dto.DirectorDTO

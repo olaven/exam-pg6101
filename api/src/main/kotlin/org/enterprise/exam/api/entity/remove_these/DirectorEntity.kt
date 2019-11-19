@@ -1,5 +1,6 @@
-package org.enterprise.exam.api.entity
+package org.enterprise.exam.api.entity.remove_these
 
+import org.enterprise.exam.api.entity.BaseEntity
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id

@@ -1,12 +1,12 @@
 package org.enterprise.exam.api
 
 import com.github.javafaker.Faker
-import org.enterprise.exam.api.entity.DirectorEntity
-import org.enterprise.exam.api.entity.MovieEntity
-import org.enterprise.exam.api.entity.ScreeningEntity
-import org.enterprise.exam.api.repository.DirectorRepository
-import org.enterprise.exam.api.repository.MovieRepository
-import org.enterprise.exam.api.repository.ScreeningRepository
+import org.enterprise.exam.api.entity.remove_these.DirectorEntity
+import org.enterprise.exam.api.entity.remove_these.MovieEntity
+import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
+import org.enterprise.exam.api.repository.remove_these.DirectorRepository
+import org.enterprise.exam.api.repository.remove_these.MovieRepository
+import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
 import org.enterprise.exam.shared.dto.Room
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
@@ -30,7 +30,7 @@ class TestDataInitializer(
 
         val directors = (0..3).map {
 
-            directorRepository.save( DirectorEntity(
+            directorRepository.save(DirectorEntity(
                     givenName = faker.name().firstName(),
                     familyName = faker.name().lastName()
             ))

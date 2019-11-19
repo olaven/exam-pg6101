@@ -1,12 +1,12 @@
-package org.enterprise.exam.api.controller
+package org.enterprise.exam.api.controller.remove_these
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.shared.response.MovieResponseDTO
-import org.enterprise.exam.api.repository.DirectorRepository
-import org.enterprise.exam.api.repository.MovieRepository
+import org.enterprise.exam.api.repository.remove_these.DirectorRepository
+import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.paginatedResponse
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.enterprise.exam.shared.dto.MovieDTO
