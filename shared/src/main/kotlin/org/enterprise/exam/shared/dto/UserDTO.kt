@@ -13,8 +13,6 @@ class UserDTO(
         var givenName: String?,
 
         @ApiModelProperty("The users family name")
-        var familyName: String?,
+        var familyName: String?
 
-        id: String? = null
-
-) : BaseDTO(id)
+) : BaseDTO()

@@ -24,8 +24,9 @@ class Page<T>(
 fun <Entity : BaseEntity, DTO : BaseDTO> paginatedResponse(
         path: String,
         pageSize: Int,
-        repository: PaginatedRepository<Entity>, keysetId: Long?,
-        transform: (entity: Entity) -> DTO): ResponseEntity<WrappedResponse<Page<DTO>>> {
+        repository: PaginatedRepository<Entity>, keysetId: Any?,
+        transform: (entity: Entity) -> DTO,
+        getPrimaryKey: (dto: DTO) -> String): ResponseEntity<WrappedResponse<Page<DTO>>> {
 
     val retrieved = repository
             .getNextPage(pageSize, keysetId)
@@ -33,7 +34,7 @@ fun <Entity : BaseEntity, DTO : BaseDTO> paginatedResponse(
 
     val nextLocation =
             if (retrieved.count() == pageSize)
-                "/$path?keysetId=${retrieved.last().id}"
+                "/$path?keysetId=${getPrimaryKey(retrieved.last())}"
             else null
 
     val page = Page(retrieved, nextLocation)
@@ -41,7 +42,7 @@ fun <Entity : BaseEntity, DTO : BaseDTO> paginatedResponse(
 }
 
 internal inline fun <reified T> generalGetNextPage(
-        keysetId: Long?,
+        keysetId: Any?,
         size: Int,
         standardQuery: TypedQuery<T>,
         keysetQuery: TypedQuery<T>): List<T> {
@@ -61,5 +62,5 @@ internal inline fun <reified T> generalGetNextPage(
 }
 
 interface PaginatedRepository<T> {
-    fun getNextPage(size: Int, keysetId: Long?): List<T>
+    fun getNextPage(size: Int, keysetId: Any?): List<T>
 }

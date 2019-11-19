@@ -16,6 +16,7 @@ class MovieDTO(
         @ApiModelProperty("ID of the movie's director")
         var directorID: String?,
 
-        id: String? = null // going to base
+        @ApiModelProperty("ID of the friend request")
+        var id: String? = null
 
-) : BaseDTO(id)
+) : BaseDTO()

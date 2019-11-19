@@ -32,13 +32,13 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
         }
 
         val FIRST_USER = object : TestUser {
-            override val email = "first_user"
+            override val email = "first@mail.com"
             override val password = "first_password"
         }
 
         val SECOND_USER = object : TestUser {
 
-            override val email = "second_username"
+            override val email = "second@mail.com"
             override val password = "second_password"
         }
 

@@ -13,6 +13,7 @@ class DirectorDTO(
 
         @ApiModelProperty("Movies that this director has directed.")
         var movies: List<MovieDTO>,
-        id: String? = null // going to base
 
-) : BaseDTO(id)
+        @ApiModelProperty("ID of the director")
+        var id: String? = null
+) : BaseDTO()

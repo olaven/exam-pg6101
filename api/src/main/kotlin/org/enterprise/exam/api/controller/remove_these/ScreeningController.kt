@@ -2,11 +2,11 @@ package org.enterprise.exam.api.controller.remove_these
 
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
-import org.enterprise.exam.shared.response.remove_these.ScreeningResponseDTO
-import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
 import org.enterprise.exam.api.repository.paginatedResponse
-import org.enterprise.exam.shared.response.WrappedResponse
+import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
 import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
+import org.enterprise.exam.shared.response.WrappedResponse
+import org.enterprise.exam.shared.response.remove_these.ScreeningResponseDTO
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -27,9 +27,11 @@ class ScreeningController(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
             keysetId: Long?
-    ) = paginatedResponse("screenings", 20, screeningRepository, keysetId) {
+    ) = paginatedResponse("screenings", 20, screeningRepository, keysetId, {
 
         transformer.screeningToDTO(it)
+    }) {
+        it.id.toString()
     }
 
     @ApiOperation("Get specific screening")

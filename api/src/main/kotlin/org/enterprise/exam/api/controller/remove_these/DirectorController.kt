@@ -3,11 +3,11 @@ package org.enterprise.exam.api.controller.remove_these
 import com.google.common.base.Throwables
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
-import org.enterprise.exam.shared.response.remove_these.DirectorResponseDTO
-import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.paginatedResponse
-import org.enterprise.exam.shared.response.WrappedResponse
+import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
+import org.enterprise.exam.shared.response.WrappedResponse
+import org.enterprise.exam.shared.response.remove_these.DirectorResponseDTO
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -33,10 +33,10 @@ class DirectorController(
             @RequestParam("keysetId", required = false)
             keysetId: Long?
     ) = paginatedResponse(
-            "directors", 10, directorRepository, keysetId) {
+            "directors", 10, directorRepository, keysetId, {
 
         transformer.directorToDTO(it)
-    }
+    }, { it.id.toString() })
 
     //TODO: generify logic, as very similar to movie
     @ApiOperation("Retrieve specific director")

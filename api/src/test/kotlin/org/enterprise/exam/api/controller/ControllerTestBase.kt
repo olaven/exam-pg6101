@@ -4,8 +4,6 @@ import com.github.javafaker.Faker
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.specification.RequestSpecification
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.extension.ExtendWith
 import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
@@ -19,10 +17,13 @@ import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
+import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
 import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.enterprise.exam.shared.dto.remove_these.Room
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -102,6 +103,14 @@ abstract class ControllerTestBase {
             givenName = faker.name().firstName(),
             familyName = faker.name().lastName(),
             email = user.email
+    )
+
+    protected fun getDummyMessage(senderID: String, receiverID: String) = MessageDTO(
+            text = faker.lorem().paragraph(),
+            senderEmail = senderID,
+            receiverEmail = receiverID,
+            creationDate = ZonedDateTime.now().toEpochSecond(),
+            id = null
     )
 
     protected fun persistUsers(count: Int) {

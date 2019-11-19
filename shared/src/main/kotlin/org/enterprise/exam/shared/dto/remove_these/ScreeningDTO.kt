@@ -24,5 +24,6 @@ class ScreeningDTO(
         @ApiModelProperty("The amount of tickets left on this screening")
         var availableTickets: Int,
 
-        id: String
-) : BaseDTO(id)
+        @ApiModelProperty("ID of the screening")
+        val id: String?
+) : BaseDTO()

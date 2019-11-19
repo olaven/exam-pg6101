@@ -9,7 +9,7 @@ import javax.persistence.EntityManager
 
 
 @Repository
-interface UserRepository : CrudRepository<UserEntity, Long>, PaginatedRepository<UserEntity> {
+interface UserRepository : CrudRepository<UserEntity, String>, PaginatedRepository<UserEntity> {
     fun findByEmail(email: String): Optional<List<UserEntity>>
 }// TODO , PaginatedRepository<UserEntity
 
@@ -20,9 +20,9 @@ class UserRepositoryImpl(
         private val entityManager: EntityManager
 ) : PaginatedRepository<UserEntity> {
 
-    override fun getNextPage(size: Int, keysetId: Long?) =
+    override fun getNextPage(size: Int, keysetId: Any?) =
             generalGetNextPage<UserEntity>(keysetId, size,
-                    entityManager.createQuery("select user from UserEntity user order by user.id desc, user.email", UserEntity::class.java),
-                    entityManager.createQuery("select user from UserEntity user where user.id < :keysetId order by user.id desc, user.email", UserEntity::class.java)
+                    entityManager.createQuery("select user from UserEntity user order by user.email desc, user.familyName", UserEntity::class.java),
+                    entityManager.createQuery("select user from UserEntity user where user.email < :keysetId order by user.email desc, user.familyName", UserEntity::class.java)
             )
 }

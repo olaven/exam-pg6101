@@ -32,11 +32,11 @@ class UserController(
     fun getAll(
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
-            keysetId: Long?
-    ) = paginatedResponse("users", 10, userRepository, keysetId) {
-
-        transformer.userToDTO(it)
-    }
+            keysetId: String?
+    ) = paginatedResponse("users", 10, userRepository, keysetId,
+            {
+                transformer.userToDTO(it)
+            }) { it.email }
 
 
     // TODO@GetMapping //users/id/friends (IS THIS OK REST?)
@@ -44,26 +44,26 @@ class UserController(
     // TODO@GetMapping //users/id/timeline (IS THIS OK REST?)
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/{email}")
     @ApiOperation("Retrieve a single user")
     @ApiResponses(
             ApiResponse(code = 200, message = "The user was found and retrieved"),
             ApiResponse(code = 404, message = "The user could not be found")
     )
     fun getUser(
-            @ApiParam("The ID of the user")
-            @PathVariable("id")
-            id: Long
+            @ApiParam("The email of the user")
+            @PathVariable("email")
+            email: String
             /*@ApiParam("Whether to retrieve friends of the user")
             @RequestParam("expand", defaultValue = "NONE")
             expand: Expand = Expand.NONE*/
     ): ResponseEntity<WrappedResponse<UserDTO>> {
 
-        val entity = userRepository.findById(id)
+        val entity = userRepository.findById(email)
 
         return if (entity.isPresent) {
 
-            val userDTO  = transformer.userToDTO(entity.get())
+            val userDTO = transformer.userToDTO(entity.get())
             ResponseEntity.status(200).body(
                     UserResponseDTO(200, userDTO).validated()
             )
@@ -81,8 +81,7 @@ class UserController(
     @ApiOperation("Create a user")
     @ApiResponses(
             ApiResponse(code = 201, message = "The userDTO was created"),
-            ApiResponse(code = 400, message = "There was something wrong with the request"),
-            ApiResponse(code = 409, message = "Client wrongly tried to decide ID")
+            ApiResponse(code = 400, message = "There was something wrong with the request")
     )
     fun createUser(
             @ApiParam("The userDTO object")
@@ -94,19 +93,13 @@ class UserController(
                 UserResponseDTO(409, null, "Data is already registered for this user").validated()
         )
 
-        if (userDTO.id != null) {
-            return ResponseEntity.status(409).body(
-                    UserResponseDTO(409, null, "ID of new userDTO must be null").validated()
-            )
-        }
-
         val entity = transformer.userToEntity(userDTO)
 
         //NOTE: ConstraintViolation is picked up by exception handlers
         val persisted = userRepository.save(entity)
 
-        return ResponseEntity.created(URI.create("/users/${persisted.id}")).body(
-                UserResponseDTO(201, userDTO.apply { id = persisted.id.toString() }).validated()
+        return ResponseEntity.created(URI.create("/users/${persisted.email}")).body(
+                UserResponseDTO(201, userDTO).validated()
         )
     }
 
@@ -115,7 +108,7 @@ class UserController(
     * NOTE: This function is inspired by:
     * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/7b9ee145f66718d5976d273b99542a374571b8cf/advanced/rest/patch/src/main/kotlin/org/tsdes/advanced/rest/patch/CounterRest.kt
     * */
-    @PatchMapping(path = ["/{id}"],
+    @PatchMapping(path = ["/{email}"],
             consumes = ["application/merge-patch+json"])
     @ApiOperation("Update a user")
     @ApiResponses(
@@ -126,9 +119,9 @@ class UserController(
             ApiResponse(code = 409, message = "Tried to modify the user id or email")
     )
     fun updateUser(
-            @ApiParam("The ID of the user")
-            @PathVariable("id")
-            id: Long?,
+            @ApiParam("The email of the user")
+            @PathVariable("email")
+            email: String,
             @ApiParam("The DTO representation of the user")
             @RequestBody
             userDTO: String,
@@ -147,15 +140,15 @@ class UserController(
             )
         }
 
-        if (jsonNode.has("id") || jsonNode.has("email")) {
+        if (jsonNode.has("email")) {
             //shouldn't be allowed to modify the counter id
             return ResponseEntity.status(409).body(
-                    UserResponseDTO(409, null, "You may not change email or id").validated()
+                    UserResponseDTO(409, null, "You may not change email").validated()
             )
         }
 
 
-        val entityOptional = userRepository.findById(id)
+        val entityOptional = userRepository.findById(email)
         if (!entityOptional.isPresent) return ResponseEntity.status(404).body(
                 UserResponseDTO(404, null, "This user could not be found").validated()
         )

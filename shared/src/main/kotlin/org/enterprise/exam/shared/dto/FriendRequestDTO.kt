@@ -10,16 +10,17 @@ enum class FriendRequestStatus {
 }
 
 @ApiModel("Describes a friend request, with status")
-class FriendRequestDTO (
+class FriendRequestDTO(
 
         @ApiModelProperty("Email of the user sending the request")
-    val senderEmail: String,
+        val senderEmail: String,
 
         @ApiModelProperty("Email of the user receiving the request")
-    val receiverEmail: String,
+        val receiverEmail: String,
 
         @ApiModelProperty("The current status of the request")
-    val status: FriendRequestStatus = FriendRequestStatus.PENDING,
+        val status: FriendRequestStatus = FriendRequestStatus.PENDING,
 
-        id: String
-): BaseDTO(id)
+        @ApiModelProperty("ID of the message")
+        val id: String?
+) : BaseDTO()

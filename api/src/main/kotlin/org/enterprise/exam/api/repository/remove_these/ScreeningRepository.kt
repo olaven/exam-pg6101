@@ -13,11 +13,11 @@ interface ScreeningRepository : CrudRepository<ScreeningEntity, Long>, Paginated
 
 @Transactional
 @Repository
-open class ScreeningRepositoryImpl(
+class ScreeningRepositoryImpl(
         private val entityManager: EntityManager
 ) : PaginatedRepository<ScreeningEntity> {
 
-    override fun getNextPage(size: Int, keysetId: Long?) =
+    override fun getNextPage(size: Int, keysetId: Any?) =
             generalGetNextPage<ScreeningEntity>(keysetId, size,
                     entityManager.createQuery("select screening from ScreeningEntity screening order by screening.id desc, screening.time", ScreeningEntity::class.java),
                     entityManager.createQuery("select screening from ScreeningEntity screening where screening.id < :keysetId order by screening.id desc, screening.time", ScreeningEntity::class.java)

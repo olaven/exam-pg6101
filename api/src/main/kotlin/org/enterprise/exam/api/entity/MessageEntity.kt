@@ -28,5 +28,5 @@ class MessageEntity (
 
         @field:Id
         @field:GeneratedValue
-        override var id: Long? = null
+        var id: Long? = null
 ): BaseEntity

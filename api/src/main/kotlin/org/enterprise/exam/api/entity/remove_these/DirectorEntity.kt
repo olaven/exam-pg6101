@@ -21,6 +21,6 @@ class DirectorEntity(
 
         @Id
         @GeneratedValue
-        override var id: Long? = null
+        var id: Long? = null
 
 ) : BaseEntity

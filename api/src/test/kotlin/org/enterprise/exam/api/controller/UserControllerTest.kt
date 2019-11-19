@@ -1,6 +1,5 @@
 package org.enterprise.exam.api.controller
 
-import com.sun.javafx.fxml.expression.Expression.notEqualTo
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
@@ -11,9 +10,7 @@ import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.nullValue
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class UserControllerTest : ControllerTestBase() {
@@ -23,7 +20,7 @@ internal class UserControllerTest : ControllerTestBase() {
     fun `can retrieve user`() {
 
         val user = persistUser(FIRST_USER)
-        get(user.id)
+        get(user.email)
                 .statusCode(200)
                 .body("data.email", equalTo(user.email))
                 .body("data.givenName", equalTo(user.givenName))
@@ -33,7 +30,7 @@ internal class UserControllerTest : ControllerTestBase() {
     @Test
     fun `getting 404 if not found`() {
 
-        get(-1)
+        get("does@notexist.com")
                 .statusCode(404)
                 .body("code", equalTo(404))
                 .body("data", nullValue())
@@ -101,17 +98,6 @@ internal class UserControllerTest : ControllerTestBase() {
 
         val secondAttempted = getDummyUser(FIRST_USER)
         post(secondAttempted, FIRST_USER)
-                .statusCode(409)
-    }
-
-    @Test
-    fun `POST to movies returns 409 if client tries to decide ID`() {
-
-        val user = getDummyUser(FIRST_USER)
-        user.email = FIRST_USER.email
-        user.id = "20" //NOTE: not `null`
-
-        post(user, FIRST_USER)
                 .statusCode(409)
     }
 
@@ -209,7 +195,7 @@ internal class UserControllerTest : ControllerTestBase() {
         val dto = UserPatchDTO(user.givenName, user.familyName)
 
         dto.givenName = "updated given name"
-        patch(user.id!!, dto, FIRST_USER)
+        patch(user.email!!, dto, FIRST_USER)
                 .statusCode(204)
     }
 
@@ -220,7 +206,7 @@ internal class UserControllerTest : ControllerTestBase() {
         val dto = UserPatchDTO(user.givenName, user.familyName)
 
         dto.familyName = null
-        patch(user.id!!, dto, FIRST_USER)
+        patch(user.email, dto, FIRST_USER)
                 .statusCode(400)
     }
 
@@ -230,7 +216,7 @@ internal class UserControllerTest : ControllerTestBase() {
         val otherUser = persistUser(SECOND_USER)
         val dto = UserPatchDTO(otherUser.givenName, otherUser.familyName)
 
-        patch(otherUser.id!!, dto, FIRST_USER)
+        patch(otherUser.email, dto, FIRST_USER)
                 .statusCode(403)
     }
 
@@ -244,30 +230,30 @@ internal class UserControllerTest : ControllerTestBase() {
 
         assertNotEquals(user.givenName, updatedName)
 
-        get(user.id)
+        get(user.email)
                 .statusCode(200)
                 .body("data.givenName", equalTo(user.givenName))
 
-        patch(user.id!!, dto, FIRST_USER)
+        patch(user.email!!, dto, FIRST_USER)
                 .statusCode(204)
 
-        get(user.id)
+        get(user.email)
                 .statusCode(200)
                 .body("data.givenName", equalTo(updatedName))
     }
 
-    private fun patch(id: Long, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+    private fun patch(email: String, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .contentType("application/merge-patch+json")
                     .body(userDTO)
-                    .patch("/users/${id}")
+                    .patch("/users/${email}")
                     .then()
 
-    private fun post(movie: UserDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+    private fun post(userDTO: UserDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .accept(ContentType.JSON)
                     .contentType(ContentType.JSON)
-                    .body(movie)
+                    .body(userDTO)
                     .post("/users")
                     .then()
 
@@ -276,8 +262,8 @@ internal class UserControllerTest : ControllerTestBase() {
             .get(path ?: "/users")
             .then()
 
-    private fun get(id: Long?) = given()
+    private fun get(email: String?) = given()
             .accept(ContentType.JSON)
-            .get("/users/$id")
+            .get("/users/$email")
             .then()
 }

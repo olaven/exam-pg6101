@@ -39,6 +39,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.POST, "/users").access("hasRole('USER')") // and @userSecurity.checkId(authentication, #userDTO)
                 .antMatchers(HttpMethod.PATCH, "/users/{id}").access("hasRole('USER')")
                 .antMatchers(HttpMethod.DELETE, "/messages/{id}").access("hasRole('ADMIN')")
+                .antMatchers(HttpMethod.POST, "/messages").access("hasRole('USER')")
                 //TODO: remove the below
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/{id}").permitAll()
