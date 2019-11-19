@@ -110,4 +110,11 @@ class Transformer(
             status = friendRequest.status,
             id = friendRequest.id.toString()
     )
+
+    fun friendRequestToEntity(friendRequestDTO: FriendRequestDTO) = FriendRequestEntity(
+            sender = userRepository.findById(friendRequestDTO.senderEmail).get(),
+            receiver = userRepository.findById(friendRequestDTO.receiverEmail).get(),
+            status = friendRequestDTO.status,
+            id = friendRequestDTO.id?.toLong()
+    )
 }

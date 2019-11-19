@@ -3,11 +3,16 @@ package org.enterprise.exam.api.controller
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.response.ValidatableResponse
+import org.enterprise.exam.api.WebSecurityConfigLocalFake
+import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.ADMIN_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.FIRST_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
+import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.hamcrest.Matchers
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class FriendRequestControllerTest : ControllerTestBase() {
@@ -17,6 +22,57 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
 
         persistUser(FIRST_USER)
         persistUser(SECOND_USER)
+    }
+
+    @Test
+    fun `PUT returns 204 on update`() {
+
+        val original = persistFriendRequest(SECOND_USER, FIRST_USER)
+        val dto = transformer.friendRequestToDTO(original)
+
+        assertTrue(dto.status != FriendRequestStatus.ACCEPTED)
+        dto.status = FriendRequestStatus.ACCEPTED
+
+        put(dto, FIRST_USER)
+                .statusCode(204)
+    }
+
+    @Test
+    fun `PUT returns 404 if it does not exist`() {
+
+        val dto = getFriendRequestDTO(SECOND_USER, FIRST_USER)
+        dto.id = "232323" //NOTE: does not exist
+        put(dto, FIRST_USER)
+                .statusCode(404)
+    }
+
+    @Test
+    fun `PUT returns 400 on a constraint violation`() {
+
+        val entity = persistFriendRequest(SECOND_USER, FIRST_USER)
+        val dto = transformer.friendRequestToDTO(entity)
+
+        dto.receiverEmail = "not@registered.com"
+        put(dto, FIRST_USER)
+                .statusCode(400)
+    }
+
+    @Test
+    fun `PUT returns 403 if someone other than receiver tries to update`() {
+
+        val original = persistFriendRequest(SECOND_USER, FIRST_USER)
+        val dto = transformer.friendRequestToDTO(original)
+
+        assertTrue(dto.status != FriendRequestStatus.ACCEPTED)
+        dto.status = FriendRequestStatus.ACCEPTED
+
+        //NOTE: FIRST_USER is receiver of this request
+        put(dto, SECOND_USER)
+                .statusCode(403)
+        put(dto, ADMIN_USER)
+                .statusCode(403)
+        put(dto, FIRST_USER)
+                .statusCode(204)
     }
 
     @Test
@@ -92,6 +148,13 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
         getAll(toSecondPage)
                 .body("data.next", Matchers.nullValue())
     }
+
+    private fun put(friendRequestDTO: FriendRequestDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
+            authenticated(user.email, user.password)
+                    .contentType(ContentType.JSON)
+                    .body(friendRequestDTO)
+                    .put("/requests/${friendRequestDTO.id}")
+                    .then()
 
 
     private fun getAll(receiver: String, status: FriendRequestStatus? = null): ValidatableResponse {

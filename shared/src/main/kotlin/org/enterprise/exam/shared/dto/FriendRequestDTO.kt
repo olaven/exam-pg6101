@@ -16,11 +16,11 @@ class FriendRequestDTO(
         val senderEmail: String,
 
         @ApiModelProperty("Email of the user receiving the request")
-        val receiverEmail: String,
+        var receiverEmail: String,
 
         @ApiModelProperty("The current status of the request")
-        val status: FriendRequestStatus = FriendRequestStatus.PENDING,
+        var status: FriendRequestStatus = FriendRequestStatus.PENDING,
 
         @ApiModelProperty("ID of the message")
-        val id: String?
+        var id: String? = null
 ) : BaseDTO()

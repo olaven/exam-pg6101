@@ -7,8 +7,6 @@ import io.restassured.specification.RequestSpecification
 import org.enterprise.exam.api.ApiApplication
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
-import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.FIRST_USER
-import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
 import org.enterprise.exam.api.entity.FriendRequestEntity
 import org.enterprise.exam.api.entity.MessageEntity
 import org.enterprise.exam.api.entity.UserEntity
@@ -21,6 +19,7 @@ import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.api.repository.remove_these.DirectorRepository
 import org.enterprise.exam.api.repository.remove_these.MovieRepository
 import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
+import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
@@ -176,6 +175,12 @@ abstract class ControllerTestBase {
                     receiver = userRepository.findById(receiver.email).get(),
                     status = status
             ))
+
+    protected fun getFriendRequestDTO(sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser) = FriendRequestDTO(
+            senderEmail = sender.email,
+            receiverEmail = receiver.email,
+            status = FriendRequestStatus.PENDING
+    )
 
     protected fun persistFriendRequests(count: Int, sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser) {
 
