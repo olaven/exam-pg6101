@@ -267,14 +267,14 @@ class UserController(
         *
         * However, the handling of `null` is important in JSON Merge Patch.
         * To showcase how JSON merge patch works, I am keeping the
-        * code like this. //TODO: write assumption in readme after testing
+        * code like this.
         * */
 
         entity.givenName = newGivenName
         entity.familyName = newFamilyName
 
         //NOTE: constraint violation will be caught by exception handler
-        val persisted = userRepository.save(entity)
+        userRepository.save(entity)
 
 
         return ResponseEntity.status(204).body(

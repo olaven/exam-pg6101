@@ -1,5 +1,35 @@
 # Exam Enterprise [![Build Status](https://travis-ci.com/olaven/exam-pg6101.svg?token=zTzVh5wrqM89cpyf9qVd&branch=master)](https://travis-ci.com/olaven/exam-pg6101)
 
+## Documentation
+
+### About the Application 
+
+### Test information 
+Some users are added by default: 
+* username: "admin@mail.com", password, "admin" (is administrator)
+* username: "adam@mail.com", password, "adam"
+* username: "charlie@mail.com", password, "charlie" 
+
+### Extras 
+* I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.
+* Added Swagger documentation and wrapped responses on authentication API
+* The project is running on Travis-CI
+
+### Assumptions
+* The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
+My assumption is that this is fine in an exam, as I want to show that load-balancing is working.
+* To authorize users, I am using `Authentication` as an argument to endpoint-functions instead of the method-based
+approach shown in class. This is because it gave me easy and readable access to the dto-object. My assumption is 
+that this is OK because the same functionality is achieved, and it is still achieved with Spring Security. 
+* I have removed the basic-auth setup that was shown during class, as it caused an annoying login-popup in the browser. 
+My assumption is that this is OK, as login with body is still supported.
+* The assignment states that there should be an API to handle user details. Since this is a requirement before B-grades/security,
+I am assuming that this API should be a separate one, and not part of an auth-service. I.e. I am assuming that it 
+should have the same role that the movies-API did in the mock-exam.
+* In my JSON Merge Patch implementation, I am allowing the user to enter null-values for `.givenName` and `.familyName`. 
+This is redundant, as it will result in a `ConstraintViolation` (i.e. 400). I have chosen to implement it anyway, 
+for the sake of showing how JSON Merge Patch treats null values. 
+ 
 ## Checklists
 
 ### Startup checklist 
@@ -30,14 +60,14 @@
 - [ ] Providing default data
 #### D mark
 ##### General
-- [ ] single entrypoint is gateway 
+- [X] single entrypoint is gateway 
 - [ ] whole app started with docker compose 
 - [ ] e2e _for each_ REST API
 ##### Application 
 nothing.
 #### C mark 
 ##### General
-- [ ] Provide a frontend
+- [X] Provide a frontend
 - [ ] all major features in app is executable from frontend
 ##### Application 
 - [ ] GUI
@@ -49,11 +79,11 @@ nothing.
     - [ ] Create and accept friend requests 
 #### B mark 
 ##### General
-- [ ] Security protecting REST API
+- [X] Security protecting REST API
 - [ ] Security is session based, through redis
 - [ ] frontend can signup/sign in user
 ##### Application 
-- [ ] Login/logout -> handled by other API (write assumption about this being auth )
+- [ ] Login/logout -> handled by other API 
 - [ ] Logged in user should see a welcome message
 - [ ] A user can create message on their own timeline
     - [ ] A test to verify this 
@@ -84,32 +114,3 @@ the user receives
 - [ ] zip project folder to `.zip`
 - [ ] ensure that folder size is < 10MB
 - [ ] rename folder to pg6100_ID_FROM_WIZEFLOW.zip
-
-
-## Documentation
-
-### About the Application 
-
-### Test information 
-Some users are added by default: 
-* username: "admin@mail.com", password, "admin" (is administrator)
-* username: "adam@mail.com", password, "adam"
-* username: "charlie@mail.com", password, "charlie" 
-
-### Extras 
-* I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.
-* Added Swagger documentation and wrapped responses on authentication API
-* The project is running on Travis-CI
-
-### Assumptions
-* The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
-My assumption is that this is fine in an exam, as I want to show that load-balancing is working.
-* To authorize users, I am using `Authentication` as an argument to endpoint-functions instead of the method-based
-approach shown in class. This is because it gave me easy and readable access to the dto-object. My assumption is 
-that this is OK because the same functionality is achieved, and it is still achieved with Spring Security. 
-* I have removed the basic-auth setup that was shown during class, as it caused an annoying login-popup in the browser. 
-My assumption is that this is OK, as login with body is still supported.
-* The assignment states that there should be an API to handle user details. Since this is a requirement before B-grades/security,
-I am assuming that this API should be a separate one, and not part of an auth-service. I.e. I am assuming that it 
-should have the same role that the movies-API did in the mock-exam.
- 
