@@ -17,6 +17,7 @@ import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -59,7 +60,7 @@ class RestApi(
     )
     @PostMapping(path = ["/signUp"],
             consumes = [(MediaType.APPLICATION_JSON_UTF8_VALUE)])
-    fun signIn(@RequestBody dto: AuthenticationDTO)
+    fun signIn(@RequestBody @Validated dto: AuthenticationDTO)
             : ResponseEntity<WrappedResponse<AuthenticationDTO>> {
 
         if (dto.userId == null || dto.password == null) {

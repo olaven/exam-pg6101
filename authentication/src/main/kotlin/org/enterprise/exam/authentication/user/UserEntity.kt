@@ -4,6 +4,7 @@ import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
+import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotNull
 class UserEntity(
 
         @get:Id
-        @get:NotBlank
+        @get:Email
         var username: String?,
 
         @get:NotBlank

@@ -84,54 +84,66 @@ class RestIT : GatewayIntegrationDockerTestBase() {
 
 
     @Test
-    fun `Can post friend request, if logged in`() {
+    fun `Can post user and friend request, if logged in`() {
 
         //NOTE: This test depends on default-user CHARLIE and ADAM  being added.
 
-        val userEmail = "charlie@mail.com"
-        val password = "charliepass"
+        val adamEmail = "adam@mail.com"
+        val adamPassword = "adampass"
 
-        val sessionCookie = given().contentType(ContentType.JSON)
+        val adamSession = given().contentType(ContentType.JSON)
                 .body("""
-                    {"userId": "$userEmail", "password": "$password"}
+                    {"userId": "$adamEmail", "password": "$adamPassword"}
                 """.trimIndent())
                 .post("/api/authentication/login")
                 .then()
                 .statusCode(204)
                 .extract().cookie("SESSION")
 
-  /*      val id = createUniqueId()
-        val pwd = "some_password"
-        val cookie = registerUser(id, pwd)*/
-
-        /*given().cookie("SESSION", cookie)
-                .get("/api/authentication/user")
-                .then()
-                .statusCode(200)
-                .body("data.name", equalTo(id))
-                .body("data.roles", contains("ROLE_USER"))*/
-
-
-
-        val userDTO = UserDTO(
-                email = userEmail,
+        val adamDTO = UserDTO(
+                email = adamEmail,
                 givenName = "Charlie",
                 familyName = "Stephens"
         )
 
-        given().cookie("SESSION", sessionCookie)
+        given().cookie("SESSION", adamSession)
                 .contentType(ContentType.JSON)
-                .body(userDTO)
+                .body(adamDTO)
+                .post("/api/users")
+                .then()
+                .statusCode(201)
+
+        val charlieEmail = "charlie@mail.com"
+        val charliePassword = "charliepass"
+
+        val charlieSession = given().contentType(ContentType.JSON)
+                .body("""
+                    {"userId": "$charlieEmail", "password": "$charliePassword"}
+                """.trimIndent())
+                .post("/api/authentication/login")
+                .then()
+                .statusCode(204)
+                .extract().cookie("SESSION")
+
+        val charlieDTO = UserDTO(
+                email = charlieEmail,
+                givenName = "Charlie",
+                familyName = "Stephens"
+        )
+
+        given().cookie("SESSION", charlieSession)
+                .contentType(ContentType.JSON)
+                .body(charlieDTO)
                 .post("/api/users")
                 .then()
                 .statusCode(201)
 
         val request = FriendRequestDTO(
-                senderEmail = userEmail, 
-                receiverEmail = "adam@mail.com"
+                senderEmail = charlieEmail,
+                receiverEmail = adamEmail
         )
 
-        val directorID = given().cookie("SESSION", sessionCookie) 
+        given().cookie("SESSION", charlieSession)
                 .contentType(ContentType.JSON)
                 .body(request)
                 .post("/api/requests")

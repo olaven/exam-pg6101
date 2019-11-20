@@ -1,8 +1,10 @@
 package org.enterprise.exam.authentication
 
+import org.springframework.amqp.core.FanoutExchange
 import org.springframework.boot.SpringApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Profile
 import org.springframework.core.annotation.Order
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,7 +18,7 @@ import javax.sql.DataSource
 
 /*
 * Before running this:
-* start redis, e.g. with docker run -p 6379:6379 redis for now.
+* start redis, e.g. with "docker run -p 6379:6379 redis".
 * */
 fun main(args: Array<String>) {
     SpringApplication.run(AuthenticationApplication::class.java, *args)

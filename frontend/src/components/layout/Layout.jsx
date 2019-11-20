@@ -11,7 +11,7 @@ export const Layout = props => {
     console.log("user in layout", user);
     return <Container>
 
-        <Header as={"h1"} dividing>Cinama page {user ? "- Logged in as " + user.name : ""}</Header>
+        <Header as={"h1"} dividing>Social Page {user ? "- Logged in as " + user.name : ""}</Header>
         <Links pages={props.pages}/>
 
         {props.children}
