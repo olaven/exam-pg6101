@@ -2,7 +2,7 @@ import * as React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {UserContextProvider} from "./context/UserContext"
 import {Layout} from "./layout/Layout";
-import {pages} from "./pages";
+import {pages} from "../utils/pages";
 
 
 const renderRoutes = (page) => <Route exact path={page.path} render={props =>

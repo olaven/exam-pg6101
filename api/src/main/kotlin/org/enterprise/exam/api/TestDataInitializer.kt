@@ -45,7 +45,7 @@ class TestDataInitializer(
         ))
 
 
-        val users = (0..5).map {
+        val users = (0..15).map {
 
             userRepository.save(UserEntity(
                     email = faker.internet().emailAddress(),

@@ -1,9 +1,9 @@
-import {Home} from "./pages/Home";
-import {Movies} from "./pages/movies/Movies";
-import {User} from "./pages/user/User";
-import {Admin} from "./pages/Admin";
-import {Search} from "./pages/Search";
-import {Profile} from "./pages/Profile";
+import {Home} from "../components/pages/Home";
+import {Movies} from "../components/pages/movies/Movies";
+import {User} from "../components/pages/user/User";
+import {Admin} from "../components/pages/Admin";
+import {Search} from "../components/pages/search/Search";
+import {Profile} from "../components/pages/Profile";
 
 /**
  * A page should contain

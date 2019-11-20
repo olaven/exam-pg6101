@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Button, Container, Header} from "semantic-ui-react";
-import {PaginationFetcher} from "../PaginationFetcher";
 import {MovieCard} from "./MovieCard";
+import {PaginationFetcher} from "../../../utils/PaginationFetcher";
 
 export const Movies = () => {
 

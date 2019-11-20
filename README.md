@@ -46,7 +46,7 @@ for the sake of showing how JSON Merge Patch treats null values.
     - [X] PATCH (JSON merge patch)
     - [X] DELETE
 - [X] Wrapped Responses
-- [X] Pagination 
+- [ ] Pagination -> MÅ INN MED TO KEYSETS 
 - [X] Swagger Doc
 - [X] One test per endpoint 
 - [X] Using postgres in production 
