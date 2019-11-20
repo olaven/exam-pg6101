@@ -1,12 +1,12 @@
 import * as React from "react";
 import {Button, Container, Header} from "semantic-ui-react";
-import {MovieFetcher} from "./MovieFetcher";
+import {PaginationFetcher} from "../PaginationFetcher";
 import {MovieCard} from "./MovieCard";
 
 export const Movies = () => {
 
     const [location, setLocation] = React.useState(null);
-    const moviePage = MovieFetcher(location);
+    const moviePage = PaginationFetcher(location, "/movies");
 
     return <Container>
         <Header>All Movies</Header>

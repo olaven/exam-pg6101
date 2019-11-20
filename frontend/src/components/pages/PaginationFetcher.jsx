@@ -1,19 +1,19 @@
 import * as React from "react";
-import {ApiFetch} from "../../ApiFetch";
+import {ApiFetch} from "../ApiFetch";
 
-export const MovieFetcher = (next) => {
+export const PaginationFetcher = (next, basePath) => {
 
-    const [moviePages, setMoviePages] = React.useState({
+    const [pages, setPages] = React.useState({
         list: [], next: null
     });
 
     const doFetch = async () => {
 
-        const response = await ApiFetch(next? next: "/movies");
+        const response = await ApiFetch(next? next: basePath);
         if (response.status === 200) {
 
             const page = (await response.json()).data;
-            setMoviePages(page);
+            setPages(page);
         } else {
 
             console.log("response failed: ", response);
@@ -25,5 +25,5 @@ export const MovieFetcher = (next) => {
         doFetch();
     }, [next]);
 
-    return moviePages;
+    return pages;
 };

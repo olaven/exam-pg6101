@@ -1,9 +1,9 @@
 import {Home} from "./pages/Home";
 import {Movies} from "./pages/movies/Movies";
-import {Screenings} from "./pages/Screenings";
-import {Booking} from "./pages/Booking";
 import {User} from "./pages/user/User";
 import {Admin} from "./pages/Admin";
+import {Search} from "./pages/Search";
+import {Profile} from "./pages/Profile";
 
 /**
  * A page should contain
@@ -16,19 +16,14 @@ export const pages = [
         component: Home
     },
     {
-        name: "Movies",
-        path: "/movies",
-        component: Movies
+        name: "Search",
+        path: "/search",
+        component: Search
     },
     {
-        name: "Screenings",
-        path: "/screenings",
-        component: Screenings
-    },
-    {
-        name: "Booking",
-        path: "/booking",
-        component: Booking
+        name: "Profile",
+        path: "/profile",
+        component: Profile
     },
     {
         name: "User Page",
