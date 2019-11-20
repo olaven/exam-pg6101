@@ -276,8 +276,7 @@ internal class UserControllerTest : ControllerTestBase() {
     fun `timeline pagination only returns 10 per page`() {
 
         setupTimelineTest(
-                sender = SECOND_USER,
-                receiver = FIRST_USER,
+                sender = FIRST_USER,
                 count = 15
         )
 
@@ -290,8 +289,7 @@ internal class UserControllerTest : ControllerTestBase() {
     fun `timeline can follow pagination next-links`() {
 
         setupTimelineTest(
-                sender = SECOND_USER,
-                receiver = FIRST_USER,
+                sender = FIRST_USER,
                 count = 25
         )
 
@@ -317,8 +315,7 @@ internal class UserControllerTest : ControllerTestBase() {
     fun `timeline pagination next-link is null on last page`() {
 
         setupTimelineTest(
-                sender = SECOND_USER,
-                receiver = FIRST_USER,
+                sender = FIRST_USER,
                 count = 15
         )
 
@@ -494,15 +491,14 @@ internal class UserControllerTest : ControllerTestBase() {
                     .post("/users")
                     .then()
 
-    private fun setupTimelineTest(sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser, count: Int) {
+    private fun setupTimelineTest(sender: WebSecurityConfigLocalFake.Companion.TestUser, count: Int) {
 
         persistUser(sender)
-        persistUser(receiver)
 
         // second user sends a lot of messages receiver first user
         (0 until count).forEach {
 
-            val message = getDummyMessage(sender.email, receiver.email)
+            val message = getDummyMessage(sender.email)
             postMessage(message, sender)
                     .statusCode(201)
         }

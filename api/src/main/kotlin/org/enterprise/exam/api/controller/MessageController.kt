@@ -98,7 +98,7 @@ class MessageController(
             authentication: Authentication
     ): ResponseEntity<WrappedResponse<MessageDTO>> {
 
-        if (authentication.name != messageDTO.senderEmail) {
+        if (authentication.name != messageDTO.senderEmail || authentication.name != messageDTO.receiverEmail) {
 
             return ResponseEntity.status(403).body(
                     MessageResponseDTO(403, null, "You are not allowed to send this message").validated()

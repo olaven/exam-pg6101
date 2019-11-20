@@ -19,16 +19,12 @@ import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
-import org.enterprise.exam.shared.dto.remove_these.DirectorDTO
-import org.enterprise.exam.shared.dto.remove_these.MovieDTO
-import org.enterprise.exam.shared.dto.remove_these.Room
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 
@@ -77,10 +73,10 @@ abstract class ControllerTestBase {
             email = user?.email ?: faker.internet().emailAddress()
     )
 
-    protected fun getDummyMessage(senderID: String, receiverID: String) = MessageDTO(
+    protected fun getDummyMessage(userID: String) = MessageDTO(
             text = faker.lorem().paragraph(),
-            senderEmail = senderID,
-            receiverEmail = receiverID,
+            senderEmail = userID,
+            receiverEmail = userID,
             creationTime = faker.date().past(3, TimeUnit.HOURS).toInstant().toEpochMilli(),
             id = null
     )

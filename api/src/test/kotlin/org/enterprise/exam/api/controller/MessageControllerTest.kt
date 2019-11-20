@@ -49,7 +49,7 @@ internal class MessageControllerTest: ControllerTestBase() {
     @Test
     fun `201 on successful POST`() {
 
-        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        val message = getDummyMessage(FIRST_USER.email)
         postMessage(message, FIRST_USER)
                 .statusCode(201)
     }
@@ -57,7 +57,7 @@ internal class MessageControllerTest: ControllerTestBase() {
     @Test
     fun `Can follow location on valid POST`() {
 
-        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        val message = getDummyMessage(FIRST_USER.email)
         val location = postMessage(message, FIRST_USER)
                 .statusCode(201)
                 .extract()
@@ -70,15 +70,17 @@ internal class MessageControllerTest: ControllerTestBase() {
     @Test
     fun `403 if not sender`() {
 
-        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        val message = getDummyMessage(FIRST_USER.email)
         postMessage(message, ADMIN_USER) //NOTE: not sender
                 .statusCode(403)
     }
 
+
+
     @Test 
     fun `400 on breaking constraint violations`() {
 
-        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        val message = getDummyMessage(FIRST_USER.email)
         message.text = "" //NOTE: can not be empty
         postMessage(message, FIRST_USER) //NOTE: not sender
                 .statusCode(400)
@@ -87,7 +89,7 @@ internal class MessageControllerTest: ControllerTestBase() {
     @Test
     fun `409 on POST if id is not null`() {
 
-        val message = getDummyMessage(FIRST_USER.email, SECOND_USER.email)
+        val message = getDummyMessage(FIRST_USER.email)
         message.id = "22" //NOTE: not null
         postMessage(message, FIRST_USER) //NOTE: not sender
                 .statusCode(409)
