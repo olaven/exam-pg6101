@@ -1,18 +1,26 @@
 package org.enterprise.exam.api
 
 import com.github.javafaker.Faker
-import org.enterprise.exam.shared.dto.remove_these.Room
+import org.enterprise.exam.api.entity.FriendRequestEntity
+import org.enterprise.exam.api.entity.MessageEntity
+import org.enterprise.exam.api.entity.UserEntity
+import org.enterprise.exam.api.repository.FriendRequestRepository
+import org.enterprise.exam.api.repository.MessageRepository
+import org.enterprise.exam.api.repository.UserRepository
+import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 import javax.annotation.PostConstruct
+import kotlin.random.Random
 
-@Profile("test")
+@Profile("test") //TODO: should this always be added, or just locally?
 @Component
 class TestDataInitializer(
-
+    private val userRepository: UserRepository,
+    private val friendRequestRepository: FriendRequestRepository,
+    private val messageRepository: MessageRepository
 ) {
 
     val faker = Faker()
@@ -23,31 +31,66 @@ class TestDataInitializer(
 
         //TODO: add test data
 
-        /*val directors = (0..3).map {
+        //TODO: add test user data for auth-admin users as wel
 
-            directorRepository.save(DirectorEntity(
+        val users = (0..5).map {
+
+            userRepository.save(UserEntity(
+                    email = faker.internet().emailAddress(),
                     givenName = faker.name().firstName(),
                     familyName = faker.name().lastName()
             ))
         }
 
-        val movies = (0..25).map {
+        val friendRequests = (0..25).map {
 
-           movieRepository.save(MovieEntity(
-                   title = faker.book().title(),
-                   year = faker.number().numberBetween(1900, 2020),
-                   director = directors.random()
-           ))
+            val sender = randomUser(users)
+            friendRequestRepository.save(FriendRequestEntity(
+                    sender = sender,
+                    receiver = randomUser(users, sender), //avoiding that people make friends with themselves
+                    status = FriendRequestStatus.values().random()
+            ))
         }
 
-        val screenings = (0..10).map {
+        friendRequests.forEach { friendRequest ->
 
-            screeningRepository.save(ScreeningEntity(
-                    time = ZonedDateTime.from(faker.date().future(44, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())),
-                    movie = movies.random(),
-                    room = Room.values().random(),
-                    availableTickets = faker.run { number().numberBetween(0, 200) }
-            ))
-        }*/
+            if (friendRequest.status == FriendRequestStatus.ACCEPTED) {
+
+                val firstMessageCount = Random.nextInt(1, 5)
+                (0 until firstMessageCount).forEach { _ ->
+
+                    messageRepository.save(MessageEntity(
+                            sender = friendRequest.sender,
+                            receiver = friendRequest.receiver,
+                            text = faker.lorem().paragraph(),
+                            creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+                    ))
+                }
+
+
+                val secondMessageCount = Random.nextInt(1, 5)
+                (0 until secondMessageCount).forEach { _ ->
+
+                    messageRepository.save(MessageEntity(
+                            sender = friendRequest.receiver,
+                            receiver = friendRequest.sender,
+                            text = faker.lorem().paragraph(),
+                            creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+                    ))
+                }
+            }
+        }
+    }
+
+    private fun randomUser(users: List<UserEntity>, not: UserEntity? = null): UserEntity {
+
+        require(users.size > 1) { "users.size has to be >= 2, or else this will cause infinite loop" }
+
+        var user = users.random()
+        while (user.email == not?.email) {
+            user = users.random()
+        }
+
+        return user
     }
 }

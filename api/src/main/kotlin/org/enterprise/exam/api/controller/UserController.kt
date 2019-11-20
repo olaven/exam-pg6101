@@ -5,17 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.entity.UserEntity
-import org.enterprise.exam.api.repository.*
+import org.enterprise.exam.api.repository.MessageRepository
+import org.enterprise.exam.api.repository.Page
+import org.enterprise.exam.api.repository.UserRepository
+import org.enterprise.exam.api.repository.paginatedResponse
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.response.UserResponseDTO
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import java.net.URI
-import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/users")
@@ -70,8 +71,8 @@ class UserController(
                 WrappedResponse(200, page).validated()
         )
     }
-    
-    
+
+
     @GetMapping("/{email}/timeline")
     @ApiOperation("Get the timeline of the user")
     @ApiResponses(

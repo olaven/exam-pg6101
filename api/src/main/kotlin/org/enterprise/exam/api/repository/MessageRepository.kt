@@ -26,16 +26,17 @@ class MessageRepositoryImpl(
     override fun getTimeline(email: String, keysetDate: Long?, pageSize: Int): List<MessageEntity> {
 
         val query = if (keysetDate == null)
-            entityManager.createQuery("select message from MessageEntity message order by message.creationTime desc, message.id desc", MessageEntity::class.java)
+            entityManager.createQuery("select message from MessageEntity message where message.receiver.email = :email order by message.creationTime desc, message.id desc", MessageEntity::class.java)
         else {
 
             val convertedDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(keysetDate), ZoneId.systemDefault())
             entityManager
-                    .createQuery("select message from MessageEntity message where message.creationTime < :keysetDate order by message.creationTime desc, message.id desc", MessageEntity::class.java)
+                    .createQuery("select message from MessageEntity message where message.receiver.email = :email and message.creationTime < :keysetDate order by message.creationTime desc, message.id desc", MessageEntity::class.java)
                     .setParameter("keysetDate", convertedDate)
 
         }
 
+        query.setParameter("email", email)
         query.maxResults = pageSize
         return query.resultList
     }

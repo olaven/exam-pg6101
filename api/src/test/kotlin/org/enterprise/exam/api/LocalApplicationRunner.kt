@@ -15,11 +15,11 @@ fun main(args: Array<String>) {
 
 @Profile("test")
 @Configuration
-open class Config {
+class Config {
 
     //NOTE: Modifying CORS during test, as will run from different origin when developing frontend.
     @Bean
-    open fun corsConfigurer(): WebMvcConfigurer {
+    fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurerAdapter() {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**")
