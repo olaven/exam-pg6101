@@ -9,11 +9,11 @@
 ### Main checklist
 #### E mark
 #### General
-- [ ] Endpoints 
+- [X] Endpoints 
     - [X] GET
     - [X] POST
     - [X] PUT
-    - [ ] PATCH (JSON merge patch)
+    - [X] PATCH (JSON merge patch)
     - [X] DELETE
 - [X] Wrapped Responses
 - [X] Pagination 
@@ -21,7 +21,8 @@
 - [X] One test per endpoint 
 - [X] Usingp posgres in production 
 - [X] Flyway 
-- [ ] at least 70% test coverage
+- [X] at least 70% test coverage
+
 ##### Application
 - [X] API for user details (bruk custom security funksjon) 
 - [X] Friendship requests

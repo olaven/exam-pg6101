@@ -16,11 +16,11 @@ class UserEntity (
         @field:Size(min = 2, max = 300)
         var email: String,
 
-        @field:NotNull
+        @field:NotBlank
         @field:Size(min = 1, max = 250)
         var givenName: String?,
 
-        @field:NotNull
+        @field:NotBlank
         @field:Size(min = 1, max = 350)
         var familyName: String?
 

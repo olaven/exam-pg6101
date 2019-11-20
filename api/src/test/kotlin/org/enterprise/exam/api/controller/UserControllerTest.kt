@@ -56,7 +56,7 @@ internal class UserControllerTest : ControllerTestBase() {
         user.givenName = ""; //below minimum threshold
         post(user, FIRST_USER)
                 .statusCode(400)
-                .body("message", equalTo("givenName size must be between 1 and 250"))
+                .body("message", equalTo("givenName size must be between 1 and 250; givenName must not be blank"))
     }
 
     @Test

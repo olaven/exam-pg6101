@@ -140,6 +140,7 @@ class UserController(
     @ApiOperation("Create a user")
     @ApiResponses(
             ApiResponse(code = 201, message = "The userDTO was created"),
+            ApiResponse(code = 203, message = "auth-user is not authorized to create this user"),
             ApiResponse(code = 400, message = "There was something wrong with the request")
     )
     fun createUser(
@@ -273,10 +274,11 @@ class UserController(
         entity.familyName = newFamilyName
 
         //NOTE: constraint violation will be caught by exception handler
-        userRepository.save(entity)
+        val persisted = userRepository.save(entity)
+
 
         return ResponseEntity.status(204).body(
-                UserResponseDTO(204, null)
+                UserResponseDTO(204, null).validated()
         )
     }
 
