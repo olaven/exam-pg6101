@@ -3,6 +3,7 @@ package org.enterprise.exam.api.controller
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
+import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.ADMIN_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.FIRST_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
 import org.enterprise.exam.api.entity.UserEntity
@@ -250,9 +251,24 @@ internal class UserControllerTest : ControllerTestBase() {
     fun `can GET timeline of user`() {
 
         val user = persistUser(FIRST_USER)
-        getTimeline(user.email)
+        getTimeline(user.email, FIRST_USER)
                 .statusCode(200)
                 .body("data.list.size()", equalTo(0)) //as no messages are added
+    }
+
+    @Test
+    fun `can only see timeline of friends`() {
+
+        val first = persistUser(FIRST_USER)
+        val second = persistUser(SECOND_USER)
+
+        getTimeline(first.email, SECOND_USER)
+                .statusCode(403)
+
+        persistFriendRequest(first.email, second.email, FriendRequestStatus.ACCEPTED)
+
+        getTimeline(first.email, SECOND_USER)
+                .statusCode(200)
     }
 
 
@@ -265,7 +281,7 @@ internal class UserControllerTest : ControllerTestBase() {
                 count = 15
         )
 
-        getTimeline(FIRST_USER.email)
+        getTimeline(FIRST_USER.email, FIRST_USER)
                 .statusCode(200)
                 .body("data.list.size()", equalTo(10))
     }
@@ -279,20 +295,20 @@ internal class UserControllerTest : ControllerTestBase() {
                 count = 25
         )
 
-        val toSecondPage = getTimeline(FIRST_USER.email)
+        val toSecondPage = getTimeline(FIRST_USER.email, FIRST_USER)
                 .statusCode(200)
                 .body("data.list.size()", equalTo(10))
                 .extract()
                 .jsonPath()
                 .get<String>("data.next")
 
-        val toThirdPage = getTimeline(FIRST_USER.email, toSecondPage).statusCode(200)
+        val toThirdPage = getTimeline(FIRST_USER.email, FIRST_USER, toSecondPage).statusCode(200)
                 .body("data.list.size()", equalTo(10))
                 .extract()
                 .jsonPath()
                 .get<String>("data.next")
 
-        getTimeline(FIRST_USER.email, toThirdPage)
+        getTimeline(FIRST_USER.email, FIRST_USER, toThirdPage)
                 .statusCode(200)
                 .body("data.list.size()", equalTo(5))
     }
@@ -306,13 +322,13 @@ internal class UserControllerTest : ControllerTestBase() {
                 count = 15
         )
 
-        val toSecondPage = getTimeline(FIRST_USER.email)
+        val toSecondPage = getTimeline(FIRST_USER.email, FIRST_USER)
                 .body("data.next", Matchers.notNullValue())
                 .extract()
                 .jsonPath()
                 .get<String>("data.next")
 
-        getTimeline(FIRST_USER.email, toSecondPage)
+        getTimeline(FIRST_USER.email, FIRST_USER, toSecondPage)
                 .body("data.next", nullValue())
     }
 
@@ -392,6 +408,50 @@ internal class UserControllerTest : ControllerTestBase() {
                 .body("data.next", nullValue())
     }
 
+    @Test
+    fun `is possible to search`() {
+
+        persistUser(FIRST_USER)
+        persistUser(SECOND_USER)
+        persistUser(ADMIN_USER)
+
+        getAll()
+                .statusCode(200)
+                .body("data.list.size()", equalTo(3))
+
+        getAllSearch(FIRST_USER.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(1))
+    }
+
+    @Test
+    fun `can do a partial search`() {
+
+
+        /*
+        * NOTE: This test depends on all added users having
+        * _different prefixes_ and _same suffix_ in their
+        * email addresses.
+        * */
+
+
+        persistUser(FIRST_USER)
+        persistUser(SECOND_USER)
+        persistUser(ADMIN_USER)
+
+        getAll()
+                .statusCode(200)
+                .body("data.list.size()", equalTo(3))
+
+        getAllSearch(FIRST_USER.email.substringBefore("@"))
+                .statusCode(200)
+                .body("data.list.size()", equalTo(1))
+
+        getAllSearch(FIRST_USER.email.substringAfterLast("@"))
+                .statusCode(200)
+                .body("data.list.size()", equalTo(3))
+    }
+
     private fun patch(email: String, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .contentType("application/merge-patch+json")
@@ -444,13 +504,21 @@ internal class UserControllerTest : ControllerTestBase() {
             .get(path ?: "/users")
             .then()
 
+    /**
+     * NOTE: will only get first page right now
+     */
+    private fun getAllSearch(searchTerm: String) = given()
+            .accept(ContentType.JSON)
+            .get("/users?searchTerm=$searchTerm")
+            .then()
+
     private fun getFriends(email: String, path: String? = null) = given()
             .accept(ContentType.JSON)
             .get(
                     path ?: "/users/$email/friends")
             .then()
 
-    private fun getTimeline(email: String, path: String? = null) = given()
+    private fun getTimeline(email: String, asUser: WebSecurityConfigLocalFake.Companion.TestUser, path: String? = null) = authenticated(asUser.email, asUser.password)
             .accept(ContentType.JSON)
             .get(
                     path ?: "/users/$email/timeline")

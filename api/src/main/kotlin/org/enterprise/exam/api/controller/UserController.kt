@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.entity.UserEntity
-import org.enterprise.exam.api.repository.MessageRepository
-import org.enterprise.exam.api.repository.Page
-import org.enterprise.exam.api.repository.UserRepository
-import org.enterprise.exam.api.repository.paginatedResponse
+import org.enterprise.exam.api.repository.*
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.response.UserResponseDTO
@@ -24,6 +21,7 @@ import java.net.URI
 class UserController(
         private val userRepository: UserRepository,
         private val messageRepository: MessageRepository,
+        private val friendRequestRepository: FriendRequestRepository,
         private val transformer: Transformer
 ) {
 
@@ -35,12 +33,29 @@ class UserController(
     )
     fun getAll(
             @ApiParam("The pagination keyset id")
-            @RequestParam("keysetId", required = false)
-            keysetId: String?
-    ) = paginatedResponse("users", 10, userRepository, keysetId,
-            {
-                transformer.userToDTO(it)
-            }) { it.email }
+            @RequestParam("keysetEmail", required = false)
+            keysetEmail: String?,
+            @ApiParam("Search term on email")
+            @RequestParam("searchTerm", required = false)
+            searchTerm: String?
+    ): WrappedResponse<Page<UserDTO>> {
+
+
+        val pageSize = 10
+        val users = userRepository.getPage(keysetEmail, searchTerm, pageSize)
+                .map { transformer.userToDTO(it) }
+
+
+        val next = if (users.size == pageSize)
+            if (searchTerm != null)
+                "/users?keysetEmail=${users.last().email}&searchTerm=${searchTerm}"
+            else
+                "/users?keysetEmail=${users.last().email}"
+        else null
+
+        val page = Page(users, next)
+        return WrappedResponse(200, page).validated()
+    }
 
 
     @GetMapping("/{email}/friends")
@@ -76,7 +91,8 @@ class UserController(
     @GetMapping("/{email}/timeline")
     @ApiOperation("Get the timeline of the user")
     @ApiResponses(
-            ApiResponse(code = 200, message = "successfully retrieved timeline")
+            ApiResponse(code = 200, message = "successfully retrieved timeline"),
+            ApiResponse(code = 403, message = "May only see timeline of friends")
     )
     fun getTimeline(
             @ApiParam("The email of the given user")
@@ -84,9 +100,15 @@ class UserController(
             email: String,
             @ApiParam("The pagination keyset date (i.e. date of last fetched, if any)")
             @RequestParam("keysetDate", required = false)
-            keysetDate: Long?
+            keysetDate: Long?,
+            authentication: Authentication
     ): ResponseEntity<WrappedResponse<Page<MessageDTO>>> {
 
+        val areFriends = friendRequestRepository.areFriends(email, authentication.name)
+
+        if (!areFriends && email != authentication.name) return ResponseEntity.status(403).body(
+                WrappedResponse<Page<MessageDTO>>(403, null, "You may only view the timeline of yourself, and your friends").validated()
+        )
 
         val pageSize = 10
         val messages = messageRepository.getTimeline(email, keysetDate, pageSize)
@@ -142,6 +164,7 @@ class UserController(
     @ApiResponses(
             ApiResponse(code = 201, message = "The userDTO was created"),
             ApiResponse(code = 203, message = "auth-user is not authorized to create this user"),
+            ApiResponse(code = 403, message = "You are not allowed to create this user"),
             ApiResponse(code = 400, message = "There was something wrong with the request")
     )
     fun createUser(

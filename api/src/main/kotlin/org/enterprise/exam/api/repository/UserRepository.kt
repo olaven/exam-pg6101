@@ -9,13 +9,12 @@ import javax.persistence.EntityManager
 
 
 @Repository
-interface UserRepository : CrudRepository<UserEntity, String>, PaginatedRepository<UserEntity>, CustomUserRepository {
-
-}
+interface UserRepository : CrudRepository<UserEntity, String>, CustomUserRepository
 
 interface CustomUserRepository {
 
     fun getFriends(email: String, keysetId: String?, pageSize: Int): List<UserEntity>
+    fun getPage(keysetEmail: String?, searchTerm: String?, pageSize: Int): List<UserEntity>
 }
 
 
@@ -23,17 +22,10 @@ interface CustomUserRepository {
 @Repository
 class UserRepositoryImpl(
         private val entityManager: EntityManager
-) : PaginatedRepository<UserEntity>, CustomUserRepository {
-
-    override fun getNextPage(size: Int, keysetId: Any?) =
-            generalGetNextPage<UserEntity>(keysetId, size,
-                    entityManager.createQuery("select user from UserEntity user order by user.email desc, user.familyName", UserEntity::class.java),
-                    entityManager.createQuery("select user from UserEntity user where user.email < :keysetId order by user.email desc, user.familyName", UserEntity::class.java)
-            )
+) : CustomUserRepository {
 
     override fun getFriends(email: String, keysetId: String?, pageSize: Int): List<UserEntity> {
 
-        //TODO: pagination
         val query =
                 entityManager.createQuery(
                         "select user from UserEntity user where " +
@@ -51,5 +43,33 @@ class UserRepositoryImpl(
 
         query.maxResults = pageSize
         return query.resultList
+    }
+
+    override fun getPage(keysetEmail: String?, searchTerm: String?, pageSize: Int): List<UserEntity> {
+
+        if (keysetEmail != null) {
+
+            val query =
+                    if (searchTerm != null)
+                        entityManager.createQuery("select user from UserEntity user where user.email like :searchTerm: and user.email < :keysetEmail order by user.email desc", UserEntity::class.java)
+                                .setParameter("searchTerm", "%$searchTerm%")
+                    else
+                        entityManager.createQuery("select user from UserEntity user where user.email < :keysetEmail order by user.email desc", UserEntity::class.java)
+
+            query.setParameter("keysetEmail", keysetEmail)
+            query.maxResults = pageSize
+            return query.resultList
+        } else {
+
+            val query =
+                    if (searchTerm != null)
+                        entityManager.createQuery("select user from UserEntity user where user.email like :searchTerm order by user.email desc", UserEntity::class.java)
+                                .setParameter("searchTerm", "%$searchTerm%")
+                    else
+                        entityManager.createQuery("select user from UserEntity user order by user.email desc", UserEntity::class.java)
+
+            query.maxResults = pageSize
+            return query.resultList
+        }
     }
 }

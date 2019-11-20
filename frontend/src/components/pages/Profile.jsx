@@ -34,11 +34,12 @@ export const Profile = props => {
 
     return <Container>
 
+        <Header as={"h1"}>Profile of {user.givenName} {user.familyName}</Header>
 
-
-        <Header as={"h1"}>Profile of USER</Header>
-
-        <Header as={"h2"}>Create a new message</Header>
+        {user.email !== auth.name?
+            <Header as={"h2"}>Create a new message</Header>:
+            <Header as={"h2"}>This is your timeline</Header>
+        }
 
         <Header as={"h2"}>Timeline</Header>
     </Container>;

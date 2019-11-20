@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 import javax.annotation.PostConstruct
 import kotlin.random.Random
 
-@Profile("test") //TODO: should this always be added, or just locally?
+
 @Component
 class TestDataInitializer(
     private val userRepository: UserRepository,
@@ -29,9 +29,21 @@ class TestDataInitializer(
     fun `add test data`() {
 
 
-        //TODO: add test data
+        val admin = userRepository.save(UserEntity(
+                "admin@mail.com",
+                "AdminGiven", "AdminFamily"
+        ))
 
-        //TODO: add test user data for auth-admin users as wel
+        val adam = userRepository.save(UserEntity(
+                "adam@mail.com",
+                "Adam", "Adamson"
+        ))
+
+        val charlie = userRepository.save(UserEntity(
+                "charlie@mail.com",
+                "Charlie", "Charlson"
+        ))
+
 
         val users = (0..5).map {
 
@@ -40,7 +52,17 @@ class TestDataInitializer(
                     givenName = faker.name().firstName(),
                     familyName = faker.name().lastName()
             ))
+        }.toMutableList().apply {
+
+            addAll(listOf(
+                    admin, adam, charlie
+            ))
         }
+
+
+
+
+
 
         val friendRequests = (0..25).map {
 

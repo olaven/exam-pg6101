@@ -14,5 +14,7 @@ spring:
     show-sql: true
   profiles:
     active: "test"
+  session:
+    store-type: none #TODO: remove if not using in memory in testing
 server:
   port: 8081 # useful when developing frontend

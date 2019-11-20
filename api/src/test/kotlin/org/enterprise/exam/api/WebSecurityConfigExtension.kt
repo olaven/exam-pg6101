@@ -2,6 +2,7 @@ package org.enterprise.exam.api
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -44,7 +45,7 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
 
         val ADMIN_USER = object : TestUser {
 
-            override val email = "admin"
+            override val email = "admin@mail.com"
             override val password = "admin"
         }
     }
@@ -54,8 +55,12 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
         super.configure(http)
 
         http
-                /*.httpBasic()
-                .and()*/
+                .httpBasic()
+                /*.authenticationEntryPoint { request, response, exception ->
+                    // replacing browser popup
+                    response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase);
+                }*/
+                .and()
                 //but then override the session management
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)

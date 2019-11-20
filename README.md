@@ -49,7 +49,7 @@ for the sake of showing how JSON Merge Patch treats null values.
 - [X] Pagination 
 - [X] Swagger Doc
 - [X] One test per endpoint 
-- [X] Usingp posgres in production 
+- [X] Using postgres in production 
 - [X] Flyway 
 - [X] at least 70% test coverage
 
@@ -57,7 +57,7 @@ for the sake of showing how JSON Merge Patch treats null values.
 - [X] API for user details (bruk custom security funksjon) 
 - [X] Friendship requests
 - [X] Messages on a users timeline 
-- [ ] Providing default data
+- [X] Providing default data
 #### D mark
 ##### General
 - [X] single entrypoint is gateway 
@@ -86,8 +86,9 @@ nothing.
 - [ ] Login/logout -> handled by other API 
 - [ ] Logged in user should see a welcome message
 - [ ] A user can create message on their own timeline
-    - [ ] A test to verify this 
-- [ ] A user  should see timelines of friends (in separate view -> assumption?)
+    - [ ] A test to verify this
+- [ ] Sikkerhet på timeline 
+- [ ] A user should see timelines of friends (in separate view -> assumption?)
     - [ ] A test to verify this 
 #### A mark 
 ##### General

@@ -11,35 +11,34 @@ import javax.persistence.EntityManager
 @Repository
 interface FriendRequestRepository : CrudRepository<FriendRequestEntity, Long>, CustomFriendRequestRepository  //TODO: FIX pagination
 
-
-
-/*@Transactional
-@Repository
-class FriendRequestRepositoryImpl(
-        private val entityManager: EntityManager
-) : PaginatedRepository<FriendRequestEntity> {
-
-    override fun getNextPage(size: Int, keysetId: Any?) =
-            generalGetNextPage<FriendRequestEntity>(keysetId, size,
-                    entityManager.createQuery("select request from FriendRequestEntity request order by request.id desc, request.receiver.email", FriendRequestEntity::class.java),
-                    entityManager.createQuery("select request from FriendRequestEntity request where request.id < :keysetId order by request.id desc, request.receiver.email", FriendRequestEntity::class.java)
-            )
-}*/
-/*
-*
-* entityManager.createQuery("select user from UserEntity user order by user.email desc, user.familyName", UserEntity::class.java),
-entityManager.createQuery("select user from UserEntity user where user.email < :keysetId order by user.email desc, user.familyName", UserEntity::class.java)*/
-
-
 interface CustomFriendRequestRepository {
 
     fun paginatedByReceiver(email: String, keysetId: Long?, pageSize: Int): List<FriendRequestEntity>
     fun paginatedByReceiverAndStatus(email: String, status: FriendRequestStatus, keysetId: Long?, pageSize: Int): List<FriendRequestEntity>
+    fun areFriends(first: String, second: String): Boolean
 }
 
 class FriendRequestRepositoryImpl(
         private val entityManager: EntityManager
 ) : CustomFriendRequestRepository {
+
+    override fun areFriends(first: String, second: String): Boolean {
+
+        val firstQuery = entityManager.createQuery("select request from FriendRequestEntity request where request.sender.email = :first and request.receiver.email = :second and request.status = :status", FriendRequestEntity::class.java)
+                .setParameter("first", first)
+                .setParameter("second", second)
+                .setParameter("status", FriendRequestStatus.ACCEPTED)
+
+        val secondQuery = entityManager.createQuery("select request from FriendRequestEntity request where request.sender.email = :second and request.receiver.email = :first and request.status = :status", FriendRequestEntity::class.java)
+                .setParameter("first", first)
+                .setParameter("second", second)
+                .setParameter("status", FriendRequestStatus.ACCEPTED)
+
+        val firstResult = firstQuery.resultList.size > 0
+        val secondResult = secondQuery.resultList.size > 0
+
+        return firstResult || secondResult
+    }
 
     override fun paginatedByReceiver(email: String, keysetId: Long?, pageSize: Int): List<FriendRequestEntity> {
 
