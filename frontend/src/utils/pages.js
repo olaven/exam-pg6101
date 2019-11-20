@@ -3,7 +3,7 @@ import {Movies} from "../components/pages/movies/Movies";
 import {User} from "../components/pages/user/User";
 import {Admin} from "../components/pages/Admin";
 import {Search} from "../components/pages/search/Search";
-import {Profile} from "../components/pages/Profile";
+import {Profile} from "../components/pages/profile/Profile";
 
 /**
  * A page should contain
