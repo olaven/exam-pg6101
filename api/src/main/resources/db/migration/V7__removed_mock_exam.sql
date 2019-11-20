@@ -1,6 +1,6 @@
-drop table if exists friend_request_entity;
-drop table if exists message_entity;
-drop table if exists user_entity;
+drop table if exists friend_request_entity cascade;
+drop table if exists message_entity cascade;
+drop table if exists user_entity cascade;
 drop sequence if exists hibernate_sequence;
 create sequence hibernate_sequence start with 1 increment by 1;
 create table friend_request_entity (id bigint not null, status varchar(255), receiver_email varchar(255), sender_email varchar(255), primary key (id));
