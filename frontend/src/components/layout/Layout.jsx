@@ -11,7 +11,7 @@ export const Layout = props => {
     return <Container>
 
         <Header as={"h1"} dividing>Social Page {auth ? "- Logged in as " + auth.name : ""}</Header>
-        <Links pages={props.pages}/>
+        <Links exclusions={["Profile"]} pages={props.pages}/>
 
         {props.children}
     </Container>;

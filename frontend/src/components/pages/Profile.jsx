@@ -5,7 +5,6 @@ import {UserContext} from "../context/UserContext";
 export const Profile = props => {
 
     const {auth, getUser} = React.useContext(UserContext);
-
     const [user, setUser] = React.useState(null);
 
 
@@ -13,16 +12,11 @@ export const Profile = props => {
 
         const loadUser = async () => {
 
-            if (props.email) {
-
-                const user = await getUser(props.email);
-                setUser(user);
-            } else if(auth !== null) {
-
-                console.log("should try to get ", auth.name);
-                const user = await getUser(auth.name);
-                setUser(user);
-            }
+            console.log("form profile: ", props);
+            const { email } = props.match.params;
+            console.log("Fro mprofile", email);
+            const user = await getUser(email);
+            setUser(user);
         };
 
         loadUser()

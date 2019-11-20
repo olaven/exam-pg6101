@@ -22,12 +22,12 @@ export const pages = [
     },
     {
         name: "Profile",
-        path: "/profile",
+        path: "/profile/:email",
         component: Profile
     },
     {
-        name: "User Page",
-        path: "/user",
+        name: "Login/Signup",
+        path: "/login",
         component: User
     },
     {

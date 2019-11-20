@@ -5,27 +5,36 @@ import {SearchResult} from "./SearchResult";
 
 export const Search = () => {
 
-   const [searchTerm, setSearchTerm] = React.useState(null);
-   const [location, setLocation] = React.useState(null);
-   const userPage = PaginationFetcher(location, "/users");
+    const [searchTerm, setSearchTerm] = React.useState(null);
+    const [location, setLocation] = React.useState(null);
+    const userPage = PaginationFetcher(location, "/users");
 
-   React.useEffect(() => {
+    React.useEffect(() => {
 
-      if (searchTerm === null || searchTerm === "") {
+        if (searchTerm === null || searchTerm === "") {
 
-         setLocation(null);
-      } else {
+            setLocation(null);
+        } else {
 
-         setLocation("/users?searchTerm=" + searchTerm)
-      }
-   }, [searchTerm]);
+            setLocation("/users?searchTerm=" + searchTerm)
+        }
+    }, [searchTerm]);
 
-   console.log("this is the location, ", location);
+    console.log("this is the location, ", location);
 
-   return <Container>
-      <Header as={"h2"}>Search for friends:</Header>
-      <Input placeholder={"email"} onChange={(event) => {setSearchTerm(event.target.value)}}/>
-      {userPage.list.map(user => <SearchResult user={user}/>)}
-      <Button onClick={() => {setLocation(userPage.next)}}>Load more</Button>
-   </Container>;
+    return <Container>
+        <Header as={"h2"}>Search for friends:</Header>
+
+        <Input placeholder={"email"} onChange={(event) => {
+            setSearchTerm(event.target.value)
+        }}/>
+
+        {userPage.list.map(user =>
+            <SearchResult user={user} key={user.email}/>)
+        }
+
+        <Button onClick={() => {
+            setLocation(userPage.next)
+        }}>Load more</Button>
+    </Container>;
 };
