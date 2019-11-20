@@ -5,14 +5,16 @@ import io.restassured.http.ContentType
 import org.enterprise.exam.api.WebSecurityConfigLocalFake
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.FIRST_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
+import org.enterprise.exam.api.entity.UserEntity
+import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.hamcrest.Matchers
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.nullValue
+import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
 internal class UserControllerTest : ControllerTestBase() {
 
@@ -314,6 +316,30 @@ internal class UserControllerTest : ControllerTestBase() {
                 .body("data.next", nullValue())
     }
 
+
+    @Test
+    fun `can GET friends of user`() {
+
+        val user = persistUser(FIRST_USER)
+        //setupFriendsTest()
+        getFriends(user.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(0)) //as no friends are added
+    }
+
+    @Test
+    fun `all returned friends are actually friends`() {
+
+        val user = persistUser(FIRST_USER)
+        persistUsers(20) //people who are not friends with this user
+        createFriendsFor(user, 5)
+
+        getFriends(user.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(5))
+                .body("data", equalTo("Shoud lfail until I get other people than myself"))
+    }
+
     private fun patch(email: String, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .contentType("application/merge-patch+json")
@@ -343,9 +369,33 @@ internal class UserControllerTest : ControllerTestBase() {
         }
     }
 
+    private fun createFriendsFor(user: UserEntity, count: Int) {
+
+        (0 until count).forEach {
+
+            val friend = persistUser()
+
+            //making sure that both users sending requests count, as long as accepted
+            if (Random.nextInt(0, 2) < 1) {
+
+                persistFriendRequest(friend.email, user.email, FriendRequestStatus.ACCEPTED)
+            } else {
+
+                persistFriendRequest(user.email, friend.email, FriendRequestStatus.ACCEPTED)
+            }
+
+        }
+    }
+
     private fun getAll(path: String? = null) = given()
             .accept(ContentType.JSON)
             .get(path ?: "/users")
+            .then()
+
+    private fun getFriends(email: String, path: String? = null) = given()
+            .accept(ContentType.JSON)
+            .get(
+                    path ?: "/users/$email/friends")
             .then()
 
     private fun getTimeline(email: String, path: String? = null) = given()

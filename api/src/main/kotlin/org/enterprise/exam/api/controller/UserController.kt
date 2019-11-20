@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
+import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.repository.*
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
@@ -49,11 +50,26 @@ class UserController(
     fun getFriends(
             @ApiParam("The email of the given user")
             @PathVariable("email")
-            id: String
-    ) {
+            email: String,
+            @ApiParam("The pagination keysetId (i.e. date of last fetched, if any)")
+            @RequestParam("keysetId", required = false)
+            keysetId: String? //TODO: not sure if string or long depending on user or request
+    ): ResponseEntity<WrappedResponse<Page<UserEntity>>> {
 
-        //PAGINATION
-        TODO("IMPLEMENT")
+        val pageSize = 10
+        val friends = userRepository.getFriends(email, keysetId, pageSize)
+
+        val next = if (friends.size == pageSize) {
+            "/users/$email/timeline?keysetDate=${friends.last().email}" //TODO: change if keyset ID is depending on request instead
+        } else {
+            null
+        }
+
+        val page = Page(friends, next)
+        return ResponseEntity.status(200).body(
+                WrappedResponse(200, page).validated()
+        )
+        TODO("TEST")
     }
     
     
@@ -134,7 +150,7 @@ class UserController(
             @RequestBody userDTO: UserDTO
     ): ResponseEntity<WrappedResponse<UserDTO>> {
 
-        val alreadyPresentUser = userRepository.findByEmail(userDTO.email)
+        val alreadyPresentUser = userRepository.findById(userDTO.email)
         if (alreadyPresentUser.isPresent) return ResponseEntity.status(409).body(
                 UserResponseDTO(409, null, "Data is already registered for this user").validated()
         )

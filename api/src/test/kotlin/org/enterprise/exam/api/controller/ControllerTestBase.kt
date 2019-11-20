@@ -108,10 +108,10 @@ abstract class ControllerTestBase {
             .cookie("JSESSIONID")
 */
 
-    protected fun getDummyUser(user: WebSecurityConfigLocalFake.Companion.TestUser) = UserDTO(
+    protected fun getDummyUser(user: WebSecurityConfigLocalFake.Companion.TestUser? = null) = UserDTO(
             givenName = faker.name().firstName(),
             familyName = faker.name().lastName(),
-            email = user.email
+            email = user?.email ?: faker.internet().emailAddress()
     )
 
     protected fun getDummyMessage(senderID: String, receiverID: String) = MessageDTO(
@@ -151,7 +151,7 @@ abstract class ControllerTestBase {
             movies = emptyList()
     )
 
-    protected fun persistUser(user: WebSecurityConfigLocalFake.Companion.TestUser, dto: UserDTO = getDummyUser(user)) = userRepository.save(
+    protected fun persistUser(user: WebSecurityConfigLocalFake.Companion.TestUser? = null, dto: UserDTO = getDummyUser(user)) = userRepository.save(
             UserEntity(
                     dto.email,
                     dto.givenName,
@@ -162,19 +162,19 @@ abstract class ControllerTestBase {
     protected fun persistMessage(sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser) =
             messageRepository.save(MessageEntity(
                     text = faker.lorem().paragraph(),
-                    sender = userRepository.findByEmail(sender.email).get().first(),
-                    receiver = userRepository.findByEmail(receiver.email).get().first(),
+                    sender = userRepository.findById(sender.email).get(),
+                    receiver = userRepository.findById(receiver.email).get(),
                     creationTime = ZonedDateTime.now()
             ))
 
     protected fun persistFriendRequest(
-            sender: WebSecurityConfigLocalFake.Companion.TestUser,
-            receiver: WebSecurityConfigLocalFake.Companion.TestUser,
+            senderEmail: String,
+            receiverEmail: String,
             status: FriendRequestStatus = FriendRequestStatus.PENDING
     ) =
             friendRequestRepository.save(FriendRequestEntity(
-                    sender = userRepository.findById(sender.email).get(),
-                    receiver = userRepository.findById(receiver.email).get(),
+                    sender = userRepository.findById(senderEmail).get(),
+                    receiver = userRepository.findById(receiverEmail).get(),
                     status = status
             ))
 
@@ -188,7 +188,7 @@ abstract class ControllerTestBase {
 
         (0 until count).forEach {
 
-            persistFriendRequest(sender, receiver)
+            persistFriendRequest(sender.email, receiver.email)
         }
     }
 

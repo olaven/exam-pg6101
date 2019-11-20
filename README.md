@@ -108,4 +108,7 @@ approach shown in class. This is because it gave me easy and readable access to 
 that this is OK because the same functionality is achieved, and it is still achieved with Spring Security. 
 * I have removed the basic-auth setup that was shown during class, as it caused an annoying login-popup in the browser. 
 My assumption is that this is OK, as login with body is still supported.
+* The assignment states that there should be an API to handle user details. Since this is a requirement before B-grades/security,
+I am assuming that this API should be a separate one, and not part of an auth-service. I.e. I am assuming that it 
+should have the same role that the movies-API did in the mock-exam.
  

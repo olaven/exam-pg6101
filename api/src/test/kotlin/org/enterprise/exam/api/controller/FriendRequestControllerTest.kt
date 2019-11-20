@@ -76,7 +76,7 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
     @Test
     fun `PUT returns 204 on update`() {
 
-        val original = persistFriendRequest(SECOND_USER, FIRST_USER)
+        val original = persistFriendRequest(SECOND_USER.email, FIRST_USER.email)
         val dto = transformer.friendRequestToDTO(original)
 
         assertTrue(dto.status != FriendRequestStatus.ACCEPTED)
@@ -98,7 +98,7 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
     @Test
     fun `PUT returns 400 on a constraint violation`() {
 
-        val entity = persistFriendRequest(SECOND_USER, FIRST_USER)
+        val entity = persistFriendRequest(SECOND_USER.email, FIRST_USER.email)
         val dto = transformer.friendRequestToDTO(entity)
 
         dto.receiverEmail = "not@registered.com"
@@ -109,7 +109,7 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
     @Test
     fun `PUT returns 403 if someone other than receiver tries to update`() {
 
-        val original = persistFriendRequest(SECOND_USER, FIRST_USER)
+        val original = persistFriendRequest(SECOND_USER.email, FIRST_USER.email)
         val dto = transformer.friendRequestToDTO(original)
 
         assertTrue(dto.status != FriendRequestStatus.ACCEPTED)
@@ -127,7 +127,7 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
     @Test
     fun `GET returns 200`() {
 
-        persistFriendRequest(FIRST_USER, SECOND_USER)
+        persistFriendRequest(FIRST_USER.email, SECOND_USER.email)
         getAll(SECOND_USER.email)
                 .statusCode(200)
     }
@@ -136,7 +136,7 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
     @Test
     fun `GET returns 200 with status as well`() {
 
-        persistFriendRequest(FIRST_USER, SECOND_USER)
+        persistFriendRequest(FIRST_USER.email, SECOND_USER.email)
         getAll(SECOND_USER.email, FriendRequestStatus.PENDING)
                 .statusCode(200)
     }

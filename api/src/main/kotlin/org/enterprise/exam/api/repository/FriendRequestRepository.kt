@@ -46,10 +46,10 @@ class FriendRequestRepositoryImpl(
         //select user from UserEntity user order by user.email desc, user.familyName
         val query =
                 if (keysetId != null) entityManager.createQuery(
-                        "select request from FriendRequestEntity request where request.receiver.email = :receiver and request.id < :keysetId order by request.sender.email desc, request.id desc"
+                        "select request from FriendRequestEntity request where request.receiver.email = :receiver and request.id < :keysetId order by request.id desc, request.sender.email desc"
                         , FriendRequestEntity::class.java).apply { setParameter("keysetId", keysetId) }
                 else entityManager.createQuery(
-                        "select request from FriendRequestEntity request where request.receiver.email = :receiver order by request.sender.email desc, request.id desc"
+                        "select request from FriendRequestEntity request where request.receiver.email = :receiver order by request.id desc, request.sender.email desc"
                         , FriendRequestEntity::class.java
                 )
 
