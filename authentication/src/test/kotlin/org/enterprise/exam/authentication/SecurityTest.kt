@@ -83,25 +83,25 @@ class SecurityTest {
     fun `getting appropriate response if user is malformed on signup`() {
 
         given().contentType(ContentType.JSON)
-                .body(AuthenticationDTO(null, "password"))
+                .body(AuthenticationDTO("user@name.com", null))
                 .post("/signUp")
                 .then()
                 .statusCode(400)
-                .body("message", containsString("DTO was malformed"))
-
-        given().contentType(ContentType.JSON)
-                .body(AuthenticationDTO("username", null))
-                .post("/signUp")
-                .then()
-                .statusCode(400)
-                .body("message", containsString("DTO was malformed"))
+                .body("message", containsString("Validation failed for argument"))
 
         given().contentType(ContentType.JSON)
                 .body(AuthenticationDTO(null, null))
                 .post("/signUp")
                 .then()
                 .statusCode(400)
-                .body("message", containsString("DTO was malformed"))
+                .body("message", containsString("Validation failed for argument"))
+
+        given().contentType(ContentType.JSON)
+                .body(AuthenticationDTO(null, "somepass"))
+                .post("/signUp")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("Validation failed for argument"))
     }
 
 
@@ -172,7 +172,7 @@ class SecurityTest {
     @Test
     fun `can log in`() {
 
-        val name = "foo"
+        val name = "foo@mail.com"
         val pwd = "bar"
 
         checkAuthenticatedCookie("invalid cookie", 401)
@@ -210,7 +210,7 @@ class SecurityTest {
     @Test
     fun `400 on wrong login`() {
 
-        val name = "foo"
+        val name = "foo@mail.com"
         val pwd = "bar"
 
         val noAuth = given().contentType(ContentType.JSON)
