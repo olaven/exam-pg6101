@@ -89,7 +89,7 @@ internal class UserControllerTest : ControllerTestBase() {
 
         //NOTE: posting as another (second) user
         post(user, SECOND_USER)
-                .statusCode(201)
+                .statusCode(403)
     }
 
     @Test

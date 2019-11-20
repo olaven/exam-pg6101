@@ -16,7 +16,7 @@
     - [ ] PATCH (JSON merge patch)
     - [X] DELETE
 - [X] Wrapped Responses
-- [ ] Pagination 
+- [X] Pagination 
 - [X] Swagger Doc
 - [X] One test per endpoint 
 - [X] Usingp posgres in production 
@@ -103,7 +103,7 @@ Some users are added by default:
 ### Assumptions
 * The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
 My assumption is that this is fine in an exam, as I want to show that load-balancing is working.
-* To authorize users when when sending `POST` to `/users`, I am using `@PreAuthorize`instead of the method-based
+* To authorize users, I am using `Authentication` as an argument to endpoint-functions instead of the method-based
 approach shown in class. This is because it gave me easy and readable access to the dto-object. My assumption is 
 that this is OK because the same functionality is achieved, and it is still achieved with Spring Security. 
 * I have removed the basic-auth setup that was shown during class, as it caused an annoying login-popup in the browser. 

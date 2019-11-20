@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import java.net.URI
+import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/users")
@@ -22,7 +23,6 @@ import java.net.URI
 class UserController(
         private val userRepository: UserRepository,
         private val messageRepository: MessageRepository,
-        private val friendRequestRepository: FriendRequestRepository,
         private val transformer: Transformer
 ) {
 
@@ -97,7 +97,6 @@ class UserController(
             null
         }
 
-        val all = messageRepository.findAll()
         val page = Page(messages, next)
         return ResponseEntity.status(200).body(
                 WrappedResponse(200, page).validated()
@@ -138,7 +137,6 @@ class UserController(
 
 
     @PostMapping
-    @PreAuthorize("#userDTO.email == principal.name") //TODO: make sure that his actualy works
     @ApiOperation("Create a user")
     @ApiResponses(
             ApiResponse(code = 201, message = "The userDTO was created"),
@@ -146,8 +144,17 @@ class UserController(
     )
     fun createUser(
             @ApiParam("The userDTO object")
-            @RequestBody userDTO: UserDTO
+            @RequestBody
+            userDTO: UserDTO,
+            authentication: Authentication
     ): ResponseEntity<WrappedResponse<UserDTO>> {
+
+        if (authentication.name != userDTO.email) {
+
+            return ResponseEntity.status(403).body(
+                    UserResponseDTO(403, null, "You are not allowed to create this user").validated()
+            )
+        }
 
         val alreadyPresentUser = userRepository.findById(userDTO.email)
         if (alreadyPresentUser.isPresent) return ResponseEntity.status(409).body(
@@ -258,7 +265,7 @@ class UserController(
         * violation, as it is not allowed in the database.
         *
         * However, the handling of `null` is important in JSON Merge Patch.
-        * To showcase how the JSON merge patch works, I am keeping the
+        * To showcase how JSON merge patch works, I am keeping the
         * code like this. //TODO: write assumption in readme after testing
         * */
 
