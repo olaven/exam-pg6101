@@ -11,43 +11,30 @@ export const Timeline = props => {
     const {auth} = React.useContext(UserContext);
     const {checkIfFriends} = React.useContext(FriendContext);
 
-    const [canSee, setCanSee] = React.useState(false);
-    const [canPost, setCanPost] = React.useState(false);
+    const [areFriends, setAreFriends] = React.useState(false);
 
     React.useEffect(() => {
 
-        if (canPost) {
+        checkIfFriends(props.user.email).then(areFriends => {
 
-            setCanSee(true);
-        } else {
+            setAreFriends(areFriends)
+        });
+    }, []);
 
-            checkIfFriends(props.user.email).then(areFriends => {
+    console.log("These users are friends: ", areFriends);
+    if (auth && auth.name === props.user.email) {
+        return <Container>
 
-                setCanSee(areFriends)
-            });
-        }
-    }, [auth]);
+            <MessageCreator receiver={props.user.email}/> : null
+            <TimelineMessages/>
+        </Container>
+    } else if (areFriends) {
 
-    React.useEffect(() => {
-
-        const canPost = auth.name === props.user.email;
-        setCanPost(canPost);
-    }, [auth]);
-
-    if (!canSee) {
+       return <TimelineMessages/>
+    } else {
 
         return <Header as={"h2"}>
             Become friends with this user to see their timeline.
         </Header>
     }
-
-    return <Container>
-
-        <Header as={"h3"}>Timeline</Header>
-        {canPost?
-            <MessageCreator receiver={props.user.email}/>: null
-        }
-        <TimelineMessages/>
-
-    </Container>
 };
