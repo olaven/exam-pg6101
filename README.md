@@ -80,7 +80,7 @@ nothing.
 #### B mark 
 ##### General
 - [X] Security protecting REST API
-- [ ] Security is session based, through redis
+- [X] Security is session based, through redis
 - [ ] frontend can signup/sign in user
 ##### Application 
 - [ ] Login/logout -> handled by other API 

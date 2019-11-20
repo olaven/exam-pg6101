@@ -4,11 +4,11 @@ import {Header, List, Segment} from "semantic-ui-react";
 
 export const UserInfo = () => {
 
-    const {user} = React.useContext(UserContext);
+    const {auth} = React.useContext(UserContext);
 
     return <Segment>
-        <Header as={"h2"}>{user.name}</Header>
+        <Header as={"h2"}>{auth.name}</Header>
         <Header as={"h3"}>Roles</Header>
-        <List items={user.roles}/>
+        <List items={auth.roles}/>
     </Segment>
 };

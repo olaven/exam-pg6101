@@ -7,11 +7,10 @@ import {UserContext} from "../context/UserContext";
 export const Layout = props => {
 
 
-    const {user} = React.useContext(UserContext);
-    console.log("user in layout", user);
+    const {auth} = React.useContext(UserContext);
     return <Container>
 
-        <Header as={"h1"} dividing>Social Page {user ? "- Logged in as " + user.name : ""}</Header>
+        <Header as={"h1"} dividing>Social Page {auth ? "- Logged in as " + auth.name : ""}</Header>
         <Links pages={props.pages}/>
 
         {props.children}

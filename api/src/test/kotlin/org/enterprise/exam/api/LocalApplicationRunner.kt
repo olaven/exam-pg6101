@@ -23,7 +23,7 @@ class Config {
         return object : WebMvcConfigurerAdapter() {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8081")
+                        .allowedOrigins("*")
                         .allowCredentials(true)
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS")
             }

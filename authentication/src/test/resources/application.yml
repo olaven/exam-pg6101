@@ -14,3 +14,5 @@ spring:
     show-sql: true
   profiles:
     active: "test"
+server:
+  port: 8081 # useful when developing frontend

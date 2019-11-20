@@ -6,18 +6,18 @@ export const Login = () => {
 
     const {login} = React.useContext(UserContext);
 
-    const [username, setUsername] = React.useState(null);
+    const [email, setEmail] = React.useState(null);
     const [password, setPassword] = React.useState(null);
 
     const handleSubmit = async () => {
 
-        if (username === null || password === null) {
+        if (email === null || password === null) {
 
             alert("invalid login info");
             return;
         }
 
-        const loginResponse = await login(username, password);
+        const loginResponse = await login(email, password);
         if (loginResponse !== 204) {
 
             alert("an error occurred when logging in");
@@ -32,8 +32,8 @@ export const Login = () => {
             <Form.Field>
                 <label>Username</label>
                 <input
-                    placeholder='Username'
-                    onChange={(event => setUsername(event.target.value))}/>
+                    placeholder='Email'
+                    onChange={(event => setEmail(event.target.value))}/>
             </Form.Field>
             <Form.Field>
                 <label>Password</label>

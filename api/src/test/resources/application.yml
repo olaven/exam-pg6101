@@ -26,3 +26,6 @@ spring:
 eureka:
   client:
     enabled: false
+
+server:
+  port: 8080 # useful when working on frontend

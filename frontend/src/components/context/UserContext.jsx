@@ -6,27 +6,64 @@ export const UserContext = React.createContext({});
 
 export const UserContextProvider = props => {
 
+    const [auth, setAuth] = React.useState(null);
     const [user, setUser] = React.useState(null);
 
     //NOTE: updating user on first render
     React.useEffect(() => {
 
-        updateUser();
+        updateAuth();
     }, []);
 
+    /*
+        The idea here is to automatically update the
+        user info when the auth user changes
+    */
+    React.useEffect(() => {
+
+        console.log("auth when going to create user data: ", auth);
+        console.log("attempting to update user");
+        updateUser();
+    }, [auth]);
+
+
     //only used inside this context, not should not be exported
-    const updateUser = async () => {
+    const updateAuth = async () => {
 
         const response = await ApiFetch("/authentication/user");
 
         if (response.status === 200) {
 
             const wrappedResponse = await response.json();
-            const user = wrappedResponse.data;
-            setUser(user);
+            const auth = wrappedResponse.data;
+            setAuth(auth);
+
         } else {
 
-            setUser(null);
+            setAuth(null);
+        }
+    };
+
+
+    const updateUser = async () => {
+
+        // if not authenticated, means that user is logged out.
+        if (auth) {
+
+            console.log("in update user");
+            const response = await ApiFetch("/users/" + auth.name);
+            console.log("status when fetching user data", response.status);
+            if (response.status === 200) {
+
+                const wrappedResponse = await response.json();
+                const user = wrappedResponse.data;
+                setUser(user);
+
+                console.log("foud user: ", user);
+            }
+        } else {
+
+            setUser(null)
         }
     };
 
@@ -55,7 +92,7 @@ export const UserContextProvider = props => {
 
         if (response.status === 204) {
 
-            await updateUser();
+            await updateAuth();
         }
 
         return response.status;
@@ -67,40 +104,46 @@ export const UserContextProvider = props => {
             method: "delete"
         });
 
-        await updateUser();
+        await updateAuth();
         return response;
     };
 
-    /**
-     * Tries to sign up.
-     * If creation was successful, `user` will be set
-     * @param username
-     * @param password
-     * @returns status code of response
-     */
-    const signUp = async (username, password) => {
 
-        const body = JSON.stringify({
-            "userId": username, //TODO: change userId to username in backend
+    const signUp = async (email, givenName, familyName, password) => {
+
+        const authDTO = JSON.stringify({
+            "userId": email,
             "password": password
         });
 
-        const response = await ApiFetch("/authentication/signUp", {
+        const authResponse = await ApiFetch("/authentication/signUp", {
             method: "post",
-            body: body,
+            body: authDTO,
             headers: {
                 'Content-Type': 'application/json'
             }
         });
 
-        if (response.status === 204) {
-            await updateUser();
+        if (authResponse.status === 204) {
+
+            const userDTO = JSON.stringify({
+                email, givenName, familyName
+            });
+
+            const userResponse = await ApiFetch("/users", {
+                method: "post",
+                body: userDTO
+            });
+
+            console.log("creating user data: ", userResponse.status);
+
+            await updateAuth();
         }
 
-        return response.status;
+        return authResponse.status;
     };
 
-    return <UserContext.Provider value={{user, setUser, login, logout, signUp}}>
+    return <UserContext.Provider value={{auth, setAuth, user, setUser, login, logout, signUp}}>
         {props.children}
     </UserContext.Provider>
 };

@@ -11,3 +11,5 @@ spring:
     show-sql: true
 external:
   api-base: "http://localhost:8099/api/"
+server:
+  port: 8083 # useful when working with frontend

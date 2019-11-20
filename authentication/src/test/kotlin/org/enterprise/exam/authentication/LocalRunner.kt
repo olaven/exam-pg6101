@@ -50,7 +50,7 @@ class Config {
         return object : WebMvcConfigurerAdapter() {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/authentication/**")
-                        .allowedOrigins("http://localhost:8081")
+                        .allowedOrigins("http://localhost:8082")
                         .allowCredentials(true)
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS")
             }

@@ -54,8 +54,8 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
         super.configure(http)
 
         http
-                .httpBasic()
-                .and()
+                /*.httpBasic()
+                .and()*/
                 //but then override the session management
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)

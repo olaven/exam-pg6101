@@ -7,9 +7,19 @@
 
 export const ApiFetch = (path, config) => {
 
+    let devPort = null;
+
+    if (path.includes("authentication")) {
+        devPort = 8081;
+    } else if (path.includes("graphql")) {
+        devPort = 8083;
+    } else {
+        devPort = 8080;
+    }
+
     const base = process.env.NODE_ENV === "production" ?
         "http://localhost:80/api" : //gateway
-        "http://localhost:8080";
+        "http://localhost:" + devPort;
 
     console.log("fetching ", base + path);
     return fetch(base + path, {

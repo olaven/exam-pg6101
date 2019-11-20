@@ -8,11 +8,11 @@ import {Logout} from "./Logout";
 
 export const User = () => {
 
-    const {user} = React.useContext(UserContext);
-    console.log("user: ", user);
+    const {auth} = React.useContext(UserContext);
+
     return <Container>
 
-        {user ?
+        {auth ?
             <>
                 {UserInfo()}
                 {Logout()}
