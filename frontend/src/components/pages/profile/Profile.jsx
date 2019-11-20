@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Container, Header} from "semantic-ui-react";
 import {UserContext} from "../../context/UserContext";
+import {Timeline} from "./Timeline";
 
 export const Profile = props => {
 
@@ -32,7 +33,6 @@ export const Profile = props => {
             <Header as={"h2"}>Create a new message</Header>:
             <Header as={"h2"}>This is your timeline</Header>
         }
-
-        <Header as={"h2"}>Timeline</Header>
+        <Timeline user={user}/>
     </Container>;
 };

@@ -40,6 +40,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.GET, "/users/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/{id}/timeline").access("hasRole('USER')")
                 .antMatchers(HttpMethod.GET, "/users/{id}/friends").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/{id}/friends/{friend}").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").access("hasRole('USER')") // and @userSecurity.checkId(authentication, #userDTO)
                 .antMatchers(HttpMethod.PATCH, "/users/{id}").access("hasRole('USER')")
                 .antMatchers(HttpMethod.DELETE, "/messages/{id}").access("hasRole('ADMIN')")

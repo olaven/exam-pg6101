@@ -87,6 +87,39 @@ class UserController(
         )
     }
 
+    @GetMapping("/{email}/friends/{friendEmail}")
+    @ApiOperation("Retrieve a specific friend of given user")
+    @ApiResponses(
+            ApiResponse(code = 200, message = "The friend was successfully retrieved"),
+            ApiResponse(code = 404, message = "The friend could not be found")
+    )
+    fun getFriend(
+            @ApiParam("The email of the user")
+            @PathVariable("email")
+            email: String,
+            @ApiParam("The email of the friend")
+            @PathVariable("friendEmail")
+            friendEmail: String
+    ): ResponseEntity<WrappedResponse<UserDTO>> {
+
+        val areFriends = friendRequestRepository.areFriends(email, friendEmail)
+        return if (!areFriends) {
+
+            ResponseEntity.status(404).body(
+                    UserResponseDTO(404, null, "The friend was not found").validated()
+            )
+        } else {
+
+            //NOTE: since they are friends, user must be present
+            val friend = userRepository.findById(friendEmail).get()
+            val dto = transformer.userToDTO(friend)
+            ResponseEntity.ok(
+                    UserResponseDTO(200, dto).validated()
+            )
+
+        }
+    }
+
 
     @GetMapping("/{email}/timeline")
     @ApiOperation("Get the timeline of the user")

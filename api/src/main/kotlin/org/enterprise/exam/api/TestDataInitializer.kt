@@ -64,7 +64,7 @@ class TestDataInitializer(
 
 
 
-        val friendRequests = (0..25).map {
+        val friendRequests = (0..105).map {
 
             val sender = randomUser(users)
             friendRequestRepository.save(FriendRequestEntity(

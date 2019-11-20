@@ -408,6 +408,33 @@ internal class UserControllerTest : ControllerTestBase() {
                 .body("data.next", nullValue())
     }
 
+
+    @Test
+    fun `friends can GET specific friend`() {
+
+        val user = persistUser(FIRST_USER)
+        val friend = persistUser(FIRST_USER)
+        persistFriendRequest(friend.email, user.email, FriendRequestStatus.ACCEPTED)
+
+        getFriend(user.email, friend.email)
+                .statusCode(200)
+                .body("data.email", equalTo(friend.email))
+    }
+
+    @Test
+    fun `GET specific friend returns 404 if not found`() {
+
+        val user = persistUser(FIRST_USER)
+        val friend = persistUser(FIRST_USER)
+
+        //NOTE: not making friends
+        //persistFriendRequest(friend.email, user.email, FriendRequestStatus.ACCEPTED)
+
+        getFriend(user.email, friend.email)
+                .statusCode(404)
+                .body("data", equalTo(null))
+    }
+
     @Test
     fun `is possible to search`() {
 
@@ -516,6 +543,11 @@ internal class UserControllerTest : ControllerTestBase() {
             .accept(ContentType.JSON)
             .get(
                     path ?: "/users/$email/friends")
+            .then()
+
+    private fun getFriend(userEmail: String, friendEmail: String) = given()
+            .accept(ContentType.JSON)
+            .get("/users/$userEmail/friends/$friendEmail")
             .then()
 
     private fun getTimeline(email: String, asUser: WebSecurityConfigLocalFake.Companion.TestUser, path: String? = null) = authenticated(asUser.email, asUser.password)
