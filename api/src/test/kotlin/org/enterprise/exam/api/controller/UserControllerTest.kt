@@ -339,6 +339,59 @@ internal class UserControllerTest : ControllerTestBase() {
                 .body("data.list.size()", equalTo(5))
     }
 
+
+    @Test
+    fun `friends pagination only returns 10 per page`() {
+
+        val user = persistUser(FIRST_USER)
+        createFriendsFor(user, 15)
+
+        getFriends( FIRST_USER.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+    }
+
+    @Test
+    fun `friends can follow pagination next-links`() {
+
+        val user = persistUser(FIRST_USER)
+        createFriendsFor(user, 25)
+
+
+        val toSecondPage = getFriends(FIRST_USER.email)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        val toThirdPage = getFriends(FIRST_USER.email, toSecondPage).statusCode(200)
+                .body("data.list.size()", equalTo(10))
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getFriends(FIRST_USER.email, toThirdPage)
+                .statusCode(200)
+                .body("data.list.size()", equalTo(5))
+    }
+
+    @Test
+    fun `friends pagination next-link is null on last page`() {
+
+        val user = persistUser(FIRST_USER)
+        createFriendsFor(user, 15)
+
+        val toSecondPage = getFriends(FIRST_USER.email)
+                .body("data.next", Matchers.notNullValue())
+                .extract()
+                .jsonPath()
+                .get<String>("data.next")
+
+        getFriends(FIRST_USER.email, toSecondPage)
+                .body("data.next", nullValue())
+    }
+
     private fun patch(email: String, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =
             authenticated(user.email, user.password)
                     .contentType("application/merge-patch+json")

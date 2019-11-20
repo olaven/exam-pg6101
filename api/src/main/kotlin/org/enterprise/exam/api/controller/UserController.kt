@@ -60,7 +60,7 @@ class UserController(
         val friends = userRepository.getFriends(email, keysetId, pageSize)
 
         val next = if (friends.size == pageSize) {
-            "/users/$email/timeline?keysetDate=${friends.last().email}"
+            "/users/$email/friends?keysetId=${friends.last().email}"
         } else {
             null
         }
