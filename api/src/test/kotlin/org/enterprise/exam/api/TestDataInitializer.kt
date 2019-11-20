@@ -1,12 +1,6 @@
 package org.enterprise.exam.api
 
 import com.github.javafaker.Faker
-import org.enterprise.exam.api.entity.remove_these.DirectorEntity
-import org.enterprise.exam.api.entity.remove_these.MovieEntity
-import org.enterprise.exam.api.entity.remove_these.ScreeningEntity
-import org.enterprise.exam.api.repository.remove_these.DirectorRepository
-import org.enterprise.exam.api.repository.remove_these.MovieRepository
-import org.enterprise.exam.api.repository.remove_these.ScreeningRepository
 import org.enterprise.exam.shared.dto.remove_these.Room
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
@@ -18,9 +12,7 @@ import javax.annotation.PostConstruct
 @Profile("test")
 @Component
 class TestDataInitializer(
-        private val directorRepository: DirectorRepository,
-        private val movieRepository: MovieRepository,
-        private val screeningRepository: ScreeningRepository
+
 ) {
 
     val faker = Faker()
@@ -28,7 +20,10 @@ class TestDataInitializer(
     @PostConstruct
     fun `add test data`() {
 
-        val directors = (0..3).map {
+
+        //TODO: add test data
+
+        /*val directors = (0..3).map {
 
             directorRepository.save(DirectorEntity(
                     givenName = faker.name().firstName(),
@@ -53,6 +48,6 @@ class TestDataInitializer(
                     room = Room.values().random(),
                     availableTickets = faker.run { number().numberBetween(0, 200) }
             ))
-        }
+        }*/
     }
 }
