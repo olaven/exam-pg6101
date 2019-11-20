@@ -1,0 +1,12 @@
+drop table if exists friend_request_entity;
+drop table if exists message_entity;
+drop table if exists user_entity;
+drop sequence if exists hibernate_sequence;
+create sequence hibernate_sequence start with 1 increment by 1;
+create table friend_request_entity (id bigint not null, status varchar(255), receiver_email varchar(255), sender_email varchar(255), primary key (id));
+create table message_entity (id bigint not null, creation_time timestamp, text varchar(1500), receiver_email varchar(255), sender_email varchar(255), primary key (id));
+create table user_entity (email varchar(300) not null, family_name varchar(350), given_name varchar(250), primary key (email));
+alter table friend_request_entity add constraint FKmwiq2pmod1r0hyk44wblr7epf foreign key (receiver_email) references user_entity;
+alter table friend_request_entity add constraint FK8wg0pphmhwdqud82se9witfet foreign key (sender_email) references user_entity;
+alter table message_entity add constraint FK58e6mae6ygu8fog7obxnatk4y foreign key (receiver_email) references user_entity;
+alter table message_entity add constraint FK976u3ei2uud2cjftysjsq3alc foreign key (sender_email) references user_entity;

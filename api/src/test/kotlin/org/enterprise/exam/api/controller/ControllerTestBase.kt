@@ -139,7 +139,7 @@ abstract class ControllerTestBase {
             persistFriendRequest(sender.email, receiver.email)
         }
     }
-    
+
     protected fun postMessage(message: MessageDTO, user: WebSecurityConfigLocalFake.Companion.TestUser): ValidatableResponse =
             authenticated(user.email, user.password)
                     .accept(ContentType.JSON)
