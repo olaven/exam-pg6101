@@ -337,7 +337,6 @@ internal class UserControllerTest : ControllerTestBase() {
         getFriends(user.email)
                 .statusCode(200)
                 .body("data.list.size()", equalTo(5))
-                .body("data", equalTo("Shoud lfail until I get other people than myself"))
     }
 
     private fun patch(email: String, userDTO: UserPatchDTO, user: WebSecurityConfigLocalFake.Companion.TestUser) =

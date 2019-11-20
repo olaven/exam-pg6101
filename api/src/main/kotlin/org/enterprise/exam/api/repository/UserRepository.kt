@@ -33,13 +33,12 @@ class UserRepositoryImpl(
 
     override fun getFriends(email: String, keysetId: String?, pageSize: Int): List<UserEntity> {
 
-        //TODO: pagination, just get this query to work first
-        //val query = entityManager.createQuery("select user from UserEntity user, FriendRequestEntity request where (((request.receiver != user and request.receiver.email = :email) or (request.sender != user and request.sender.email = :email)) and request.status = :status)", UserEntity::class.java)
-
-        //TODO: THIS WORKS; BUT NEED OTHER SIDE AS WELL
+        //TODO: pagination
         val query =
                 entityManager.createQuery(
-                        "select user from UserEntity user join FriendRequestEntity request on request.receiver = user and user.email <> :email where request.sender.email = :email and request.status = :status"
+                        "select user from UserEntity user where " +
+                                "(user in (select user from UserEntity user join FriendRequestEntity request on request.receiver = user and user.email <> :email where request.sender.email = :email and request.status = :status)) or" +
+                                "(user in (select user from UserEntity user join FriendRequestEntity request on request.sender = user and user.email <> :email where request.receiver.email = :email and request.status = :status))"
                         , UserEntity::class.java)
                         .setParameter("status", FriendRequestStatus.ACCEPTED)
                         .setParameter("email", email)

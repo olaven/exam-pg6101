@@ -53,14 +53,14 @@ class UserController(
             email: String,
             @ApiParam("The pagination keysetId (i.e. date of last fetched, if any)")
             @RequestParam("keysetId", required = false)
-            keysetId: String? //TODO: not sure if string or long depending on user or request
+            keysetId: String?
     ): ResponseEntity<WrappedResponse<Page<UserEntity>>> {
 
         val pageSize = 10
         val friends = userRepository.getFriends(email, keysetId, pageSize)
 
         val next = if (friends.size == pageSize) {
-            "/users/$email/timeline?keysetDate=${friends.last().email}" //TODO: change if keyset ID is depending on request instead
+            "/users/$email/timeline?keysetDate=${friends.last().email}"
         } else {
             null
         }
@@ -69,7 +69,6 @@ class UserController(
         return ResponseEntity.status(200).body(
                 WrappedResponse(200, page).validated()
         )
-        TODO("TEST")
     }
     
     
