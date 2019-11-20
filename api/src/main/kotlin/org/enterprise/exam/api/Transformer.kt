@@ -5,6 +5,7 @@ import org.enterprise.exam.api.entity.MessageEntity
 import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.shared.dto.FriendRequestDTO
+import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.springframework.stereotype.Component
@@ -55,7 +56,7 @@ class Transformer(
     fun friendRequestToEntity(friendRequestDTO: FriendRequestDTO) = FriendRequestEntity(
             sender = userRepository.findById(friendRequestDTO.senderEmail).get(),
             receiver = userRepository.findById(friendRequestDTO.receiverEmail).get(),
-            status = friendRequestDTO.status,
+            status = friendRequestDTO.status?: FriendRequestStatus.PENDING,
             id = friendRequestDTO.id?.toLong()
     )
 }

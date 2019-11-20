@@ -13,7 +13,6 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class FriendRequestControllerTest : ControllerTestBase() {
@@ -36,20 +35,19 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
                 .body("data.receiverEmail", equalTo(dto.receiverEmail))
     }
 
-    @Test 
+    @Test
     fun `POST returns 400 on invalid emails`() {
 
         val dto = FriendRequestDTO(
-                senderEmail = FIRST_USER.email, 
-                receiverEmail = "invalid@mail.com",
-                status = FriendRequestStatus.PENDING
+                senderEmail = FIRST_USER.email,
+                receiverEmail = "invalid@mail.com"
         )
 
         post(dto, FIRST_USER)
                 .statusCode(400)
     }
 
-    @Test 
+    @Test
     fun `POST returns 409 if trying to decide ID`() {
 
         val dto = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
@@ -58,11 +56,20 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
                 .statusCode(409)
     }
 
-    @Test 
+    @Test
+    fun `POST returns 409 if trying to decide status`() {
+
+        val dto = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
+        dto.status = FriendRequestStatus.ACCEPTED //NOTE: not null
+        post(dto, FIRST_USER)
+                .statusCode(409)
+    }
+
+    @Test
     fun `POST returns 403 if trying to send for someone else`() {
 
         val dto = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
-        
+
         //NOTE: sender is FIRST_USER
         post(dto, SECOND_USER)
                 .statusCode(403)

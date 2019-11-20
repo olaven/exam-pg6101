@@ -19,7 +19,7 @@ class FriendRequestDTO(
         var receiverEmail: String,
 
         @ApiModelProperty("The current status of the request")
-        var status: FriendRequestStatus = FriendRequestStatus.PENDING,
+        var status: FriendRequestStatus? = null,
 
         @ApiModelProperty("ID of the message")
         var id: String? = null

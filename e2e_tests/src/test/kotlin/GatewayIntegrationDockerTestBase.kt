@@ -71,7 +71,7 @@ abstract class GatewayIntegrationDockerTestBase {
                         given().get("/index.html").then().statusCode(200)
 
                         given().accept("application/json;charset=UTF-8")
-                                .get("/api/movies")
+                                .get("/api/users")
                                 .then().statusCode(200)
 
                         given().baseUri("http://${env.getServiceHost("registry_1", 8761)}")

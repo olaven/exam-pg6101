@@ -5,6 +5,8 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.awaitility.Awaitility
+import org.enterprise.exam.shared.dto.FriendRequestDTO
+import org.enterprise.exam.shared.dto.UserDTO
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers.contains
@@ -72,9 +74,9 @@ class RestIT : GatewayIntegrationDockerTestBase() {
     }
 
     @Test
-    fun `test that GET to movies is open`() {
+    fun `test that GET to users is open`() {
 
-        given().basePath("/api/movies")
+        given().basePath("/api/users")
                 .get()
                 .then()
                 .statusCode(200)
@@ -82,16 +84,16 @@ class RestIT : GatewayIntegrationDockerTestBase() {
 
 
     @Test
-    fun `Can post director and movie, if logged in`() {
+    fun `Can post friend request, if logged in`() {
 
-        //NOTE: This test depends on default-admin being added.
+        //NOTE: This test depends on default-user CHARLIE and ADAM  being added.
 
-        val userId = "admin"
-        val password = "admin"
+        val userEmail = "charlie@mail.com"
+        val password = "charliepass"
 
         val sessionCookie = given().contentType(ContentType.JSON)
                 .body("""
-                    {"userId": "$userId", "password": "$password"}
+                    {"userId": "$userEmail", "password": "$password"}
                 """.trimIndent())
                 .post("/api/authentication/login")
                 .then()
@@ -110,27 +112,34 @@ class RestIT : GatewayIntegrationDockerTestBase() {
                 .body("data.roles", contains("ROLE_USER"))*/
 
 
-        val director = getDirector()
 
-        val directorID = given().cookie("SESSION", sessionCookie) //TODO: user has to have role "ADMIN"
+        val userDTO = UserDTO(
+                email = userEmail,
+                givenName = "Charlie",
+                familyName = "Stephens"
+        )
+
+        given().cookie("SESSION", sessionCookie)
                 .contentType(ContentType.JSON)
-                .body(director)
-                .post("/api/directors")
+                .body(userDTO)
+                .post("/api/users")
+                .then()
+                .statusCode(201)
+
+        val request = FriendRequestDTO(
+                senderEmail = userEmail, 
+                receiverEmail = "adam@mail.com"
+        )
+
+        val directorID = given().cookie("SESSION", sessionCookie) 
+                .contentType(ContentType.JSON)
+                .body(request)
+                .post("/api/requests")
                 .then()
                 .statusCode(201)
                 .extract()
                 .jsonPath()
                 .get<String>("data.id")
-
-
-        val movie = getMovie(directorID)
-
-        given().cookie("SESSION", sessionCookie)
-                .contentType(ContentType.JSON)
-                .body(movie)
-                .post("/api/movies")
-                .then()
-                .statusCode(201)
     }
 
 

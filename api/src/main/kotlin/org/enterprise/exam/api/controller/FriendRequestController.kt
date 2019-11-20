@@ -27,7 +27,7 @@ class FriendRequestController(
             ApiResponse(code = 201, message = "The request was created"),
             ApiResponse(code = 400, message = "There was an error in the DTO"),
             ApiResponse(code = 403, message = "User is not allowed to create this request"),
-            ApiResponse(code = 409, message = "Client tried to decide ID")
+            ApiResponse(code = 409, message = "Client tried to decide ID or status")
     )
     fun createFriendRequest(
             @ApiParam("The request object")
@@ -41,13 +41,13 @@ class FriendRequestController(
                     FriendRequestResponseDTO(403, null, "You are not allowed to create this request").validated()
             )
 
-        if (friendRequestDTO.id != null) return ResponseEntity.status(409).body(
-                FriendRequestResponseDTO(409, null, "Client wrongly tried to decide ID").validated()
+        if (friendRequestDTO.id != null || friendRequestDTO.status != null) return ResponseEntity.status(409).body(
+                FriendRequestResponseDTO(409, null, "Client wrongly tried to decide ID or status").validated()
         )
 
         return try {
 
-
+            friendRequestDTO.status = FriendRequestStatus.PENDING
             val persisted = friendRequestRepository.save(
                     transformer.friendRequestToEntity(friendRequestDTO)
             )

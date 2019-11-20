@@ -128,8 +128,7 @@ abstract class ControllerTestBase {
 
     protected fun getFriendRequestDTO(sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser) = FriendRequestDTO(
             senderEmail = sender.email,
-            receiverEmail = receiver.email,
-            status = FriendRequestStatus.PENDING
+            receiverEmail = receiver.email
     )
 
     protected fun persistFriendRequests(count: Int, sender: WebSecurityConfigLocalFake.Companion.TestUser, receiver: WebSecurityConfigLocalFake.Companion.TestUser) {
