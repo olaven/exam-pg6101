@@ -25,7 +25,7 @@
 ##### Application
 - [X] API for user details (bruk custom security funksjon) 
 - [X] Friendship requests
-- [ ] Messages on a users timeline 
+- [X] Messages on a users timeline 
 - [ ] Providing default data
 #### D mark
 ##### General

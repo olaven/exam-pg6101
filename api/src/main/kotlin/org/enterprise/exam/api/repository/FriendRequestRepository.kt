@@ -41,19 +41,20 @@ class FriendRequestRepositoryImpl(
         private val entityManager: EntityManager
 ) : CustomFriendRequestRepository {
 
-    override fun paginatedByReceiver(receiver: String, keysetId: Long?, pageSize: Int): List<FriendRequestEntity> {
+    override fun paginatedByReceiver(email: String, keysetId: Long?, pageSize: Int): List<FriendRequestEntity> {
 
         //select user from UserEntity user order by user.email desc, user.familyName
         val query =
                 if (keysetId != null) entityManager.createQuery(
-                        "select request from FriendRequestEntity request where request.receiver.email = :receiver and request.id < :keysetId order by request.id desc, request.sender.email desc"
-                        , FriendRequestEntity::class.java).apply { setParameter("keysetId", keysetId) }
+                        "select request from FriendRequestEntity request where request.receiver.email = :email and request.id < :keysetId order by request.id desc"
+                        , FriendRequestEntity::class.java)
+                        .setParameter("keysetId", keysetId)
                 else entityManager.createQuery(
-                        "select request from FriendRequestEntity request where request.receiver.email = :receiver order by request.id desc, request.sender.email desc"
+                        "select request from FriendRequestEntity request where request.receiver.email = :email order by request.id desc"
                         , FriendRequestEntity::class.java
                 )
 
-        query.setParameter("receiver", receiver)
+        query.setParameter("email", email)
         query.maxResults = pageSize
         return query.resultList
     }

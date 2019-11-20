@@ -173,13 +173,13 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
                 .jsonPath()
                 .get<String>("data.next")
 
-        val toThirdPage = getAll(toSecondPage).statusCode(200)
+        val toThirdPage = getWithEntirePath(toSecondPage).statusCode(200)
                 .body("data.list.size()", Matchers.equalTo(10))
                 .extract()
                 .jsonPath()
                 .get<String>("data.next")
 
-        getAll(toThirdPage)
+        getWithEntirePath(toThirdPage)
                 .statusCode(200)
                 .body("data.list.size()", Matchers.equalTo(5))
     }
@@ -194,7 +194,7 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
                 .jsonPath()
                 .get<String>("data.next")
 
-        getAll(toSecondPage)
+        getWithEntirePath(toSecondPage)
                 .body("data.next", Matchers.nullValue())
     }
 
@@ -217,6 +217,14 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
         val path = if (status == null)
             "/requests?receiver=$receiver"
         else "/requests?receiver=$receiver&status=${status.name}"
+
+        return given()
+                .accept(ContentType.JSON)
+                .get(path)
+                .then()
+    }
+
+    fun getWithEntirePath(path: String): ValidatableResponse {
 
         return given()
                 .accept(ContentType.JSON)

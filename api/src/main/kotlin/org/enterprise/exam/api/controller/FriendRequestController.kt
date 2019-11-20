@@ -152,6 +152,7 @@ class FriendRequestController(
         }.map { transformer.friendRequestToDTO(it) }
 
 
+        val all = friendRequestRepository.findAll()
         val next = if (friendRequests.size == pageSize)
             if (status == null) "/requests?receiver=$receiver&keysetId=${friendRequests.last().id}"
             else "/requests?receiver=$receiver&status=$status&keysetId=${friendRequests.last().id}"
