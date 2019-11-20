@@ -17,7 +17,7 @@ import kotlin.random.Random
 
 
 @Component
-class TestDataInitializer(
+class DefaultApiData(
     private val userRepository: UserRepository,
     private val friendRequestRepository: FriendRequestRepository,
     private val messageRepository: MessageRepository

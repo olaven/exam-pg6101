@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
 
 @Component
-class DefaultUserInitializer(
+class DefaultAuthenticationData(
         private val userService: UserService
 ) {
 

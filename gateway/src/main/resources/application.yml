@@ -23,7 +23,7 @@ spring:
         - id: api
           uri: lb://api
           predicates:
-            - Path=/api/** #api/ -> go to /movies, /directors, /screenings if not /authentication or /graphql  above
+            - Path=/api/** #api/ -> go to /users, /requests, /messages
           filters:
             - StripPrefix=1
         - id: frontend

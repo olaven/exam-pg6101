@@ -6,4 +6,4 @@ import javax.persistence.EntityManager
 import javax.transaction.Transactional
 
 @Repository
-interface UserRepository: CrudRepository<UserRepository, String>
+interface UserRepository: CrudRepository<UserEntity, String>

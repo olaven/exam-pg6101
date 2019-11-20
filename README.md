@@ -74,7 +74,7 @@ nothing.
     - [X] Search and display users
     - [ ] Register a new user 
     - [ ] See details of other users 
-    - [ ] Post on other users timeline
+    - [ ] Post on  timeline
     - [ ] Display messages sorted by time (sort in DB!)
     - [ ] Create and accept friend requests 
 #### B mark 
@@ -84,12 +84,12 @@ nothing.
 - [ ] frontend can signup/sign in user
 ##### Application 
 - [ ] Login/logout -> handled by other API 
-- [ ] Logged in user should see a welcome message
-- [ ] A user can create message on their own timeline
-    - [ ] A test to verify this
+- [X] Logged in user should see a welcome message
+- [X] A user can create message on their own timeline
+    - [X] A test to verify this -> `MessageControllerTest.kt`, specifically `403 if not sender`
 - [ ] Sikkerhet på timeline 
-- [ ] A user should see timelines of friends (in separate view -> assumption?)
-    - [ ] A test to verify this 
+- [X] A user should see timelines of friends
+    - [X] A test to verify this -> `UserControllerTest.kt`, specifically `can only see timeline of friends` 
 #### A mark 
 ##### General
 - [ ] Provide graphQL endpoint 

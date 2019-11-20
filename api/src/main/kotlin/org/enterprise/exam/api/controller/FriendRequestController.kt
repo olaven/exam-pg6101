@@ -100,7 +100,7 @@ class FriendRequestController(
             )
         }
 
-        val existingEntity = friendRequestRepository.findById(id).get()
+        val existingEntity = friendRequestRepository.findById(id).get() //TODO: should this be ||? run tests.
         if ((authentication.name != friendRequestDTO.receiverEmail) && (authentication.name != existingEntity.receiver.email))
             return ResponseEntity.status(403).body(
                     FriendRequestResponseDTO(403, null, "You are not allowed to update this request")

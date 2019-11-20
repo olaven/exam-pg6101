@@ -20,5 +20,5 @@ class MessageDTO(
 
 
         @ApiModelProperty("ID of the message")
-        var id: String?
+        var id: String? = null
 ) : BaseDTO()

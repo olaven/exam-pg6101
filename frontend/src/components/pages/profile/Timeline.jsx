@@ -20,8 +20,7 @@ export const Timeline = props => {
             setAreFriends(areFriends)
         });
     }, []);
-
-    console.log("These users are friends: ", areFriends);
+    
     if (auth && auth.name === props.user.email) {
         return <Container>
 
