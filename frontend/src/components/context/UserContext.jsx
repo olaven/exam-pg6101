@@ -21,8 +21,6 @@ export const UserContextProvider = props => {
     */
     React.useEffect(() => {
 
-        console.log("auth when going to create user data: ", auth);
-        console.log("attempting to update user");
         updateUser();
     }, [auth]);
 
@@ -143,7 +141,18 @@ export const UserContextProvider = props => {
         return authResponse.status;
     };
 
-    return <UserContext.Provider value={{auth, setAuth, user, setUser, login, logout, signUp}}>
+    const getUser = async (email) => {
+
+        const response = await ApiFetch("/users/" + email);
+        if (response.status !== 200) return null;
+
+        const wrappedResponse = await response.json();
+        return wrappedResponse.data;
+    };
+
+    console.log("passing down ", auth);
+
+    return <UserContext.Provider value={{auth, setAuth, user, setUser, login, logout, signUp, getUser}}>
         {props.children}
     </UserContext.Provider>
 };
