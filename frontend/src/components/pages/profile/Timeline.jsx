@@ -20,16 +20,17 @@ export const Timeline = props => {
             setAreFriends(areFriends)
         });
     }, []);
-    
+
+
     if (auth && auth.name === props.user.email) {
         return <Container>
 
-            <MessageCreator receiver={props.user.email}/> : null
-            <TimelineMessages/>
+            <MessageCreator receiverEmail={props.user.email}/>
+            <TimelineMessages email={props.user.email}/>
         </Container>
     } else if (areFriends) {
 
-       return <TimelineMessages/>
+       return <TimelineMessages email={props.user.email}/>
     } else {
 
         return <Header as={"h2"}>

@@ -22,8 +22,11 @@ export const PaginationFetcher = (next, basePath) => {
 
     React.useEffect(() => {
 
-        doFetch();
-    }, [next]);
+        if (basePath) {
+
+            doFetch();
+        }
+    }, [next, basePath]);
 
     return pages;
 };

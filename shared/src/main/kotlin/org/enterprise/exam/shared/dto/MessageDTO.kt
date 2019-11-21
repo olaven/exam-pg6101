@@ -18,7 +18,6 @@ class MessageDTO(
         @ApiModelProperty("THe email of the sender/author")
         val senderEmail: String,
 
-
         @ApiModelProperty("ID of the message")
         var id: String? = null
 ) : BaseDTO()

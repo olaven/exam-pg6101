@@ -15,6 +15,6 @@ spring:
   profiles:
     active: "test"
   session:
-    store-type: redis #TODO: remove if not using in memory in testing
+    store-type: redis
 server:
   port: 8081 # useful when developing frontend

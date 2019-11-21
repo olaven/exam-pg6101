@@ -29,6 +29,7 @@ export const UserInfo = () => {
         <Header as={"h3"}>Roles</Header>
         <List items={auth.roles}/>
 
+        {/*TODO: remove or replace with possiblity to add more later*/}
         <Button onClick={postUserDetails}>Post User Deatils</Button>
     </Segment>
 };

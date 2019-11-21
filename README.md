@@ -29,6 +29,7 @@ should have the same role that the movies-API did in the mock-exam.
 * In my JSON Merge Patch implementation, I am allowing the user to enter null-values for `.givenName` and `.familyName`. 
 This is redundant, as it will result in a `ConstraintViolation` (i.e. 400). I have chosen to implement it anyway, 
 for the sake of showing how JSON Merge Patch treats null values. 
+// TODO: assumption that messages should be from the same user as receiver (i.e. post), because of B requirement
  
 ## Checklists
 
@@ -73,7 +74,7 @@ nothing.
 - [ ] GUI
     - [X] Search and display users
     - [ ] Register a new user 
-    - [ ] See details of other users 
+    - [X] See details of other users 
     - [ ] Post on  timeline
     - [ ] Display messages sorted by time (sort in DB!)
     - [ ] Create and accept friend requests 

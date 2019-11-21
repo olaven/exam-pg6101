@@ -29,10 +29,6 @@ export const Profile = props => {
 
         <Header as={"h1"}>Profile of {user.givenName} {user.familyName}</Header>
 
-        {auth && user.email !== auth.name?
-            <Header as={"h2"}>Create a new message</Header>:
-            <Header as={"h2"}>This is your timeline</Header>
-        }
         <Timeline user={user}/>
     </Container>;
 };
