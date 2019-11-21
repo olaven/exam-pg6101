@@ -8,24 +8,43 @@ import org.enterprise.exam.graphql.GraphQLTestBase
 
 internal class QueryResolverTest : GraphQLTestBase() {
 
-   /* @Test
-    fun `can get all by a user`() {
+    @Test
+    fun `can get advertisements`() {
 
-        val username = "some user"
-        val screening = getDummyScreening()
-        stubScreeningsCaller(screening)
+        val userEmail = "charlie@mail.com"
 
-        persistReservations(username, screening.id!!, 1)
-        persistReservations(username, screening.id!!, 1)
-        persistReservations(username, screening.id!!, 1)
+        (0 until 3).forEach {
+            persistAdvertisement()
+        }
+
 
         RestAssured.given().accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .queryParam("query", "{reservationsByUser(username:\"$username\"){id, seatCount}}")
+                .queryParam("query", "{advertisementsForUser(userEmail:\"$userEmail\"){voteCount, message}}")
                 .get()
                 .then()
                 .statusCode(200)
-                .body("data.reservationsByUser.size()", equalTo(3))
+                .body("data.advertisementsForUser.size()", equalTo(3))
+    }
 
-    }*/
+
+    @Test
+    fun `advertisements always returns 3`() {
+
+        val userEmail = "charlie@mail.com"
+
+        //NOTE: persisting more than 3
+        (0 until 10).forEach {
+            persistAdvertisement()
+        }
+
+
+        RestAssured.given().accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .queryParam("query", "{advertisementsForUser(userEmail:\"$userEmail\"){voteCount, message}}")
+                .get()
+                .then()
+                .statusCode(200)
+                .body("data.advertisementsForUser.size()", equalTo(3))
+    }
 }

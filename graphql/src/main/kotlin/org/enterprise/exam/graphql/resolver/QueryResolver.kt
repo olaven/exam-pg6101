@@ -12,7 +12,8 @@ class QueryResolver(
 
     fun advertisementsForUser(userEmail: String): List<AdvertisementEntity> {
 
-        TODO("NOT IMPLEMENTED")
+        //TODO: some logic based on the user
+        return advertisementRepository.getMostRelevant(userEmail, 3)
     }
 
 }
