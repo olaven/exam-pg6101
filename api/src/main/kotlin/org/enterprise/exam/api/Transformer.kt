@@ -40,7 +40,7 @@ class Transformer(
 
     fun messageToDto(messageEntity: MessageEntity) = MessageDTO(
             text = messageEntity.text,
-            creationTime = messageEntity.creationTime.toEpochSecond(),
+            creationTime = messageEntity.creationTime.toInstant().toEpochMilli(),
             receiverEmail = messageEntity.receiver.email,
             senderEmail = messageEntity.sender.email,
             id = messageEntity.id.toString()
