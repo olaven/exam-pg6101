@@ -1,9 +1,9 @@
 package org.enterprise.exam.api.controller
 
 import io.swagger.annotations.*
+import org.enterprise.exam.api.Page
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.repository.FriendRequestRepository
-import org.enterprise.exam.api.Page
 import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.response.FriendRequestResponseDTO
@@ -41,9 +41,20 @@ class FriendRequestController(
                     FriendRequestResponseDTO(403, null, "You are not allowed to create this request").validated()
             )
 
-        if (friendRequestDTO.id != null || friendRequestDTO.status != null) return ResponseEntity.status(409).body(
-                FriendRequestResponseDTO(409, null, "Client wrongly tried to decide ID or status").validated()
-        )
+        if (friendRequestDTO.id != null || friendRequestDTO.status != null) {
+
+            return ResponseEntity.status(409).body(
+                    FriendRequestResponseDTO(409, null, "Client wrongly tried to decide ID or status").validated()
+            )
+        }
+
+
+        if (friendRequestRepository.existsBetween(authentication.name, friendRequestDTO.receiverEmail)) {
+
+            return ResponseEntity.status(409).body(
+                    FriendRequestResponseDTO(409, null, "There already is a friendrequest between these two users")
+            )
+        }
 
         return try {
 
@@ -57,7 +68,7 @@ class FriendRequestController(
             )
         } catch (exception: NoSuchElementException) {
 
-            // other constraint violations is handled by shared exceptionhandler
+            // other constraint violations are handled by shared exceptionhandler
             ResponseEntity.status(400).body(
                     // NOTE: could arguably have sent 404, as the users were not found.
                     FriendRequestResponseDTO(400, null, "You entered invalid sender/receiver emails").validated()
@@ -143,7 +154,6 @@ class FriendRequestController(
             @RequestParam("keysetSenderEmail", required = false)
             keysetSenderEmail: String?
     ): WrappedResponse<Page<FriendRequestDTO>> {
-
 
         val pageSize = 10
         val friendRequests = if (status != null) {

@@ -36,6 +36,23 @@ internal class FriendRequestControllerTest : ControllerTestBase() {
     }
 
     @Test
+    fun `POST returns 409 if creating twice between same users`() {
+
+        val first = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
+        post(first, FIRST_USER)
+                .statusCode(201)
+
+        val second = getFriendRequestDTO(sender = FIRST_USER, receiver = SECOND_USER)
+        post(second, FIRST_USER)
+                .statusCode(409)
+
+                                                        //NOTE: swapped
+        val third = getFriendRequestDTO(sender = SECOND_USER, receiver = FIRST_USER)
+        post(third, SECOND_USER)
+                .statusCode(409)
+    }
+
+    @Test
     fun `POST returns 400 on invalid emails`() {
 
         val dto = FriendRequestDTO(

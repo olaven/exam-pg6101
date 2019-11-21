@@ -11,14 +11,27 @@ interface FriendRequestRepository : CrudRepository<FriendRequestEntity, Long>, C
 
 interface CustomFriendRequestRepository {
 
+    fun existsBetween(first: String, second: String): Boolean
+    fun areFriends(first: String, second: String): Boolean
     fun paginatedByReceiver(email: String, keysetId: Long?, keysetSenderEmail: String?, pageSize: Int): List<FriendRequestEntity>
     fun paginatedByReceiverAndStatus(email: String, status: FriendRequestStatus, keysetId: Long?, keysetSenderEmail: String?, pageSize: Int): List<FriendRequestEntity>
-    fun areFriends(first: String, second: String): Boolean
 }
 
 class FriendRequestRepositoryImpl(
         private val entityManager: EntityManager
 ) : CustomFriendRequestRepository {
+
+    override fun existsBetween(first: String, second: String): Boolean {
+
+
+        val query =
+                entityManager.createQuery("select request from FriendRequestEntity request where (request.sender.email = :first and request.receiver.email = :second) or (request.sender.email = :second and request.receiver.email = :first)", FriendRequestEntity::class.java)
+                        .setParameter("first", first)
+                        .setParameter("second", second)
+
+        query.maxResults = 1
+        return query.resultList.isNotEmpty()
+    }
 
     override fun areFriends(first: String, second: String): Boolean {
 
