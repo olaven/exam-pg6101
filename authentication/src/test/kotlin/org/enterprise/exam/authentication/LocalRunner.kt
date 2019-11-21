@@ -17,13 +17,13 @@ import javax.sql.DataSource
 
 /*
 * Before running this:
-* start redis, e.g. with "docker run -p 6379:6379 redis". //TODO: testing without this now
+* start redis, e.g. with "docker run -p 5672:5672 rabbitmq:3". //TODO: remove this if not used?
 * */
 fun main(args: Array<String>) {
-    SpringApplication.run(AuthenticationApplication::class.java, *args)
+    SpringApplication.run(AuthenticationApplication::class.java, "--spring.profiles.active=local")
 }
 
-@Profile("test")
+@Profile("local")
 @Configuration
 @EnableWebSecurity
 @Order(1)
@@ -35,14 +35,14 @@ class OverrideSecurityConfig(
 
         super.configure(http)
         http
-            .cors()
+                .cors()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
     }
 }
 
-@Profile("test")
+@Profile("local")
 @Configuration
 class Config {
 

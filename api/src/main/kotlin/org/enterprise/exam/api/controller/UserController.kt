@@ -32,9 +32,12 @@ class UserController(
             ApiResponse(code = 200, message = "Users are sent.")
     )
     fun getAll(
-            @ApiParam("The pagination keyset id")
+            @ApiParam("The pagination keyset email")
             @RequestParam("keysetEmail", required = false)
             keysetEmail: String?,
+            @ApiParam("The pagination keyset givenname")
+            @RequestParam("keysetGivenName", required = false)
+            keysetGivenName: String?,
             @ApiParam("Search term on email")
             @RequestParam("searchTerm", required = false)
             searchTerm: String?
@@ -42,15 +45,15 @@ class UserController(
 
 
         val pageSize = 10
-        val users = userRepository.getPage(keysetEmail, searchTerm, pageSize)
+        val users = userRepository.getPage(keysetEmail, keysetGivenName, searchTerm, pageSize)
                 .map { transformer.userToDTO(it) }
 
 
         val next = if (users.size == pageSize)
             if (searchTerm != null)
-                "/users?keysetEmail=${users.last().email}&searchTerm=${searchTerm}"
+                "/users?keysetEmail=${users.last().email}&keysetGivenName=${users.last().givenName}&searchTerm=${searchTerm}"
             else
-                "/users?keysetEmail=${users.last().email}"
+                "/users?keysetEmail=${users.last().email}&keysetGivenName=${users.last().givenName}"
         else null
 
         val page = Page(users, next)
@@ -67,16 +70,19 @@ class UserController(
             @ApiParam("The email of the given user")
             @PathVariable("email")
             email: String,
-            @ApiParam("The pagination keysetId (i.e. date of last fetched, if any)")
-            @RequestParam("keysetId", required = false)
-            keysetId: String?
+            @ApiParam("The pagination keysetEmail (i.e. of last fetched, if any)")
+            @RequestParam("keysetEmail", required = false)
+            keysetEmail: String?,
+            @ApiParam("The pagination keysetGivenName (i.e. of last fetched, if any)")
+            @RequestParam("keysetGivenName", required = false)
+            keysetGivenName: String?
     ): ResponseEntity<WrappedResponse<Page<UserEntity>>> {
 
         val pageSize = 10
-        val friends = userRepository.getFriends(email, keysetId, pageSize)
+        val friends = userRepository.getFriends(email, keysetEmail, keysetGivenName, pageSize)
 
         val next = if (friends.size == pageSize) {
-            "/users/$email/friends?keysetId=${friends.last().email}"
+            "/users/$email/friends?keysetEmail=${friends.last().email}&keysetGivenName=${friends.last().givenName}"
         } else {
             null
         }

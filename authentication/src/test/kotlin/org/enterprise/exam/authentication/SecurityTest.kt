@@ -7,12 +7,11 @@ import org.enterprise.exam.authentication.user.UserRepository
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.*
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertNull
-import org.junit.Before
-import org.junit.ClassRule
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
@@ -20,7 +19,7 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -30,10 +29,10 @@ import org.testcontainers.junit.jupiter.Testcontainers
 * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/advanced/security/distributed-session/ds-auth/src/test/kotlin/org/tsdes/advanced/security/distributedsession/auth/db/SecurityTest.kt
 * */
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [(SecurityTest.Companion.Initializer::class)])
-//Testcontainers
+@Testcontainers
 class SecurityTest {
 
     @Autowired
@@ -51,12 +50,12 @@ class SecurityTest {
             Here, going to use an actual Redis instance started in Docker
          */
 
-        @ClassRule
+        @Container
         @JvmField
         val redis = KGenericContainer("redis:latest")
                 .withExposedPorts(6379)
 
-        @ClassRule
+        @Container
         @JvmField
         val rabbitMQ = KGenericContainer("rabbitmq:3")
                 .withExposedPorts(5672)
@@ -105,7 +104,7 @@ class SecurityTest {
     }
 
 
-    @Before
+    @BeforeEach
     fun initialize() {
         RestAssured.baseURI = "http://localhost/authentication"
         RestAssured.port = port
@@ -149,6 +148,7 @@ class SecurityTest {
                 .body(AuthenticationDTO(id, password))
                 .post("/signUp")
                 .then()
+                //.statusCode(9999999)
                 .statusCode(204)
                 .header("Set-Cookie", not(equalTo(null)))
                 .extract().cookie("SESSION")

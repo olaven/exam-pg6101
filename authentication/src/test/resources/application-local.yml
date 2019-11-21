@@ -13,8 +13,8 @@ spring:
       ddl-auto: validate
     show-sql: true
   profiles:
-    active: "test"
+    active: "local"
   session:
-    store-type: redis #TODO: remove if not using in memory in testing
+    store-type: none
 server:
   port: 8081 # useful when developing frontend
