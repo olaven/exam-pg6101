@@ -1,20 +1,18 @@
 package org.enterprise.exam.api.repository
 
 import org.enterprise.exam.api.entity.FriendRequestEntity
-import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
 @Repository
-interface FriendRequestRepository : CrudRepository<FriendRequestEntity, Long>, CustomFriendRequestRepository  //TODO: FIX pagination
+interface FriendRequestRepository : CrudRepository<FriendRequestEntity, Long>, CustomFriendRequestRepository
 
 interface CustomFriendRequestRepository {
 
-    fun paginatedByReceiver(email: String, keysetId: Long?, pageSize: Int): List<FriendRequestEntity>
-    fun paginatedByReceiverAndStatus(email: String, status: FriendRequestStatus, keysetId: Long?, pageSize: Int): List<FriendRequestEntity>
+    fun paginatedByReceiver(email: String, keysetId: Long?, keysetSenderEmail: String?, pageSize: Int): List<FriendRequestEntity>
+    fun paginatedByReceiverAndStatus(email: String, status: FriendRequestStatus, keysetId: Long?, keysetSenderEmail: String?, pageSize: Int): List<FriendRequestEntity>
     fun areFriends(first: String, second: String): Boolean
 }
 
@@ -40,16 +38,23 @@ class FriendRequestRepositoryImpl(
         return firstResult || secondResult
     }
 
-    override fun paginatedByReceiver(email: String, keysetId: Long?, pageSize: Int): List<FriendRequestEntity> {
 
-        //select user from UserEntity user order by user.email desc, user.familyName
+    override fun paginatedByReceiver(email: String, keysetId: Long?, keysetSenderEmail: String?, pageSize: Int): List<FriendRequestEntity> {
+
+
+        require(!((keysetId == null && keysetSenderEmail != null) || (keysetId != null && keysetSenderEmail == null))) {
+            "keysetEmail and keysetGivenName should be both missing, or both present"
+        }
+
+
         val query =
                 if (keysetId != null) entityManager.createQuery(
-                        "select request from FriendRequestEntity request where request.receiver.email = :email and request.id < :keysetId order by request.id desc"
+                        "select request from FriendRequestEntity request where request.receiver.email = :email and (request.sender.email < :keysetSenderEmail or (request.sender.email = :keysetSenderEmail and request.sender.id < :keysetId)) order by request.sender.email desc, request.id desc"
                         , FriendRequestEntity::class.java)
                         .setParameter("keysetId", keysetId)
+                        .setParameter("keysetSenderEmail", keysetSenderEmail)
                 else entityManager.createQuery(
-                        "select request from FriendRequestEntity request where request.receiver.email = :email order by request.id desc"
+                        "select request from FriendRequestEntity request where request.receiver.email = :email order by request.sender.email desc, request.id desc"
                         , FriendRequestEntity::class.java
                 )
 
@@ -58,14 +63,15 @@ class FriendRequestRepositoryImpl(
         return query.resultList
     }
 
-    override fun paginatedByReceiverAndStatus(receiver: String, status: FriendRequestStatus, keysetId: Long?, pageSize: Int): List<FriendRequestEntity> {
+    override fun paginatedByReceiverAndStatus(receiver: String, status: FriendRequestStatus, keysetId: Long?, keysetSenderEmail: String?, pageSize: Int): List<FriendRequestEntity> {
 
         val query =
                 if (keysetId != null) entityManager.createQuery(
-                        "select request from FriendRequestEntity request where request.status = :status and request.receiver.email = :receiver and request.id < :keysetId order by request.sender.email, request.id desc"
+                        "select request from FriendRequestEntity request where request.status = :status and request.receiver.email = :receiver and (request.sender.email < :keysetSenderEmail or (request.sender.email = :keysetSenderEmail and request.sender.id < :keysetId)) order by request.sender.email, request.id desc"
                         , FriendRequestEntity::class.java).apply {
 
                     setParameter("keysetId", keysetId)
+                    setParameter("keysetSenderEmail", keysetSenderEmail)
                 }
                 else entityManager.createQuery(
                         "select request from FriendRequestEntity request where request.status = :status and request.receiver.email = :receiver  order by request.sender.email, request.id desc"

@@ -138,23 +138,26 @@ class FriendRequestController(
             status: FriendRequestStatus? = null,
             @ApiParam("The pagination keyset id")
             @RequestParam("keysetId", required = false)
-            keysetId: Long? //TODO: something is going wrong here
+            keysetId: Long?,
+            @ApiParam("The pagination keyset email of sender")
+            @RequestParam("keysetSenderEmail", required = false)
+            keysetSenderEmail: String?
     ): WrappedResponse<Page<FriendRequestDTO>> {
 
 
         val pageSize = 10
         val friendRequests = if (status != null) {
 
-            friendRequestRepository.paginatedByReceiverAndStatus(receiver, status, keysetId, pageSize)
+            friendRequestRepository.paginatedByReceiverAndStatus(receiver, status, keysetId, keysetSenderEmail, pageSize)
         } else {
 
-            friendRequestRepository.paginatedByReceiver(receiver, keysetId, pageSize)
+            friendRequestRepository.paginatedByReceiver(receiver, keysetId, keysetSenderEmail, pageSize)
         }.map { transformer.friendRequestToDTO(it) }
 
 
         val next = if (friendRequests.size == pageSize)
-            if (status == null) "/requests?receiver=$receiver&keysetId=${friendRequests.last().id}"
-            else "/requests?receiver=$receiver&status=$status&keysetId=${friendRequests.last().id}"
+            if (status == null) "/requests?receiver=$receiver&keysetId=${friendRequests.last().id}&keysetSenderEmail=${friendRequests.last().senderEmail}"
+            else "/requests?receiver=$receiver&status=$status&keysetId=${friendRequests.last().id}&keysetSenderEmail=${friendRequests.last().senderEmail}"
         else
             null
 

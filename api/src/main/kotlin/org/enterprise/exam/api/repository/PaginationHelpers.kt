@@ -9,6 +9,7 @@ import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.http.ResponseEntity
 import javax.persistence.TypedQuery
 
+//TODO: move this to shared?
 @ApiModel(description = "Paginated resources, using keyset pagination")
 class Page<T>(
 
@@ -19,6 +20,8 @@ class Page<T>(
         @ApiModelProperty("Link to the next page, if it exists")
         var next: String? = null
 )
+
+//TODO: Delete this file / content below?
 
 
 fun <Entity : BaseEntity, DTO : BaseDTO> paginatedResponse(
