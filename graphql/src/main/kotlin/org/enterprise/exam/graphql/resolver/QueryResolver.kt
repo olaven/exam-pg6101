@@ -1,19 +1,18 @@
 package org.enterprise.exam.graphql.resolver
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver
-import org.enterprise.exam.graphql.database.ReservationEntity
-import org.enterprise.exam.graphql.database.ReservationRepository
+import org.enterprise.exam.graphql.database.AdvertisementEntity
+import org.enterprise.exam.graphql.database.AdvertisementRepository
 import org.springframework.stereotype.Component
 
 @Component
 class QueryResolver(
-        private val reservationRepository: ReservationRepository
+        private val advertisementRepository: AdvertisementRepository
 ) : GraphQLQueryResolver {
 
-    fun reservationsByUser(username: String): List<ReservationEntity> {
+    fun advertisementsForUser(userEmail: String): List<AdvertisementEntity> {
 
-        val results = reservationRepository.findByUsername(username)
-        return results
+        TODO("NOT IMPLEMENTED")
     }
 
 }

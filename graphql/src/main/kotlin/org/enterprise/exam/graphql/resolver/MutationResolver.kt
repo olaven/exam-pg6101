@@ -2,11 +2,10 @@ package org.enterprise.exam.graphql.resolver
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver
 import com.google.common.base.Throwables
-import com.google.gson.Gson
 import graphql.execution.DataFetcherResult
 import graphql.servlet.GenericGraphQLError
-import org.enterprise.exam.graphql.database.ReservationEntity
-import org.enterprise.exam.graphql.database.ReservationRepository
+import org.enterprise.exam.graphql.database.AdvertisementEntity
+import org.enterprise.exam.graphql.database.AdvertisementRepository
 import org.springframework.stereotype.Component
 import javax.validation.ConstraintViolationException
 
@@ -17,35 +16,51 @@ import javax.validation.ConstraintViolationException
 
 @Component
 class MutationResolver(
-        private val reservationRepository: ReservationRepository
-
+        private val advertisementRepository: AdvertisementRepository
 ) : GraphQLMutationResolver {
 
-    fun create(screeningID: String, username: String, seatCount: Int): DataFetcherResult<String> {
+
+    fun voteUpAdvertisement(advertisementID: String) = mutateAdvertisement(advertisementID) {
+
+        it.voteCount++
+        it
+    }
+
+    fun voteDownAdvertisement(advertisementID: String) = mutateAdvertisement(advertisementID) {
+
+        it.voteCount--
+        it
+    }
+
+
+    private fun mutateAdvertisement(advertisementID: String, mutation: (advertisementEntity: AdvertisementEntity) -> AdvertisementEntity) = handledAction {
+
+        val convertedID = advertisementID.toLong()
+        var advertisement = advertisementRepository.findById(convertedID).get()
+
+        advertisement = mutation(advertisement)
+
+        val updated = advertisementRepository.save(advertisement)
+        DataFetcherResult(updated, emptyList())
+    }
+
+    private fun handledAction(action: () -> DataFetcherResult<AdvertisementEntity>): DataFetcherResult<AdvertisementEntity> {
 
         try {
 
-            val entity = reservationRepository.save(ReservationEntity(
-                    screeningID = screeningID.toLong(),
-                    username = username,
-                    seatCount = seatCount
-            ))
-
-            val json = Gson().toJson(entity)
-            return DataFetcherResult(json, emptyList())
-
+            return action()
 
         } catch (exception: Exception) {
 
             //NOTE: cannot rely on default exception handling (from shared-module) as that returns wrapped responses, not for gql
-
             val cause = Throwables.getRootCause(exception)
             val msg = if (cause is ConstraintViolationException) {
                 "Violated constraints: ${cause.message}"
-            }else {
+            } else {
                 "${exception.javaClass}: ${exception.message}"
             }
-            return DataFetcherResult<String>(null, listOf(GenericGraphQLError(msg)))
+
+            return DataFetcherResult<AdvertisementEntity>(null, listOf(GenericGraphQLError(msg)))
         }
     }
 }

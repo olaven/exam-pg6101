@@ -5,7 +5,6 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.common.ConsoleNotifier
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import io.restassured.RestAssured
-import org.enterprise.exam.graphql.database.ReservationRepository
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -19,8 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GraphQLTestBase {
 
-    @Autowired
-    private lateinit var reservationRepository: ReservationRepository
+
 
     @LocalServerPort
     protected var port = 0
@@ -36,7 +34,7 @@ class GraphQLTestBase {
         RestAssured.basePath = "/graphql"
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
-        reservationRepository.deleteAll()
+
     }
 
     companion object {

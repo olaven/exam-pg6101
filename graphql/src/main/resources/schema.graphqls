@@ -1,26 +1,20 @@
-#NOTE: This file is based on:
+#NOTE: This file was initially based on:
 #https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/0bd7a6248ac2a1b497f04cf18d3ce5af02cd8b52/advanced/graphql/news-graphql/src/main/resources/schema.graphqls
 
 type Query {
-    reservationsByUser(username: String!): [Reservation!]
+    advertisementsForUser(userEmail: String!): [Advertisement!]
 }
 
 type Mutation {
-    create(screeningID: String!, username: String!, seatCount: Int): String!
+
+    voteUpAdvertisement(advertisementID: String!): Advertisement
+    voteDownAdvertisement(advertisementID: String!): Advertisement
 }
 
-type Reservation {
+
+type Advertisement {
+
     id: String!
-    username: String!
-    screening: Screening
-    seatCount: Int
-}
-
-# scalar MyDateTime
-
-type Screening {
-
-    time: String!
-    room: String!
-    availableTickets: Int
+    message: String!
+    voteCount: Int!
 }

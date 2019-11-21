@@ -76,22 +76,6 @@ class RestIT : GatewayIntegrationDockerTestBase() {
     }
 
     @Test
-    fun `can log in and send friend request`() {
-
-        //NOTE: This test assumes that test users are added.
-        val adamSession = login("adam@mail.com", "adampass");
-
-        given().cookie("SESSION", adamSession).contentType(ContentType.JSON)
-                .body(FriendRequestDTO(
-                        "adam@mail.com", "charlie@mail.com"
-                ))
-                .post("/api/requests")
-                .then()
-                .statusCode(201)
-    }
-
-
-    @Test
     fun `can log in and post message`() {
 
         //NOTE: This test assumes that test users are added.
@@ -110,7 +94,7 @@ class RestIT : GatewayIntegrationDockerTestBase() {
     @Test
     fun testLoadBalance() {
 
-
+        //NOTE: this test MAY FAIL due to random chance -> depending on what services are reached.
         Awaitility.await().atMost(120, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until {
