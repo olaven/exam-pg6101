@@ -47,7 +47,7 @@ abstract class GatewayIntegrationDockerTestBase {
                             This is too low value on free CIs like Travis when there are many
                             Docker images running
                          */
-                        Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(240)))
+                        Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(300))) //NOTE: was 240, increased due to slow computer
                 .withLocalCompose(true)
 
 

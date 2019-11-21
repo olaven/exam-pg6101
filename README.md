@@ -14,6 +14,14 @@ Some users are added by default:
 * username: "adam@mail.com", password, "adam"
 * username: "charlie@mail.com", password, "charlie" 
 
+### General notes
+The end-to-end tests fails sometimes, due to limited system resources
+on my machine/docker and the fact that there are a lot of services.
+I have addressed this issue by increasing the time they take to run.
+I have also given Docker more memory. 
+If the integration tests fails due to a timeout, I would greatly appreachiate
+if this could be kept in mind.
+
 ### Assumptions
 * The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
 My assumption is that this is fine in an exam, as I want to show that load-balancing is working.
@@ -36,9 +44,13 @@ interpretation. As a result, I am assuming that a message should only be sent by
  
  
 ### Extras 
-* I have added styling with [Semantic UI](https://semantic-ui.com). This required adding css-loaders to webpack.config.js.
+* I have added styling with [Semantic UI](https://semantic-ui.com). 
 * Added Swagger documentation and wrapped responses on authentication API
 * The project is running on Travis-CI
+* There is a `mail`-service. This service receives a message through AMQP when 
+a user is signed up. The message triggers a "welcome mail"-function that could, 
+for example, send an email to the user. (`WelcomeMessageController.kt`)
+* TODO: write about test coverage 
 
 
 ## Checklists
@@ -79,9 +91,9 @@ nothing.
 #### C mark 
 ##### General
 - [X] Provide a frontend
-- [ ] all major features in app is executable from frontend
+- [X] all major features in app is executable from frontend
 ##### Application 
-- [ ] GUI
+- [X] GUI
     - [X] Search and display users
     - [X] Register a new user 
     - [X] See details of other users 
