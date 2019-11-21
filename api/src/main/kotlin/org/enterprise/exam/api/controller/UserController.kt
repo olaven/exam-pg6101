@@ -137,6 +137,9 @@ class UserController(
             @ApiParam("The email of the given user")
             @PathVariable("email")
             email: String,
+            @ApiParam("The pagination keyset id (i.e. of last fetched, if any)")
+            @RequestParam("keysetDate", required = false)
+            keysetId: Long?,
             @ApiParam("The pagination keyset date (i.e. date of last fetched, if any)")
             @RequestParam("keysetDate", required = false)
             keysetDate: Long?,
@@ -150,11 +153,11 @@ class UserController(
         )
 
         val pageSize = 10
-        val messages = messageRepository.getTimeline(email, keysetDate, pageSize)
+        val messages = messageRepository.getTimeline(email, keysetId, keysetDate, pageSize)
                 .map { transformer.messageToDto(it) }
 
         val next = if (messages.size == pageSize) {
-            "/users/$email/timeline?keysetDate=${messages.last().creationTime}"
+            "/users/$email/timeline?keysetId=${messages.last().id}&keysetDate=${messages.last().creationTime}"
         } else {
             null
         }

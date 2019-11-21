@@ -43,7 +43,7 @@ class FriendRequestRepositoryImpl(
 
 
         require(!((keysetId == null && keysetSenderEmail != null) || (keysetId != null && keysetSenderEmail == null))) {
-            "keysetEmail and keysetGivenName should be both missing, or both present"
+            "keysetEmail and keysetSenderEmail should be both missing, or both present"
         }
 
 

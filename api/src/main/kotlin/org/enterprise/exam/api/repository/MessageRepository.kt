@@ -14,7 +14,7 @@ interface MessageRepository: CrudRepository<MessageEntity, Long>, CustomMessageR
 
 interface CustomMessageRepository {
 
-    fun getTimeline(email: String, keysetDate: Long?, pageSize: Int): List<MessageEntity>
+    fun getTimeline(email: String, keysetId: Long?, keysetDate: Long?, pageSize: Int): List<MessageEntity>
 }
 
 @Transactional
@@ -23,15 +23,23 @@ class MessageRepositoryImpl(
         private val entityManager: EntityManager
 ): CustomMessageRepository {
 
-    override fun getTimeline(email: String, keysetDate: Long?, pageSize: Int): List<MessageEntity> {
+    //TODO: double pagination
+    override fun getTimeline(email: String, keysetId: Long?, keysetDate: Long?, pageSize: Int): List<MessageEntity> {
 
+        require(!((keysetId == null && keysetDate != null) || (keysetId != null && keysetDate == null))) {
+            "keysetEmail and keysetDate should be both missing, or both present"
+        }
+
+
+        //TODO double pagination
+        //select b from Book b where b.year<?2 or (b.year=?2 and b.id<?1) order by b.year DESC, b.id DESC
         val query = if (keysetDate == null)
             entityManager.createQuery("select message from MessageEntity message where message.receiver.email = :email order by message.creationTime desc, message.id desc", MessageEntity::class.java)
         else {
 
             val convertedDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(keysetDate), ZoneId.systemDefault())
             entityManager
-                    .createQuery("select message from MessageEntity message where message.receiver.email = :email and message.creationTime < :keysetDate order by message.creationTime desc, message.id desc", MessageEntity::class.java)
+                    .createQuery("select message from MessageEntity message where message.receiver.email = :email and (message.creationTime < :keysetDate or (message.creationTime = :keysetDate and message.id < :keysetId)) order by message.creationTime desc, message.id desc", MessageEntity::class.java)
                     .setParameter("keysetDate", convertedDate)
 
         }

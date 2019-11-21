@@ -62,7 +62,7 @@ for the sake of showing how JSON Merge Patch treats null values.
 ##### General
 - [X] single entrypoint is gateway 
 - [X] whole app started with docker compose 
-- [ ] e2e _for each_ REST API 
+- [X] e2e _for each_ REST API 
 ##### Application 
 nothing.
 #### C mark 
