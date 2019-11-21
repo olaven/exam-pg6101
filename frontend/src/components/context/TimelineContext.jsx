@@ -10,7 +10,7 @@ export const TimelineContextProvider = props => {
     const [location, setLocation] = React.useState(null);
     const [basePath, setBasePath] = React.useState(null);
     const [refreshTrigger, setRefreshTrigger] = React.useState(0);
-    
+
     const messagePage = PaginationFetcher(location, basePath, refreshTrigger);
 
     const triggerRefresh = () => {

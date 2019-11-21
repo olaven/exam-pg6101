@@ -75,7 +75,7 @@ nothing.
     - [X] Search and display users
     - [ ] Register a new user 
     - [X] See details of other users 
-    - [ ] Post on  timeline
+    - [X] Post on  timeline
     - [X] Display messages sorted by time (sort in DB!)
     - [ ] Create and accept friend requests 
 #### B mark 
@@ -88,7 +88,7 @@ nothing.
 - [X] Logged in user should see a welcome message
 - [X] A user can create message on their own timeline
     - [X] A test to verify this -> `MessageControllerTest.kt`, specifically `403 if not sender`
-- [ ] Sikkerhet på timeline 
+- [X] Sikkerhet på timeline 
 - [X] A user should see timelines of friends
     - [X] A test to verify this -> `UserControllerTest.kt`, specifically `can only see timeline of friends` 
 #### A mark 

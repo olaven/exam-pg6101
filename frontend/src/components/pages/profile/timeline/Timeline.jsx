@@ -1,9 +1,9 @@
 import * as React from "react";
 import {Container, Header} from "semantic-ui-react";
-import {FriendContext} from "../../context/FriendContext";
+import {FriendContext} from "../../../context/FriendContext";
 import {TimelineMessages} from "./TimelineMessages";
 import {MessageCreator} from "./MessageCreator";
-import {UserContext} from "../../context/UserContext";
+import {UserContext} from "../../../context/UserContext";
 
 export const Timeline = props => {
 

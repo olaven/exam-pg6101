@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Button, Container, Header} from "semantic-ui-react";
-import {PaginationFetcher} from "../../../utils/PaginationFetcher";
-import {TimelineContext} from "../../context/TimelineContext";
+import {PaginationFetcher} from "../../../../utils/PaginationFetcher";
+import {TimelineContext} from "../../../context/TimelineContext";
 
 export const TimelineMessages = props => {
 

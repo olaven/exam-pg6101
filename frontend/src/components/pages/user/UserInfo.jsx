@@ -30,6 +30,6 @@ export const UserInfo = () => {
         <List items={auth.roles}/>
 
         {/*TODO: remove or replace with possiblity to add more later*/}
-        <Button onClick={postUserDetails}>Post User Deatils</Button>
+        <Button onClick={postUserDetails}>TEST REMOVE Post User Deatils</Button>
     </Segment>
 };
