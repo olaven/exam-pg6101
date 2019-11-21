@@ -23,7 +23,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 @Configuration
 @EnableWebSecurity
 @Order(1)
-open class WebSecurityConfigLocalFake : WebSecurityConfig() {
+class WebSecurityConfigLocalFake : WebSecurityConfig() {
 
     companion object {
 
@@ -60,6 +60,8 @@ open class WebSecurityConfigLocalFake : WebSecurityConfig() {
                     // replacing browser popup
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase);
                 }*/
+                .and()
+                .cors()
                 .and()
                 //but then override the session management
                 .sessionManagement()

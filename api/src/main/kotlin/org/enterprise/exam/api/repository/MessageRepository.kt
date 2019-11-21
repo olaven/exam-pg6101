@@ -30,12 +30,11 @@ class MessageRepositoryImpl(
             "keysetEmail and keysetDate should be both missing, or both present"
         }
 
-
         val query = if (keysetDate == null)
             entityManager.createQuery("select message from MessageEntity message where message.receiver.email = :email order by message.creationTime desc, message.id desc", MessageEntity::class.java)
         else {
 
-            val convertedDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(keysetDate), ZoneId.systemDefault())
+            val convertedDate = ZonedDateTime.ofInstant(Instant.ofEpochMilli(keysetDate), ZoneId.systemDefault())
             entityManager
                     .createQuery("select message from MessageEntity message where message.receiver.email = :email and (message.creationTime < :keysetDate or (message.creationTime = :keysetDate and message.id < :keysetId)) order by message.creationTime desc, message.id desc", MessageEntity::class.java)
                     .setParameter("keysetDate", convertedDate)

@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 
@@ -77,7 +78,7 @@ abstract class ControllerTestBase {
             text = faker.lorem().paragraph(),
             senderEmail = userID,
             receiverEmail = userID,
-            creationTime = faker.date().past(3, TimeUnit.HOURS).toInstant().toEpochMilli(),
+            creationTime = faker.date().past(3, TimeUnit.DAYS).toInstant().toEpochMilli(),
             id = null
     )
 
@@ -108,7 +109,7 @@ abstract class ControllerTestBase {
                     text = faker.lorem().paragraph(),
                     sender = userRepository.findById(sender.email).get(),
                     receiver = userRepository.findById(receiver.email).get(),
-                    creationTime = ZonedDateTime.now()
+                    creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
             ))
 
     protected fun persistFriendRequest(

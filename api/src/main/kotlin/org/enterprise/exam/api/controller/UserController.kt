@@ -139,7 +139,7 @@ class UserController(
             @PathVariable("email")
             email: String,
             @ApiParam("The pagination keyset id (i.e. of last fetched, if any)")
-            @RequestParam("keysetDate", required = false)
+            @RequestParam("keysetId", required = false)
             keysetId: Long?,
             @ApiParam("The pagination keyset date (i.e. date of last fetched, if any)")
             @RequestParam("keysetDate", required = false)

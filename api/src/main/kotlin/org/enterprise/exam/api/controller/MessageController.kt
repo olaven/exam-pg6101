@@ -87,7 +87,7 @@ class MessageController(
     @PostMapping
     @ApiOperation("Create a new message")
     @ApiResponses(
-            ApiResponse(code = 203, message = "Succesfully created message"),
+            ApiResponse(code = 201, message = "Succesfully created message"),
             ApiResponse(code = 400, message = "There is something wrong with the message"),
             ApiResponse(code = 403, message = "You are not allowed to create this message")
     )
