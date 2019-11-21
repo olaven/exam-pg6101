@@ -41,7 +41,7 @@ create a message for _some user_. It is not clear to me wether the "current user
 or the displayed user. However, in B requirement, it is specified that a user should only be able to 
 create a user for his/her own timeline. As B is a later requirements, I am considering that the valid 
 interpretation. As a result, I am assuming that a message should only be sent by the user "owning" the timeline. 
- 
+* TODO: assumption about package/verify
  
 ### Extras 
 * I have added styling with [Semantic UI](https://semantic-ui.com). 
@@ -134,7 +134,8 @@ the user receives
 - [ ] Run project with `mvn clean verify`
 - [ ] run `mvn clean`
 - [ ] remove `node_modules`
-- [ ] ensure that `target`/`node_modules` is removed 
+- [ ] ensure that `target`/`node_modules` is removed
+- [ ] remove `.git` 
 - [ ] zip project folder to `.zip`
 - [ ] ensure that folder size is < 10MB
 - [ ] rename folder to pg6100_ID_FROM_WIZEFLOW.zip

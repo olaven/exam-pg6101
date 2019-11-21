@@ -4,6 +4,8 @@
 spring:
   application:
     name: graphql
+  rabbitmq:
+    host: rabbitmq #TODO: remove if not getting to work
   datasource:
     url: "jdbc:postgresql://postgres_graphql:5432/postgres"
     username: "postgres"

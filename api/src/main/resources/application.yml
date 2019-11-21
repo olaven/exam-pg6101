@@ -4,6 +4,8 @@
 spring:
   application:
     name: api
+  rabbitmq:
+    host: rabbitmq #TODO: remove if not getting to work
   datasource:
     url: "jdbc:postgresql://postgres_movies:5432/postgres"
     username: "postgres"

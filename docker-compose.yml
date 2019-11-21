@@ -56,6 +56,7 @@ services:
       - redis
       - postgres_graphql
       - gateway
+      - rabbitmq
 
   api_0:
     build:
@@ -67,6 +68,7 @@ services:
       - redis
       - postgres_movies
       - gateway
+      - rabbitmq
 
   api_1:
     build:
@@ -78,6 +80,7 @@ services:
       - redis
       - postgres_movies
       - gateway
+      - rabbitmq
 
   api_2:
     build:
@@ -89,6 +92,7 @@ services:
       - redis
       - postgres_movies
       - gateway
+      - rabbitmq
 
   frontend:
     build:
