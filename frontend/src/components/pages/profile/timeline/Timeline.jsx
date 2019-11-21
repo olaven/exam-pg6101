@@ -23,7 +23,7 @@ export const Timeline = props => {
 
     if (auth && auth.name === props.user.email) {
         return <Container>
-
+            <Header>Timeline</Header>
             <MessageCreator
                 receiverEmail={props.user.email}
             />
@@ -33,9 +33,11 @@ export const Timeline = props => {
         </Container>
     } else if (areFriends) {
 
-       return <TimelineMessages
-           email={props.user.email}
-       />
+
+       return <Container>
+           <Header>Timeline</Header>
+           <TimelineMessages email={props.user.email}/>
+       </Container>
     } else {
 
         return <Header as={"h2"}>

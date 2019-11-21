@@ -114,7 +114,7 @@
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <scope>compile</scope>
+            <scope>compile</scope> <!-- is used when adding default data -->
         </dependency>
     </dependencies>
 

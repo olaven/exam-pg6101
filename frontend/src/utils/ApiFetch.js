@@ -21,9 +21,14 @@ export const ApiFetch = (path, config) => {
         "http://localhost:80/api" : //gateway
         "http://localhost:" + devPort;
 
-    console.log("fetching ", base + path);
-    return fetch(base + path, {
-        ...config,
-        credentials: "include" //needed to send cookies
-    });
+
+    if (!path.includes("graphql")) {
+        /*
+        * GraqhQL does not support credentials.
+        * Only include credentials if _not_ going to /graphql
+        * */
+        config = { ...config, credentials: "include"}
+    }
+
+    return fetch(base + path, config);
 };

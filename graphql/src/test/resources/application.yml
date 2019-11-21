@@ -9,6 +9,10 @@ spring:
       ddl-auto: validate
     database: h2
     show-sql: true
+  profiles:
+    active: test
+  main:
+    allow-bean-definition-overriding: true # overriding cors when developing frontend
 external:
   api-base: "http://localhost:8099/api/"
 server:

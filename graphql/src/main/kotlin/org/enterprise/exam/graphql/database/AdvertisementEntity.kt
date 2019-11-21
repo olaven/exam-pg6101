@@ -17,7 +17,7 @@ class AdvertisementEntity (
 
         @field:NotNull
         @field:Min(0)
-        var voteCount: Int,
+        var voteCount: Int = 0,
 
         @field:Id
         @field:GeneratedValue

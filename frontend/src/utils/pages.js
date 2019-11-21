@@ -1,4 +1,4 @@
-import {Home} from "../components/pages/Home";
+import {Home} from "../components/pages/home/Home";
 import {User} from "../components/pages/user/User";
 import {Admin} from "../components/pages/Admin";
 import {Search} from "../components/pages/search/Search";

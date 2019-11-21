@@ -20,7 +20,7 @@ export const TimelineMessages = props => {
 
     return <Container>
 
-        {messagePage.list.map(message => <Container>
+        {messagePage.list.map(message => <Container key={message.id}>
             <Header as={"h4"}>Posted: {new Date(message.creationTime).toString()}}</Header>
             {message.text}
         </Container>)}

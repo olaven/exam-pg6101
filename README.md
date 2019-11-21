@@ -4,6 +4,9 @@
 
 ### About the Application 
 This aplication models a social network akin to Facebook. 
+From the home-page, users may go to their profiles. 
+They may also search for other users, and make friends with them. 
+If they are friends, they may see each others timelines. 
 
 ### Test information 
 Some users are added by default: 
@@ -100,14 +103,14 @@ nothing.
     - [X] A test to verify this -> `UserControllerTest.kt`, specifically `can only see timeline of friends` 
 #### A mark 
 ##### General
-- [ ] Provide graphQL endpoint 
-    - [ ] at least one mutation
-    - [ ] at least one query
+- [X] Provide graphQL endpoint 
+    - [X] at least one mutation
+    - [X] at least one query
 - [ ] Communication between two services, with AMQP
 ##### Application 
-- [ ] GraphQL should handle advertisements
+- [X] GraphQL should handle advertisements
 - [ ] Display advertisements on home-page
-- [ ] Accepted requests shoud send a message to GQL, 
+- [ ] Accepted requests should send a message to GQL, 
 - [ ] This information should change what type of advertisement 
 the user receives
 

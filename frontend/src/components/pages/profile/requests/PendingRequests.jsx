@@ -37,8 +37,9 @@ export const PendingRequests = props => {
     } ;
 
     return <Container>
+        <Header>Your pending friend requests: </Header>
         {requestsPage.list.map(request =>
-            <Container>
+            <Container key={request.id}>
                 <Header as={"h5"}>You have a request from {request.senderEmail}</Header>
                 <Button onClick={() => {updateRequest(request, "ACCEPTED")}}>Accept</Button>
                 <Button onClick={() => {updateRequest(request, "REJECTED")}}>Reject</Button>

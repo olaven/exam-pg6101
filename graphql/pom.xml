@@ -44,7 +44,7 @@
             <artifactId>gson</artifactId>
         </dependency>
 
-        <!-- For automatic exception handling of constraint violations TODO: test -->
+        <!-- For automatic exception handling of constraint violations -->
         <dependency>
             <groupId>org.enterprise.exam</groupId>
             <artifactId>shared</artifactId>
