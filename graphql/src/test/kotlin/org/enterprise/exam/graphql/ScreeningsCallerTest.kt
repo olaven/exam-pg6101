@@ -15,7 +15,7 @@ internal class ScreeningsCallerTest: GraphQLTestBase() {
     @Autowired
     private lateinit var screeningsCaller: ScreeningsCaller
 
-    @Test
+/*    @Test
     fun `can return specific screening`() {
 
         val screening = getDummyScreening()
@@ -35,5 +35,5 @@ internal class ScreeningsCallerTest: GraphQLTestBase() {
         val seats = screeningsCaller.getAvailableSeats(screening.id!!.toLong())
 
         assertNotNull(seats)
-    }
+    }*/
 }

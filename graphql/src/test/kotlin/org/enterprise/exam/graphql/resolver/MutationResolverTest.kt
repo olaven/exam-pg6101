@@ -8,7 +8,7 @@ import org.enterprise.exam.graphql.GraphQLTestBase
 
 internal class MutationResolverTest : GraphQLTestBase() {
 
-    @Test
+    /*@Test
     fun `can create reservation`() {
 
         val screening = getDummyScreening()
@@ -27,5 +27,5 @@ internal class MutationResolverTest : GraphQLTestBase() {
                 .statusCode(200)
                 .body("$", Matchers.hasKey("data"))
                 .body("$", Matchers.not(Matchers.hasKey("errors")))
-    }
+    }*/
 }

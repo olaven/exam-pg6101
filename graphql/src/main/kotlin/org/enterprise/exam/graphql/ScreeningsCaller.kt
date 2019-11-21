@@ -1,16 +1,13 @@
 package org.enterprise.exam.graphql
 
-import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
-import org.enterprise.exam.shared.response.remove_these.ScreeningResponseDTO
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
 
 @Service
 class ScreeningsCaller {
 
-    @Value("\${external.api-base}")
+
+    //NOTE: from mock exam, keeping for reference
+/*    @Value("\${external.api-base}")
     private var apiBase: String? = null
 
     fun getAvailableSeats(id: Long): Int? {
@@ -29,5 +26,5 @@ class ScreeningsCaller {
         }
 
         return null
-    }
+    }*/
 }

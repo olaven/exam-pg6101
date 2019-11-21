@@ -9,7 +9,6 @@ import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
 import org.enterprise.exam.api.entity.UserEntity
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.dto.UserDTO
-import org.enterprise.exam.shared.dto.remove_these.MovieDTO
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.Assertions.assertNotEquals
@@ -121,13 +120,13 @@ internal class UserControllerTest : ControllerTestBase() {
 
         getAll()
                 .statusCode(200)
-                .body("data.list", Matchers.iterableWithSize<MovieDTO>(0))
+                .body("data.list", Matchers.iterableWithSize<UserDTO>(0))
 
         post(getDummyUser(FIRST_USER), FIRST_USER)
 
         getAll()
                 .statusCode(200)
-                .body("data.list", Matchers.iterableWithSize<MovieDTO>(1))
+                .body("data.list", Matchers.iterableWithSize<UserDTO>(1))
     }
 
 

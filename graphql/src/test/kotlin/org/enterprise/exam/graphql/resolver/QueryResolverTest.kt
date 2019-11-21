@@ -8,7 +8,7 @@ import org.enterprise.exam.graphql.GraphQLTestBase
 
 internal class QueryResolverTest : GraphQLTestBase() {
 
-    @Test
+   /* @Test
     fun `can get all by a user`() {
 
         val username = "some user"
@@ -27,5 +27,5 @@ internal class QueryResolverTest : GraphQLTestBase() {
                 .statusCode(200)
                 .body("data.reservationsByUser.size()", equalTo(3))
 
-    }
+    }*/
 }

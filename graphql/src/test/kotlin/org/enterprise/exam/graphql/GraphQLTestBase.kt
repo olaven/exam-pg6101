@@ -2,25 +2,18 @@ package org.enterprise.exam.graphql
 
 import com.github.javafaker.Faker
 import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.common.ConsoleNotifier
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
-import com.google.gson.Gson
 import io.restassured.RestAssured
+import org.enterprise.exam.graphql.database.ReservationRepository
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
-import org.enterprise.exam.graphql.database.ReservationEntity
-import org.enterprise.exam.graphql.database.ReservationRepository
-import org.enterprise.exam.shared.dto.remove_these.Room
-import org.enterprise.exam.shared.dto.remove_these.ScreeningDTO
-import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.util.concurrent.TimeUnit
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -65,24 +58,8 @@ class GraphQLTestBase {
         }
     }
 
-    protected fun persistReservations(username: String, screeningID: String, seatCount: Int = faker.number().numberBetween(1, 10)): ReservationEntity {
-
-        return reservationRepository.save(ReservationEntity(
-                screeningID = screeningID.toLong(),
-                username = username,
-                seatCount = seatCount
-        ))
-    }
-
-    protected fun getDummyScreening() = ScreeningDTO(
-            time = faker.date().future(40, TimeUnit.DAYS).toInstant().toEpochMilli(),
-            movieID = "SOME MOVIE",
-            room = Room.values().random(),
-            availableTickets = faker.number().randomDigitNotZero(),
-            id = faker.number().randomNumber().toString()
-    )
-
-    protected fun stubScreeningsCaller(screening: ScreeningDTO = getDummyScreening()) {
+    //NOTE: From mock exam, keeping for reference
+   /* protected fun stubScreeningsCaller(screening: ScreeningDTO = getDummyScreening()) {
 
         val response = WrappedResponse(200, screening).validated()
         val json = Gson().toJson(response)
@@ -94,5 +71,5 @@ class GraphQLTestBase {
                         .willReturn(WireMock.aResponse()
                                 .withHeader("Content-Type", "application/json;")
                                 .withBody(json)))
-    }
+    }*/
 }
