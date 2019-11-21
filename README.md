@@ -3,6 +3,7 @@
 ## Documentation
 
 ### About the Application 
+This aplication models a social network akin to Facebook. 
 
 ### Test information 
 Some users are added by default: 
@@ -24,8 +25,11 @@ should have the same role that the movies-API did in the mock-exam.
 * In my JSON Merge Patch implementation, I am allowing the user to enter null-values for `.givenName` and `.familyName`. 
 This is redundant, as it will result in a `ConstraintViolation` (i.e. 400). I have chosen to implement it anyway, 
 for the sake of showing how JSON Merge Patch treats null values. 
-
-// TODO: assumption that messages should be from the same user as receiver (i.e. post), because of B requirement
+* The assignment specifies "messages". As an E requirement (C in frontend) a user should be able to 
+create a message for _some user_. It is not clear to me wether the "current user" is the logged in user 
+or the displayed user. However, in B requirement, it is specified that a user should only be able to 
+create a user for his/her own timeline. As B is a later requirements, I am considering that the valid 
+interpretation. As a result, I am assuming that a message should only be sent by the user "owning" the timeline. 
  
  
 ### Extras 
@@ -76,18 +80,18 @@ nothing.
 ##### Application 
 - [ ] GUI
     - [X] Search and display users
-    - [ ] Register a new user 
+    - [X] Register a new user 
     - [X] See details of other users 
     - [X] Post on  timeline
     - [X] Display messages sorted by time (sort in DB!)
-    - [ ] Create and accept friend requests 
+    - [X] Create and accept friend requests 
 #### B mark 
 ##### General
 - [X] Security protecting REST API
 - [X] Security is session based, through redis
-- [ ] frontend can signup/sign in user
+- [X] frontend can signup/sign in user
 ##### Application 
-- [ ] Login/logout -> handled by other API 
+- [X] Login/logout -> handled by other API 
 - [X] Logged in user should see a welcome message
 - [X] A user can create message on their own timeline
     - [X] A test to verify this -> `MessageControllerTest.kt`, specifically `403 if not sender`

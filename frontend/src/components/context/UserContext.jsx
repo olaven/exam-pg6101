@@ -126,7 +126,10 @@ export const UserContextProvider = props => {
 
             const userResponse = await ApiFetch("/users", {
                 method: "post",
-                body: userDTO
+                body: userDTO,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             console.log("creating user data: ", userResponse.status);

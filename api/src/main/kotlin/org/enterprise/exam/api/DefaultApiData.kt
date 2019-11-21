@@ -80,14 +80,23 @@ class DefaultApiData(
             }
         }
 
-        (0..105).map {
+        (0..105).forEach {
 
             val sender = randomUser(users)
-            friendRequestRepository.save(FriendRequestEntity(
-                    sender = sender,
-                    receiver = randomUser(users, sender), //avoiding that people make friends with themselves
-                    status = FriendRequestStatus.values().random()
-            ))
+            val receiver = randomUser(users, sender) //avoiding that people make friends with themselves
+
+            /*
+            * NOTE: charlie has already sent a request to admin, and we want to avoid duplicates.
+            * This is handy for testing purposes.
+            * */
+            if (!((sender.email == charlie.email) && (receiver.email == admin.email))) {
+
+                friendRequestRepository.save(FriendRequestEntity(
+                        sender = sender,
+                        receiver = receiver,
+                        status = FriendRequestStatus.values().random()
+                ))
+            }
         }
     }
 
