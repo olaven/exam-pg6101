@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class GraphQLTestBase {
+class GraphQLTestBase{
 
     @Autowired
     protected lateinit var advertisementRepository: AdvertisementRepository
@@ -37,7 +37,7 @@ class GraphQLTestBase {
         RestAssured.basePath = "/graphql"
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
 
-
+        advertisementRepository.deleteAll()
     }
 
     companion object {

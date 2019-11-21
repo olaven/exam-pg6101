@@ -109,7 +109,7 @@ nothing.
 - [ ] Communication between two services, with AMQP
 ##### Application 
 - [X] GraphQL should handle advertisements
-- [ ] Display advertisements on home-page
+- [X] Display advertisements on home-page
 - [ ] Accepted requests should send a message to GQL, 
 - [ ] This information should change what type of advertisement 
 the user receives

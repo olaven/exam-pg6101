@@ -15,10 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.sql.DataSource
 
 
-/*
-* Before running this:
-* start redis, e.g. with "docker run -p 5672:5672 rabbitmq:3". //TODO: remove this if not used?
-* */
 fun main(args: Array<String>) {
     SpringApplication.run(AuthenticationApplication::class.java, "--spring.profiles.active=local")
 }

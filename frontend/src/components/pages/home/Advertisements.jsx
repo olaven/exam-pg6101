@@ -24,7 +24,7 @@ export const Advertisements = () => {
             const response = await ApiFetch("/graphql", options);
 
             if (response.status === 200) {
-                
+
                 const advertisements = (await response.json()).data.advertisementsForUser;
                 setAdvertisements(advertisements);
             } else {
