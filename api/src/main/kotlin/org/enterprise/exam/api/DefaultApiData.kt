@@ -44,6 +44,14 @@ class DefaultApiData(
         ))
 
 
+        // adding friend request from beginning
+        friendRequestRepository.save(FriendRequestEntity(
+                sender = charlie,
+                receiver = admin,
+                status = FriendRequestStatus.PENDING
+        ))
+
+
         val users = (0..15).map {
 
             userRepository.save(UserEntity(

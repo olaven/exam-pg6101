@@ -48,16 +48,12 @@ export const UserContextProvider = props => {
         // if not authenticated, means that user is logged out.
         if (auth) {
 
-            console.log("in update user");
             const response = await ApiFetch("/users/" + auth.name);
-            console.log("status when fetching user data", response.status);
             if (response.status === 200) {
 
                 const wrappedResponse = await response.json();
                 const user = wrappedResponse.data;
                 setUser(user);
-
-                console.log("foud user: ", user);
             }
         } else {
 
@@ -149,8 +145,6 @@ export const UserContextProvider = props => {
         const wrappedResponse = await response.json();
         return wrappedResponse.data;
     };
-
-    console.log("passing down ", auth);
 
     return <UserContext.Provider value={{auth, setAuth, user, setUser, login, logout, signUp, getUser}}>
         {props.children}

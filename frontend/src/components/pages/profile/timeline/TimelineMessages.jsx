@@ -12,7 +12,8 @@ export const TimelineMessages = props => {
 
         if (props.email) {
 
-            setBasePath("/users/" + props.email + "/timeline");
+            const base = "/users/" + props.email + "/timeline";
+            setBasePath(base);
         }
     }, [props.email]);
 
