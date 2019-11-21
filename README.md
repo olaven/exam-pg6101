@@ -76,7 +76,7 @@ nothing.
     - [ ] Register a new user 
     - [X] See details of other users 
     - [ ] Post on  timeline
-    - [ ] Display messages sorted by time (sort in DB!)
+    - [X] Display messages sorted by time (sort in DB!)
     - [ ] Create and accept friend requests 
 #### B mark 
 ##### General

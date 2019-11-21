@@ -11,6 +11,6 @@ export const Movies = () => {
     return <Container>
         <Header>All Movies</Header>
         {moviePage.list.map(movie => <MovieCard movie={movie}/>)}
-        <Button onClick={() => {setLocation(moviePage.next)}}>Load more</Button>
+        <Button onClick={() => {setLocation(moviePage.next)}}>Load</Button>
     </Container>;
 };

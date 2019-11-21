@@ -20,8 +20,6 @@ export const Search = () => {
         }
     }, [searchTerm]);
 
-    console.log("this is the location, ", location);
-
     return <Container>
         <Header as={"h2"}>Search for friends:</Header>
 
@@ -35,6 +33,6 @@ export const Search = () => {
 
         <Button onClick={() => {
             setLocation(userPage.next)
-        }}>Load more</Button>
+        }}>Load</Button>
     </Container>;
 };

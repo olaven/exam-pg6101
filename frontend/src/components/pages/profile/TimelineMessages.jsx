@@ -1,14 +1,13 @@
 import * as React from "react";
-import {Container, Header} from "semantic-ui-react";
+import {Button, Container, Header} from "semantic-ui-react";
 import {PaginationFetcher} from "../../../utils/PaginationFetcher";
+import {TimelineContext} from "../../context/TimelineContext";
 
 export const TimelineMessages = props => {
 
-    const [basePath, setBasePath] = React.useState(null);
-    const [location, setLocation] = React.useState(null);
-    const messagePage = PaginationFetcher(location, basePath);
 
-    console.log("props in child: ", props);
+    const {setLocation, setBasePath, messagePage} = React.useContext(TimelineContext);
+
     React.useEffect(() => {
 
         if (props.email) {
@@ -18,12 +17,12 @@ export const TimelineMessages = props => {
     }, [props.email]);
 
 
-    console.log(messagePage);
     return <Container>
 
         {messagePage.list.map(message => <Container>
             <Header as={"h4"}>Posted: {new Date(message.creationTime).toString()}}</Header>
             {message.text}
         </Container>)}
+        <Button onClick={() => {setLocation(messagePage.next)}}>Load</Button>
     </Container>
 };

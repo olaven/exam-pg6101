@@ -21,16 +21,21 @@ export const Timeline = props => {
         });
     }, []);
 
-
     if (auth && auth.name === props.user.email) {
         return <Container>
 
-            <MessageCreator receiverEmail={props.user.email}/>
-            <TimelineMessages email={props.user.email}/>
+            <MessageCreator
+                receiverEmail={props.user.email}
+            />
+            <TimelineMessages
+                email={props.user.email}
+            />
         </Container>
     } else if (areFriends) {
 
-       return <TimelineMessages email={props.user.email}/>
+       return <TimelineMessages
+           email={props.user.email}
+       />
     } else {
 
         return <Header as={"h2"}>

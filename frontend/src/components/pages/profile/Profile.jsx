@@ -2,6 +2,7 @@ import * as React from "react";
 import {Container, Header} from "semantic-ui-react";
 import {UserContext} from "../../context/UserContext";
 import {Timeline} from "./Timeline";
+import {TimelineContextProvider} from "../../context/TimelineContext";
 
 export const Profile = props => {
 
@@ -29,6 +30,8 @@ export const Profile = props => {
 
         <Header as={"h1"}>Profile of {user.givenName} {user.familyName}</Header>
 
-        <Timeline user={user}/>
+        <TimelineContextProvider>
+            <Timeline user={user}/>
+        </TimelineContextProvider>
     </Container>;
 };

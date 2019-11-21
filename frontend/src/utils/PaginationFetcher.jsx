@@ -1,7 +1,8 @@
 import * as React from "react";
 import {ApiFetch} from "./ApiFetch";
 
-export const PaginationFetcher = (next, basePath) => {
+
+export const PaginationFetcher = (next, basePath, trigger) => {
 
     const [pages, setPages] = React.useState({
         list: [], next: null
@@ -19,6 +20,11 @@ export const PaginationFetcher = (next, basePath) => {
             console.log("response failed: ", response);
         }
     };
+
+    React.useEffect(() => {
+
+        doFetch()
+    }, [trigger]);
 
     React.useEffect(() => {
 
