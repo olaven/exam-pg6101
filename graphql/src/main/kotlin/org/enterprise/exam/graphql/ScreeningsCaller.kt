@@ -18,7 +18,7 @@ class ScreeningsCaller {
 
     fun getScreening(id: Long): ScreeningDTO? {
 
-        val client =  RestTemplate()  //TODO: is this relevant for circuit breakers?
+        val client =  RestTemplate()
         val response = client.getForEntity("$apiBase/screenings/$id", ScreeningResponseDTO::class.java)
 
         if (response.statusCode == HttpStatus.OK) {

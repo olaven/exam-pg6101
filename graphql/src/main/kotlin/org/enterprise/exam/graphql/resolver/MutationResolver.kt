@@ -28,8 +28,8 @@ class MutationResolver(
 
     fun voteDownAdvertisement(advertisementID: String) = mutateAdvertisement(advertisementID) {
 
-        it.voteCount--
-        it
+        if (it.voteCount == 0) it
+        else it.apply { voteCount -= 1 }
     }
 
 

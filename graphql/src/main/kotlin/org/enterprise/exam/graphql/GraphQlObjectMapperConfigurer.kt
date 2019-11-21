@@ -6,7 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import graphql.servlet.ObjectMapperConfigurer
 import org.springframework.stereotype.Component
 
-/**
+/*
  * NOTE: This file is copied from:
  *https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/0bd7a6248ac2a1b497f04cf18d3ce5af02cd8b52/advanced/graphql/news-graphql/src/main/kotlin/org/tsdes/advanced/graphql/newsgraphql/GraphQlObjectMapperConfigurer.kt
  */

@@ -2,30 +2,94 @@ package org.enterprise.exam.graphql.resolver
 
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
+import junit.framework.Assert.assertEquals
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 import org.enterprise.exam.graphql.GraphQLTestBase
+import kotlin.random.Random
 
 internal class MutationResolverTest : GraphQLTestBase() {
 
-    /*@Test
-    fun `can create reservation`() {
+    @Test
+    fun `can vote advertisement up`() {
 
-        val screening = getDummyScreening()
-        val username = "some_user"
-        val seatCount = 2
-        // TODO: This tests returns 400, something is probably wrong with the body I am sending
-        stubScreeningsCaller(screening)
+        val advertisement = persistAdvertisement()
+        val before = advertisement.voteCount
 
-        RestAssured.given().accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .body("""
-                    { "query" : "mutation{create(screeningID:\"${screening.id}\", username:\"$username\", seatCount:$seatCount)}" }
+        val n = Random.nextInt(2, 5)
+        (0 until n).forEach {
+
+            voteUp(advertisement.id)
+                    .statusCode(200)
+                    .body("$", Matchers.hasKey("data"))
+                    .body("$", Matchers.not(Matchers.hasKey("errors")))
+        }
+
+        val after = advertisementRepository.findById(advertisement.id!!).get().voteCount
+
+        assertEquals(0, before)
+        assertEquals(n, after)
+    }
+
+
+    @Test
+    fun `can vote advertisement down`() {
+
+        val n = Random.nextInt(2, 5)
+        val advertisement = persistAdvertisement()
+        advertisement.voteCount = n
+        advertisementRepository.save(advertisement); // make sure that the correct is in db
+
+        val before = advertisement.voteCount
+
+        (0 until n).forEach {
+
+            voteDown(advertisement.id)
+                    .statusCode(200)
+                    .body("$", Matchers.hasKey("data"))
+                    .body("$", Matchers.not(Matchers.hasKey("errors")))
+        }
+
+        val after = advertisementRepository.findById(advertisement.id!!).get().voteCount
+
+        assertEquals(n, before)
+        assertEquals(0, after)
+    }
+
+
+    @Test
+    fun `vote is never below 0`() {
+
+        val advertisement = persistAdvertisement()
+        assertEquals(0, advertisement.voteCount)
+
+        (0 until 5).forEach {
+
+            voteDown(advertisement.id)
+                    .statusCode(200)
+                    .body("$", Matchers.hasKey("data"))
+                    .body("$", Matchers.not(Matchers.hasKey("errors")))
+        }
+
+        val after = advertisementRepository.findById(advertisement.id!!).get().voteCount
+        assertEquals(0, after)
+    }
+
+
+
+    private fun voteUp(advertisementID: Long?) =  RestAssured.given().accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .body("""
+                    { "query" : "mutation{voteUpAdvertisement(advertisementID:\"$advertisementID\"){voteCount}}" }
                     """.trimIndent())
-                .post()
-                .then()
-                .statusCode(200)
-                .body("$", Matchers.hasKey("data"))
-                .body("$", Matchers.not(Matchers.hasKey("errors")))
-    }*/
-}
+            .post()
+            .then()
+
+    private fun voteDown(advertisementID: Long?) =  RestAssured.given().accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .body("""
+                    { "query" : "mutation{voteDownAdvertisement(advertisementID:\"$advertisementID\"){voteCount}}" }
+                    """.trimIndent())
+            .post()
+            .then()
+} // { "query" : "mutation{create(name:\"$name\", surname:\"Bar\", age: 18)}" }
