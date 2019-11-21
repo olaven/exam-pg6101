@@ -40,7 +40,7 @@ export const MessageCreator = props => {
             triggerRefresh()
         } else {
 
-            console.log(response);
+            console.error(response);
             alert("An error occured when posting message");
         }
     };

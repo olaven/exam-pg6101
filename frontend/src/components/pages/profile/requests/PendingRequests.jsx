@@ -2,30 +2,48 @@ import * as React from "react";
 import {UserContext} from "../../../context/UserContext";
 import {PaginationFetcher} from "../../../../utils/PaginationFetcher";
 import {Button, Container, Header} from "semantic-ui-react";
+import {ApiFetch} from "../../../../utils/ApiFetch";
 
 export const PendingRequests = props => {
 
     const {auth} = React.useContext(UserContext);
     const [location, setLocation] = React.useState(null);
+    const [trigger, setUpdateTrigger] = React.useState(0);
 
     const base = "/requests?receiver=" + auth.name + "&status=PENDING";
-    const requestsPage = PaginationFetcher(location, base);
+    const requestsPage = PaginationFetcher(location, base, trigger);
 
-    const onAccept = (senderEmail) => {
+    const updateRequest = async (request, status) => {
 
-        //TODO: implement
-    };
+        request.status = status;
+        const response = await ApiFetch("/requests/" + request.id, {
+            method: "put",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(request)
+        });
 
-    const onReject = (senderEmail) => {
+        if (response.status === 204) {
 
-        //TODO: implement
-    };
+            setLocation(null);
+            const updatedTrigger = trigger + 1;
+            setUpdateTrigger(updatedTrigger)
+        } else {
 
-    return requestsPage.list.map(request =>
+            console.error("response: ", response);
+            alert("An error occured when answering request");
+        }
+    } ;
+
+    return <Container>
+        {requestsPage.list.map(request =>
             <Container>
                 <Header as={"h5"}>You have a request from {request.senderEmail}</Header>
-                <Button onClick={() => {onAccept(request.senderEmail)}}>Accept</Button>
-                <Button onClick={() => {onReject(request.senderEmail)}}>Reject</Button>
+                <Button onClick={() => {updateRequest(request, "ACCEPTED")}}>Accept</Button>
+                <Button onClick={() => {updateRequest(request, "REJECTED")}}>Reject</Button>
             </Container>
-        )
+        )}
+        <Button onClick={() => {setLocation(requestsPage.next)}}>Load</Button>
+    </Container>
 };
