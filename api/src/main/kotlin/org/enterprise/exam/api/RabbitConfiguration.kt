@@ -1,4 +1,4 @@
-package org.enterprise.exam.authentication
+package org.enterprise.exam.api
 
 import org.springframework.amqp.core.FanoutExchange
 import org.springframework.context.annotation.Bean
@@ -19,6 +19,6 @@ class RabbitConfiguration {
 
     @Bean
     fun fanout(): FanoutExchange {
-        return FanoutExchange("org.enterprise.exam.mail")
+        return FanoutExchange("org.enterprise.exam.friend-request")
     }
 }
