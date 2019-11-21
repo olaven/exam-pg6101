@@ -2,6 +2,7 @@ package org.enterprise.exam.api.entity
 
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.jetbrains.annotations.NotNull
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity

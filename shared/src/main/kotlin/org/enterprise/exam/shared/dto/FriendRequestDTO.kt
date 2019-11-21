@@ -2,6 +2,7 @@ package org.enterprise.exam.shared.dto
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
+import java.io.Serializable
 
 enum class FriendRequestStatus {
     PENDING,
@@ -23,4 +24,4 @@ class FriendRequestDTO(
 
         @ApiModelProperty("ID of the message")
         var id: String? = null
-) : BaseDTO()
+) : BaseDTO(), Serializable //Serializable needed to send with AMQP

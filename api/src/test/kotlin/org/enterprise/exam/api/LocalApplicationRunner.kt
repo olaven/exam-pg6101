@@ -7,8 +7,13 @@ import org.springframework.context.annotation.Profile
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+import com.github.fridujo.rabbitmq.mock.MockConnectionFactory
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
+import org.springframework.amqp.rabbit.connection.ConnectionFactory
+import org.springframework.context.annotation.Import
 
-// NOTE: will use h2, as application.yml in _test_ is used
+
+// NOTE:  application.yml in _test_ is used
 fun main(args: Array<String>) {
     SpringApplication.run(ApiApplication::class.java, *args)
 }
@@ -27,6 +32,16 @@ class Config {
                         .allowCredentials(true)
                         .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS")
             }
+        }
+    }
+
+    //NOTE: mocking away rabbit when running in test
+    @Profile("test")
+    @Configuration
+    internal inner class TestConfiguration {
+        @Bean
+        fun connectionFactory(): ConnectionFactory {
+            return CachingConnectionFactory(MockConnectionFactory())
         }
     }
 }

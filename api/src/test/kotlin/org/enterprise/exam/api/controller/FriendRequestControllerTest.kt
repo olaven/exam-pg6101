@@ -15,6 +15,17 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+
+/*
+* NOTE: This test executes rabbitmq-code and could therefore
+* an error as rabbbitmq is not running.
+*
+* However, test has a special configuration (see `LocalApplicationRunner`
+* that mocks it away to avoid crashes when running locally and in tests.
+*
+* I could have used Testcontainers (as done in `authentication`, however
+* that would not work wnen someone is running the API locally (i.e. on localhost:8080)
+* */
 internal class FriendRequestControllerTest : ControllerTestBase() {
 
     @BeforeEach

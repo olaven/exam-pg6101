@@ -67,19 +67,4 @@ class GraphQLTestBase{
                     voteCount = 0
             )
     )
-
-    //NOTE: From mock exam, keeping for reference
-   /* protected fun stubScreeningsCaller(screening: ScreeningDTO = getDummyScreening()) {
-
-        val response = WrappedResponse(200, screening).validated()
-        val json = Gson().toJson(response)
-
-        GraphQLTestBase.wiremockServer.stubFor(//prepare a stubbed response for the given request
-                WireMock.get(//define the GET request to mock
-                        WireMock.urlMatching("/api/screenings/${screening.id}"))
-                        // define the mocked response of the GET
-                        .willReturn(WireMock.aResponse()
-                                .withHeader("Content-Type", "application/json;")
-                                .withBody(json)))
-    }*/
 }

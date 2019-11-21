@@ -9,6 +9,9 @@ import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.response.FriendRequestResponseDTO
 import org.enterprise.exam.shared.response.WrappedResponse
+import org.springframework.amqp.core.FanoutExchange
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
@@ -19,9 +22,11 @@ import java.net.URI
 @Api("/requests", description = "Endpoint for friend requests")
 class FriendRequestController(
         private val friendRequestRepository: FriendRequestRepository,
-        private val userRepository: UserRepository,
-        private val transformer: Transformer
+        private val transformer: Transformer,
+        private val rabbitTemplate: RabbitTemplate,
+        private val fanout: FanoutExchange
 ) {
+
 
     @PostMapping
     @ApiOperation("Create a new friend request")
@@ -112,7 +117,7 @@ class FriendRequestController(
             )
         }
 
-        val existingEntity = friendRequestRepository.findById(id).get() //TODO: should this be ||? run tests.
+        val existingEntity = friendRequestRepository.findById(id).get()
         if ((authentication.name != friendRequestDTO.receiverEmail) && (authentication.name != existingEntity.receiver.email))
             return ResponseEntity.status(403).body(
                     FriendRequestResponseDTO(403, null, "You are not allowed to update this request")
@@ -123,6 +128,13 @@ class FriendRequestController(
 
             val newEntity = transformer.friendRequestToEntity(friendRequestDTO)
             friendRequestRepository.save(newEntity)
+
+            //TODO: send amqp if status was accepted
+            if (friendRequestDTO.status === FriendRequestStatus.ACCEPTED) {
+
+                rabbitTemplate.convertAndSend(fanout.name, "", friendRequestDTO)
+            }
+
 
             ResponseEntity.status(204).body(
                     FriendRequestResponseDTO(204, null).validated()
