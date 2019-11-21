@@ -1,7 +1,6 @@
 import * as React from "react";
 import {UserContext} from "../../../context/UserContext";
 import {FriendContext} from "../../../context/FriendContext";
-import {Button} from "semantic-ui-react";
 import {PendingRequests} from "./PendingRequests";
 import {SendButton} from "./SendButton";
 
@@ -34,6 +33,6 @@ export const FriendRequest = props => {
       return <p>This is a friend :-)</p>
    } else {
 
-      return <SendButton/>
+      return <SendButton email={props.email}/>
    }
 };

@@ -23,6 +23,15 @@ export const FriendContextProvider = props => {
         return response.status === 200;
     };
 
+    /**
+     * Returns true if a pending friend request
+     * exists from given email, to other email
+     */
+    const hasPendingRequest = (fromEmail, toEmail) => {
+
+
+    };
+
     return <FriendContext.Provider value={{checkIfFriends}}>
         {props.children}
     </FriendContext.Provider>

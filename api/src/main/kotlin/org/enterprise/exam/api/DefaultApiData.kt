@@ -8,7 +8,6 @@ import org.enterprise.exam.api.repository.FriendRequestRepository
 import org.enterprise.exam.api.repository.MessageRepository
 import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.shared.dto.FriendRequestStatus
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
@@ -59,12 +58,21 @@ class DefaultApiData(
             ))
         }
 
+        users.forEach {
 
+            val messageCount = Random.nextInt(1, 25)
+            (0 until messageCount).forEach { _ ->
 
+                messageRepository.save(MessageEntity(
+                        sender = it,
+                        receiver = it,
+                        text = faker.lorem().paragraph(),
+                        creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+                ))
+            }
+        }
 
-
-
-        val friendRequests = (0..105).map {
+        (0..105).map {
 
             val sender = randomUser(users)
             friendRequestRepository.save(FriendRequestEntity(
@@ -72,35 +80,6 @@ class DefaultApiData(
                     receiver = randomUser(users, sender), //avoiding that people make friends with themselves
                     status = FriendRequestStatus.values().random()
             ))
-        }
-
-        friendRequests.forEach { friendRequest ->
-
-            if (friendRequest.status == FriendRequestStatus.ACCEPTED) {
-
-                val firstMessageCount = Random.nextInt(1, 5)
-                (0 until firstMessageCount).forEach { _ ->
-
-                    messageRepository.save(MessageEntity(
-                            sender = friendRequest.sender,
-                            receiver = friendRequest.receiver,
-                            text = faker.lorem().paragraph(),
-                            creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
-                    ))
-                }
-
-
-                val secondMessageCount = Random.nextInt(1, 5)
-                (0 until secondMessageCount).forEach { _ ->
-
-                    messageRepository.save(MessageEntity(
-                            sender = friendRequest.receiver,
-                            receiver = friendRequest.sender,
-                            text = faker.lorem().paragraph(),
-                            creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
-                    ))
-                }
-            }
         }
     }
 
