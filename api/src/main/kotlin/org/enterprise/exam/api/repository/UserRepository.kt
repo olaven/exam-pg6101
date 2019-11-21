@@ -14,7 +14,7 @@ interface UserRepository : CrudRepository<UserEntity, String>, CustomUserReposit
 interface CustomUserRepository {
 
     fun getFriends(email: String, keysetEmail: String?, keysetGivenName: String?, pageSize: Int): List<UserEntity>
-    fun getPage(keysetEmail: String?, searchTerm: String?, keysetGivenName: String?, pageSize: Int): List<UserEntity>
+    fun getPage(keysetEmail: String?, keysetGivenName: String?, searchTerm: String?, pageSize: Int): List<UserEntity>
 }
 
 
@@ -35,7 +35,7 @@ class UserRepositoryImpl(
                         "select user from UserEntity user where " +
                                 "((user in (select user from UserEntity user join FriendRequestEntity request on request.receiver = user and user.email <> :email where request.sender.email = :email and request.status = :status)) or" +
                                 "(user in (select user from UserEntity user join FriendRequestEntity request on request.sender = user and user.email <> :email where request.receiver.email = :email and request.status = :status)))" +
-                                (if (keysetEmail != null) "(user.givenName < :keysetGivenName or (user.givenName= :keysetGivenName and user.email < :email)) " else "") +
+                                (if (keysetEmail != null) " and (user.givenName < :keysetGivenName or (user.givenName= :keysetGivenName and user.email < :keysetEmail)) " else "") +
                                 "order by user.givenName desc, user.email desc" //NOTE: just changed from asc
                         , UserEntity::class.java)
                         .setParameter("status", FriendRequestStatus.ACCEPTED)
@@ -63,10 +63,10 @@ class UserRepositoryImpl(
 
             val query =
                     if (searchTerm != null)
-                        entityManager.createQuery("select user from UserEntity user where (user.givenName < :keysetGivenName or (user.givenName= :keysetGivenName and user.email < :email)) and (user.email like :searchTerm) order by user.givenName desc, user.email desc", UserEntity::class.java)
+                        entityManager.createQuery("select user from UserEntity user where (user.givenName < :keysetGivenName or (user.givenName = :keysetGivenName and user.email < :keysetEmail)) and (user.email like :searchTerm) order by user.givenName desc, user.email desc", UserEntity::class.java)
                                 .setParameter("searchTerm", "%$searchTerm%")
                     else
-                        entityManager.createQuery("select user from UserEntity user where user.givenName < :keysetGivenName or (user.givenName= :keysetGivenName and user.email < :emails) order by user.email desc", UserEntity::class.java)
+                        entityManager.createQuery("select user from UserEntity user where user.givenName < :keysetGivenName or (user.givenName = :keysetGivenName and user.email < :keysetEmail) order by user.givenName desc, user.email desc", UserEntity::class.java)
 
             query.setParameter("keysetEmail", keysetEmail)
             query.setParameter("keysetGivenName", keysetGivenName)
