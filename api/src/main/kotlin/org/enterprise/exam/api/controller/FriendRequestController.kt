@@ -3,7 +3,7 @@ package org.enterprise.exam.api.controller
 import io.swagger.annotations.*
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.repository.FriendRequestRepository
-import org.enterprise.exam.api.repository.Page
+import org.enterprise.exam.api.Page
 import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.response.FriendRequestResponseDTO
