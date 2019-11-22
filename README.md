@@ -140,11 +140,11 @@ This can be seen in `QueryResolver.kt`, specifically `receiveFromAMQP`
 - [X] Make sure that Swagger doc is available
 - [X] Make sure that only gateway is exposed on `./docker-compose.yml`
 - [X] Make sure that jpa is always set to `validate`
-- [ ] Run project with `mvn clean verify`
-- [ ] run `mvn clean`
-- [ ] remove `node_modules`
-- [ ] ensure that `target`/`node_modules` is removed
-- [ ] remove `.git` 
-- [ ] zip project folder to `.zip`
-- [ ] ensure that folder size is < 10MB
-- [ ] rename folder to pg6100_ID_FROM_WIZEFLOW.zip
+- [x] Run project with `mvn clean verify`
+- [X] run `mvn clean`
+- [X] remove `node_modules`
+- [X] ensure that `target`/`node_modules` is removed
+- [X] remove `.git` 
+- [X] zip project folder to `.zip`
+- [X] ensure that folder size is < 10MB
+- [X] rename folder to pg6100_ID_FROM_WIZEFLOW.zip
