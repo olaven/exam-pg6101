@@ -44,15 +44,20 @@ class DefaultApiData(
         ))
 
 
-        // adding friend request from beginning
-        friendRequestRepository.save(FriendRequestEntity(
-                sender = charlie,
-                receiver = admin,
-                status = FriendRequestStatus.PENDING
-        ))
+        //NOTE: this may be the case if running postgres multiple times or similar
+        val adminAndCharlieAreFriends = friendRequestRepository.existsBetween(admin.email, charlie.email)
+        if (!adminAndCharlieAreFriends) {
+
+            // adding friend request from beginning
+            friendRequestRepository.save(FriendRequestEntity(
+                    sender = charlie,
+                    receiver = admin,
+                    status = FriendRequestStatus.PENDING
+            ))
+        }
 
 
-        val users = (0..15).map {
+        val users = (0..55).map {
 
             userRepository.save(UserEntity(
                     email = faker.internet().emailAddress(),
@@ -80,7 +85,7 @@ class DefaultApiData(
             }
         }
 
-        (0..105).forEach {
+        (0..40).forEach {
 
             val sender = randomUser(users)
             val receiver = randomUser(users, sender) //avoiding that people make friends with themselves

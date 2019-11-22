@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
+//IMPORTANT: runs on port 8083
 fun main(args: Array<String>) {
     SpringApplication.run(GraphQLApplication::class.java, *args)
 }

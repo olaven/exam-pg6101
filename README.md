@@ -13,8 +13,8 @@ I have done every task in the assignment
 ### Test information 
 Some users are added by default: 
 * username: "admin@mail.com", password, "admin" (is administrator)
-* username: "adam@mail.com", password, "adam"
-* username: "charlie@mail.com", password, "charlie" 
+* username: "adam@mail.com", password, "adampass"
+* username: "charlie@mail.com", password, "charliepass" 
 
 ### General notes
 I experienced some issues with e2e-tests, due to limited system resources
