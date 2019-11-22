@@ -13,7 +13,7 @@ class DefaultGraphqlData(
     @PostConstruct
     fun `add test data`() {
 
-
+        advertisementRepository.deleteAll()
 
         advertisementRepository.save(AdvertisementEntity(
                 message = "Advertisement for amazing soap!",
