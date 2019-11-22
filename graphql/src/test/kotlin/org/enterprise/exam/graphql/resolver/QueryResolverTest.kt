@@ -10,7 +10,7 @@ internal class QueryResolverTest : GraphQLTestBase() {
 
     @Test
     fun `can get advertisements`() {
-        
+
         (0 until 3).forEach {
             persistAdvertisement()
         }

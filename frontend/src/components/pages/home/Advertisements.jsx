@@ -14,7 +14,7 @@ export const Advertisements = () => {
         const fetchAdvertisements = async () => {
 
 
-            const query = "query { advertisementsForUser(userEmail: \"" +  auth.name +"\" ) {id voteCount message} }";
+            const query = "query { advertisements {id voteCount message} }";
             const options = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -25,7 +25,7 @@ export const Advertisements = () => {
 
             if (response.status === 200) {
 
-                const advertisements = (await response.json()).data.advertisementsForUser;
+                const advertisements = (await response.json()).data.advertisements;
                 setAdvertisements(advertisements);
             } else {
 
