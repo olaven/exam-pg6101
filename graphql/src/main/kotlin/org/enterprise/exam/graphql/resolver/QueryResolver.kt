@@ -12,7 +12,7 @@ class QueryResolver(
         private val advertisementRepository: AdvertisementRepository
 ) : GraphQLQueryResolver {
 
-    private var descendingAds = false
+    private var descendingAds = true
 
     @RabbitListener(queues = ["#{queue.name}"])
     fun receiveFromAMQP(friendRequest: FriendRequestDTO) {
