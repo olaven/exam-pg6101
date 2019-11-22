@@ -1,6 +1,5 @@
 import {Home} from "../components/pages/home/Home";
 import {User} from "../components/pages/user/User";
-import {Admin} from "../components/pages/Admin";
 import {Search} from "../components/pages/search/Search";
 import {Profile} from "../components/pages/profile/Profile";
 
@@ -28,10 +27,5 @@ export const pages = [
         name: "Login/Signup",
         path: "/login",
         component: User
-    },
-    {
-        name: "Admin",
-        path: "/admin",
-        component: Admin
     }
 ];

@@ -4,14 +4,12 @@ import io.swagger.annotations.*
 import org.enterprise.exam.api.Page
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.repository.FriendRequestRepository
-import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.shared.dto.FriendRequestDTO
 import org.enterprise.exam.shared.dto.FriendRequestStatus
 import org.enterprise.exam.shared.response.FriendRequestResponseDTO
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.amqp.core.FanoutExchange
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
@@ -129,7 +127,7 @@ class FriendRequestController(
             val newEntity = transformer.friendRequestToEntity(friendRequestDTO)
             friendRequestRepository.save(newEntity)
 
-            //TODO: send amqp if status was accepted
+
             if (friendRequestDTO.status === FriendRequestStatus.ACCEPTED) {
 
                 rabbitTemplate.convertAndSend(fanout.name, "", friendRequestDTO)

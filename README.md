@@ -118,13 +118,14 @@ nothing.
 - [X] Provide graphQL endpoint 
     - [X] at least one mutation
     - [X] at least one query
-- [ ] Communication between two services, with AMQP
+- [X] Communication between two services, with AMQP
 ##### Application 
 - [X] GraphQL should handle advertisements
 - [X] Display advertisements on home-page
-- [ ] Accepted requests should send a message to GQL, 
-- [ ] This information should change what type of advertisement 
-the user receives
+- [X] Accepted requests should send a message to GQL -> `FriendRequestController`, specifically `#133` 
+- [X] This information should change what type of advertisement 
+the user receives -> Add order will change if friends have email addresses starting with the same letter. 
+This can be seen in `QueryResolver.kt`, specifically `receiveFromAMQP` 
 
     
 ### Delivery checklist

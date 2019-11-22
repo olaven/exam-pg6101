@@ -21,7 +21,7 @@ class WelcomeMessageController {
     @RabbitListener(queues = ["#{queue.name}"])
     fun receiveFromAMQP(email: String) {
 
-        print("Sending welcome message to $email")
+        print("Sending welcome email to $email!")
         emails.add(email)
     }
 

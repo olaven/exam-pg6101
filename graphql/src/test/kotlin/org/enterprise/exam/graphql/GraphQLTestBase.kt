@@ -1,14 +1,9 @@
 package org.enterprise.exam.graphql
 
 import com.github.javafaker.Faker
-import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.common.ConsoleNotifier
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import io.restassured.RestAssured
 import org.enterprise.exam.graphql.database.AdvertisementEntity
 import org.enterprise.exam.graphql.database.AdvertisementRepository
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,30 +35,12 @@ class GraphQLTestBase{
         advertisementRepository.deleteAll()
     }
 
-    companion object {
-
-        private lateinit var wiremockServer: WireMockServer
-
-        @BeforeAll
-        @JvmStatic
-        fun initClass() {
-
-            wiremockServer = WireMockServer(WireMockConfiguration.wireMockConfig().port(8099).notifier(ConsoleNotifier(true)))
-            wiremockServer.start()
-        }
-
-        @AfterAll
-        @JvmStatic
-        fun tearDown() {
-            wiremockServer.stop()
-        }
-    }
 
 
     protected fun persistAdvertisement() = advertisementRepository.save(
             AdvertisementEntity(
 
-                    message = faker.lorem().paragraph(),
+                    message = faker.lorem().word(),
                     voteCount = 0
             )
     )
