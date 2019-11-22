@@ -2,7 +2,6 @@ import * as React from "react";
 import {PaginationFetcher} from "../../utils/PaginationFetcher";
 
 
-
 export const TimelineContext = React.createContext({});
 
 export const TimelineContextProvider = props => {

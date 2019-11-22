@@ -6,7 +6,9 @@ import io.swagger.annotations.*
 import org.enterprise.exam.api.Page
 import org.enterprise.exam.api.Transformer
 import org.enterprise.exam.api.entity.UserEntity
-import org.enterprise.exam.api.repository.*
+import org.enterprise.exam.api.repository.FriendRequestRepository
+import org.enterprise.exam.api.repository.MessageRepository
+import org.enterprise.exam.api.repository.UserRepository
 import org.enterprise.exam.shared.dto.MessageDTO
 import org.enterprise.exam.shared.dto.UserDTO
 import org.enterprise.exam.shared.response.UserResponseDTO

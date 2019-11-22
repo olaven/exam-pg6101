@@ -1,7 +1,6 @@
 import * as React from "react";
 import {UserContext} from "../../context/UserContext";
-import {Button, Header, List, Segment} from "semantic-ui-react";
-import {ApiFetch} from "../../../utils/ApiFetch";
+import {Header, List, Segment} from "semantic-ui-react";
 
 export const UserInfo = () => {
 

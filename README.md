@@ -17,13 +17,19 @@ Some users are added by default:
 * username: "charlie@mail.com", password, "charlie" 
 
 ### General notes
-The end-to-end tests fails sometimes, due to limited system resources
-on my machine/docker and the fact that there are a lot of services.
+I experienced some issues with e2e-tests, due to limited system resources
+on my machine/Docker and the fact that there are a lot of services.
 I have addressed this issue by increasing the time they have to run.
 I have also given Docker more memory. 
+Rebooting of the machine fixes the problem, which strengthens my 
+assumption that this is an issue with my docker/computer setup and not 
+with the tests themselves.
+
+When docker-compose is given enough time to start properly, they do pass.
+
 If the integration tests fails due to a timeout, I would greatly appreciate
 if this could be kept in mind.
-When docker-compose is given enough time to start properly, they do pass. 
+ 
 
 ### Assumptions
 * The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 

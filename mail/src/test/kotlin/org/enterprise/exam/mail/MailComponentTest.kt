@@ -3,7 +3,8 @@ package org.enterprise.exam.mail
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import org.awaitility.Awaitility.await
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.hasItem
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

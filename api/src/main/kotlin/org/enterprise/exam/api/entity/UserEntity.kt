@@ -1,8 +1,8 @@
 package org.enterprise.exam.api.entity
 
 import org.jetbrains.annotations.NotNull
-import org.springframework.validation.annotation.Validated
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.Id
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size

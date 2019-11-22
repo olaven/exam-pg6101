@@ -3,9 +3,9 @@ package org.enterprise.exam.graphql.resolver
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import junit.framework.Assert.assertEquals
+import org.enterprise.exam.graphql.GraphQLTestBase
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
-import org.enterprise.exam.graphql.GraphQLTestBase
 import kotlin.random.Random
 
 internal class MutationResolverTest : GraphQLTestBase() {

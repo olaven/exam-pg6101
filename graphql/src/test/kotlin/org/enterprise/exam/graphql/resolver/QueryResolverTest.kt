@@ -2,9 +2,9 @@ package org.enterprise.exam.graphql.resolver
 
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
+import org.enterprise.exam.graphql.GraphQLTestBase
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
-import org.enterprise.exam.graphql.GraphQLTestBase
 
 internal class QueryResolverTest : GraphQLTestBase() {
 

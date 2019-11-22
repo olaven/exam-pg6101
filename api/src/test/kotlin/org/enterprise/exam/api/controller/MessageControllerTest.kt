@@ -6,7 +6,6 @@ import org.enterprise.exam.api.WebSecurityConfigLocalFake
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.ADMIN_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.FIRST_USER
 import org.enterprise.exam.api.WebSecurityConfigLocalFake.Companion.SECOND_USER
-import org.enterprise.exam.shared.dto.MessageDTO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
