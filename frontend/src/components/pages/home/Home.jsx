@@ -10,7 +10,7 @@ export const Home = () => {
     const {auth, user} = React.useContext(UserContext);
 
     return <div>
-        <Header as={"h1"}>Welcomee to the Social Page!</Header>
+        <Header as={"h1"}>Welcome to the Social Page!</Header>
         {user?
             <Header as={"h1"}>Welcome, {user.givenName}!</Header>:
             null
