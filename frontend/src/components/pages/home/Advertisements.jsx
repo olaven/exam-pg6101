@@ -39,7 +39,10 @@ export const Advertisements = () => {
     return <Container>
         <Header as={"h1"}>Advertisements:</Header>
         {advertisements.map(advertisement =>
-            <Header key={advertisement.id}>{advertisement.message}</Header>
+            <Container key={advertisement.id}>
+                <Header>{advertisement.message}</Header>
+                <p>voteCount: {advertisement.voteCount}</p>
+            </Container>
         )}
     </Container>
 };

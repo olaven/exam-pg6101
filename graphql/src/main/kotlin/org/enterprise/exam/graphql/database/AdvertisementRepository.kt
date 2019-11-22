@@ -10,7 +10,7 @@ interface AdvertisementRepository: CrudRepository<AdvertisementEntity, Long>, Cu
 
 interface CustomAdvertisementRepository {
 
-    fun getMostRelevant(userEmail: String, count: Int): MutableList<AdvertisementEntity>
+    fun getAdvertisements(userEmail: String, count: Int, descending: Boolean): MutableList<AdvertisementEntity>
 }
 
 @Transactional
@@ -18,10 +18,12 @@ open class AdvertisementRepositoryImpl (
         private val entityManager: EntityManager
 ): CustomAdvertisementRepository {
 
-    override fun getMostRelevant(userEmail: String, count: Int): MutableList<AdvertisementEntity> {
+    override fun getAdvertisements(userEmail: String, count: Int, descending: Boolean): MutableList<AdvertisementEntity> {
 
-        //TODO: some logic based on given user! (adjusted with amqp)
-        val query = entityManager.createQuery("select advertisement from AdvertisementEntity advertisement", AdvertisementEntity::class.java)
+        val query = if (descending)
+            entityManager.createQuery("select advertisement from AdvertisementEntity advertisement order by advertisement.voteCount desc", AdvertisementEntity::class.java)
+        else
+            entityManager.createQuery("select advertisement from AdvertisementEntity advertisement order by advertisement.voteCount asc", AdvertisementEntity::class.java)
 
         query.maxResults = count
         return query.resultList

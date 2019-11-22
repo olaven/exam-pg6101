@@ -16,29 +16,32 @@ class DefaultGraphqlData(
 
 
         advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing soap!"
+                message = "Advertisement for amazing soap!",
+                voteCount = 0
         ))
         advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing bikes!"
+                message = "Advertisement for amazing bikes!",
+                voteCount = 10
         ))
         advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing strawberries!"
+                message = "Advertisement for amazing strawberries!",
+                voteCount = 6
         ))
         advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing soda!"
+                message = "Advertisement for amazing soda!",
+                voteCount = 4
         ))
         advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing toys!"
+                message = "Advertisement for amazing toys!",
+                voteCount = 3
         ))
         advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing watches!"
+                message = "Advertisement for amazing watches!",
+                voteCount = 7
         ))
         advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing cars!"
-        ))
-        advertisementRepository.save(AdvertisementEntity(
-                message = "Advertisement for amazing bikes!"
+                message = "Advertisement for amazing cars!",
+                voteCount = 4
         ))
     }
-
 }

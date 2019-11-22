@@ -60,14 +60,6 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
-        <!-- Mock rabbitmq when running locally -->
-        <dependency>
-            <groupId>com.github.fridujo</groupId>
-            <artifactId>rabbitmq-mock</artifactId>
-            <version>1.0.12</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Common REST module -->
         <dependency>
             <groupId>org.enterprise.exam</groupId>
@@ -126,7 +118,11 @@
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <scope>compile</scope> <!-- is used when adding default data -->
+            <scope>compile</scope> <!-- is used when adding default data, not only in tests -->
+        </dependency>
+        <dependency> <!-- mock rabbitmq when running locally / testing-->
+            <groupId>com.github.fridujo</groupId>
+            <artifactId>rabbitmq-mock</artifactId>
         </dependency>
     </dependencies>
 

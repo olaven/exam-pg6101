@@ -1,5 +1,8 @@
 package org.enterprise.exam.graphql
 
+import com.github.fridujo.rabbitmq.mock.MockConnectionFactory
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
+import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.boot.SpringApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -26,6 +29,17 @@ class CorsConfig {
                         .allowCredentials(true)
                         .allowedMethods("POST")
             }
+        }
+    }
+
+
+    //NOTE: mocking away rabbit when running in test
+    @Profile("test")
+    @Configuration
+    internal inner class TestConfiguration {
+        @Bean
+        fun connectionFactory(): ConnectionFactory {
+            return CachingConnectionFactory(MockConnectionFactory())
         }
     }
 }
