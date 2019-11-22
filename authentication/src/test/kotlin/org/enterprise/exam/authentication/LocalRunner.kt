@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.sql.DataSource
 
-
+//IMPORTANT: runs on port 8081
 fun main(args: Array<String>) {
     SpringApplication.run(AuthenticationApplication::class.java, "--spring.profiles.active=local")
 }

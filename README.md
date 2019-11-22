@@ -8,6 +8,8 @@ From the home-page, users may go to their profiles.
 They may also search for other users, and make friends with them. 
 If they are friends, they may see each others timelines. 
 
+I have done every task in the assignment
+
 ### Test information 
 Some users are added by default: 
 * username: "admin@mail.com", password, "admin" (is administrator)
@@ -28,7 +30,9 @@ When docker-compose is given enough time to start properly, they do pass.
 My assumption is that this is fine in an exam, as I want to show that load-balancing is working.
 * To authorize users, I am using `Authentication` as an argument to endpoint-functions instead of the method-based
 approach shown in class. This is because it gave me easy and readable access to the dto-object. My assumption is 
-that this is OK because the same functionality is achieved, and it is still achieved with Spring Security. 
+that this is OK because the same functionality is achieved, and it is still achieved with Spring Security.
+* I am assuming that the requirement on 70% test coverage if meant for the "main API" (`api`-module in my case).
+I am assuming this because it is an E requirement, where only one service is mentioned/required.   
 * I have removed the basic-auth setup that was shown during class, as it caused an annoying login-popup in the browser. 
 My assumption is that this is OK, as login with body is still supported.
 * The assignment states that there should be an API to handle user details. Since this is a requirement before B-grades/security,
@@ -54,7 +58,6 @@ is fine, as examiner will expect the approach seen in class, and run both of the
 * There is a `mail`-service. This service receives a message through AMQP when 
 a user is signed up. The message triggers a "welcome mail"-function that could, 
 for example, send an email to the user. (`WelcomeMessageController.kt`)
-* TODO: write about test coverage 
 
 
 ## Checklists

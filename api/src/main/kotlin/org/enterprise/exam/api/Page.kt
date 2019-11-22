@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import org.jetbrains.annotations.NotNull
 
-@ApiModel(description = "Paginated resources, using keyset pagination")
+@ApiModel("Paginated resources, using keyset pagination")
 class Page<T>(
 
         @ApiModelProperty("The data contained in page")

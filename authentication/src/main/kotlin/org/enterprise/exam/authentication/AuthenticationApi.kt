@@ -1,9 +1,6 @@
 package org.enterprise.exam.authentication
 
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.*
 import org.enterprise.exam.authentication.user.UserService
 import org.enterprise.exam.shared.response.WrappedResponse
 import org.springframework.amqp.core.FanoutExchange
@@ -29,6 +26,7 @@ import java.security.Principal
  * https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/7984d36992b20955f0210a962ebfbfcbb5139e94/advanced/security/distributed-session/ds-auth/src/main/kotlin/org/tsdes/advanced/security/distributedsession/auth/RestApi.kt
  */
 
+@Api("/authentication", description = "Endpoint for authentication")
 @RestController
 @RequestMapping("/authentication")
 class RestApi(
