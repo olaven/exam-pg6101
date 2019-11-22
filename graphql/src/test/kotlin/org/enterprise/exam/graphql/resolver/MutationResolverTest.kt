@@ -92,4 +92,4 @@ internal class MutationResolverTest : GraphQLTestBase() {
                     """.trimIndent())
             .post()
             .then()
-} // { "query" : "mutation{create(name:\"$name\", surname:\"Bar\", age: 18)}" }
+}

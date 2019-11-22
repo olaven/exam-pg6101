@@ -10,7 +10,7 @@ interface AdvertisementRepository: CrudRepository<AdvertisementEntity, Long>, Cu
 
 interface CustomAdvertisementRepository {
 
-    fun getAdvertisements(userEmail: String, count: Int, descending: Boolean): MutableList<AdvertisementEntity>
+    fun getAdvertisements(count: Int, descending: Boolean): MutableList<AdvertisementEntity>
 }
 
 @Transactional
@@ -18,7 +18,7 @@ open class AdvertisementRepositoryImpl (
         private val entityManager: EntityManager
 ): CustomAdvertisementRepository {
 
-    override fun getAdvertisements(userEmail: String, count: Int, descending: Boolean): MutableList<AdvertisementEntity> {
+    override fun getAdvertisements(count: Int, descending: Boolean): MutableList<AdvertisementEntity> {
 
         val query = if (descending)
             entityManager.createQuery("select advertisement from AdvertisementEntity advertisement order by advertisement.voteCount desc", AdvertisementEntity::class.java)

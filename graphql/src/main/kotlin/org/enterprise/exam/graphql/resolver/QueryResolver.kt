@@ -32,11 +32,9 @@ class QueryResolver(
     }
 
 
-    //TODO: rename to "advertisements" and remove parameter
-    fun advertisementsForUser(userEmail: String): List<AdvertisementEntity> {
+    fun advertisements(): List<AdvertisementEntity> {
 
-        val advertisements = advertisementRepository.getAdvertisements(userEmail, 3, descendingAds)
-        return advertisements
+        return advertisementRepository.getAdvertisements(3, descendingAds)
     }
 
 }
