@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 * */
 
 @RestController
-@RequestMapping("/mail")
+@RequestMapping("/emails")
 class WelcomeMessageController {
 
     // Every email address receiving a welcome message
@@ -25,6 +25,18 @@ class WelcomeMessageController {
         emails.add(email)
     }
 
-    @GetMapping //TODO: maybe paginate?
-    fun getMails() = WrappedResponse(200, emails)
+    /*
+     * NOTE: This endpoint does not use pagination.
+     *
+     * This is mainly because it always returns <= 10 values.
+     * It is only returning the most recent emails received
+     * by this component.
+     *
+     * Furthermore, it is not used for anything except testing
+     * in `MailComponentTest.kt`. Nor is it exposed through the
+     * gateway.
+     *
+     */
+    @GetMapping
+    fun getRecentEmails() = WrappedResponse(200, emails.take(10))
 }

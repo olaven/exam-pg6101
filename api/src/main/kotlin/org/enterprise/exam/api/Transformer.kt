@@ -35,7 +35,7 @@ class Transformer(
             creationTime = Instant.ofEpochMilli(messageDTO.creationTime).atZone(ZoneId.systemDefault()),
             sender = userRepository.findById(messageDTO.senderEmail).get(),
             receiver = userRepository.findById(messageDTO.receiverEmail).get()
-            //id = messageDTO.id.toLong() //TODO :does it crash when addignthis?
+            //id = messageDTO.id.toLong()
     )
 
     fun messageToDto(messageEntity: MessageEntity) = MessageDTO(

@@ -203,7 +203,7 @@ internal class UserControllerTest : ControllerTestBase() {
     }
 
     @Test  // see note about implementing this in `UserController.updateUser`
-    fun `PATCH does try to persist null values`() { //TODO: fix, null restriction not being validated
+    fun `PATCH does try to persist null values`() {
 
         val user = persistUser(FIRST_USER)
         val dto = UserPatchDTO(user.givenName, user.familyName)

@@ -76,7 +76,7 @@ class RestApiTest {
                 .ignoreExceptions()
                 .until {
                     given().port(port)
-                            .get("mail")
+                            .get("emails")
                             .then()
                             .body("data", hasItem(email))
                             .statusCode(200)
@@ -101,9 +101,33 @@ class RestApiTest {
                     .ignoreExceptions()
                     .until {
                         given().port(port)
-                                .get("mail")
+                                .get("emails")
                                 .then()
                                 .body("data", hasItem(it))
+                                .statusCode(200)
+                        true
+                    }
+        }
+    }
+
+
+
+    @Test
+    fun `endpoint only returns 10 last values`() {
+
+        //NOTE: more than 10
+        (0.. 25).map { "$it@mail.com" }.onEach {
+
+            template.convertAndSend(fanout.name, "", it)
+        }.forEach {
+
+            await().atMost(5, TimeUnit.SECONDS)
+                    .ignoreExceptions()
+                    .until {
+                        given().port(port)
+                                .get("emails")
+                                .then()
+                                .body("data.size()", equalTo(10))
                                 .statusCode(200)
                         true
                     }
@@ -114,7 +138,7 @@ class RestApiTest {
     fun `endpoint actually works`() {
 
         given().port(port)
-            .get("mail")
+            .get("emails")
             .then()
             .statusCode(200)
     }

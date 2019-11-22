@@ -9,7 +9,7 @@ export const Logout = () => {
     const handleLogout = async () => {
 
         const logoutStatus = await logout();
-        console.log("logout status", logoutStatus); //TODO: some feedback
+        console.log("logout status", logoutStatus);
     };
 
     return <Button onClick={handleLogout}>Logout</Button>

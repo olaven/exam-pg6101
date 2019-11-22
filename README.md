@@ -17,10 +17,11 @@ Some users are added by default:
 ### General notes
 The end-to-end tests fails sometimes, due to limited system resources
 on my machine/docker and the fact that there are a lot of services.
-I have addressed this issue by increasing the time they take to run.
+I have addressed this issue by increasing the time they have to run.
 I have also given Docker more memory. 
-If the integration tests fails due to a timeout, I would greatly appreachiate
+If the integration tests fails due to a timeout, I would greatly appreciate
 if this could be kept in mind.
+When docker-compose is given enough time to start properly, they do pass. 
 
 ### Assumptions
 * The `movies/lb_id`-endpoint does not serve any purpose other than testing load balancing in e2e-test. 
@@ -40,8 +41,11 @@ for the sake of showing how JSON Merge Patch treats null values.
 create a message for _some user_. It is not clear to me wether the "current user" is the logged in user 
 or the displayed user. However, in B requirement, it is specified that a user should only be able to 
 create a user for his/her own timeline. As B is a later requirements, I am considering that the valid 
-interpretation. As a result, I am assuming that a message should only be sent by the user "owning" the timeline. 
-* TODO: assumption about package/verify
+interpretation. As a result, I am assuming that a message should only be sent by the user "owning" the timeline.
+* In the assignment, we are explicitly told to build the node project with maven "as shown in class". 
+The assignment also mentions that the examiner will run `mvn clean verify` on the project. However, that 
+command will not build the node project, in the way `mvn package` will. My assumption is that this 
+is fine, as examiner will expect the approach seen in class, and run both of these commands. 
  
 ### Extras 
 * I have added styling with [Semantic UI](https://semantic-ui.com). 

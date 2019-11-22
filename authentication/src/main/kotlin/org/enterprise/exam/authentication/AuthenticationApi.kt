@@ -89,7 +89,7 @@ class RestApi(
             SecurityContextHolder.getContext().authentication = token
         }
 
-        //NOTE: notification to mail-service that there is a new user. //TODO: decide to keep or not
+        //NOTE: notification to mail-service that there is a new user.
         rabbitTemplate.convertAndSend(fanout.name, "", userId)
         return ResponseEntity.status(204).body(
                 AuthenticatonResponseDTO(204, null).validated()
