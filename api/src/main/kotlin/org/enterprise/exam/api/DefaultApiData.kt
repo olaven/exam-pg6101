@@ -28,79 +28,84 @@ class DefaultApiData(
     fun `add test data`() {
 
 
-        val admin = userRepository.save(UserEntity(
-                "admin@mail.com",
-                "AdminGiven", "AdminFamily"
-        ))
-
-        val adam = userRepository.save(UserEntity(
-                "adam@mail.com",
-                "Adam", "Adamson"
-        ))
-
-        val charlie = userRepository.save(UserEntity(
-                "charlie@mail.com",
-                "Charlie", "Charlson"
-        ))
+        // only add once
+        if (!userRepository.findById("admin@mail.com").isPresent) {
 
 
-        //NOTE: this may be the case if running postgres multiple times or similar
-        val adminAndCharlieAreFriends = friendRequestRepository.existsBetween(admin.email, charlie.email)
-        if (!adminAndCharlieAreFriends) {
-
-            // adding friend request from beginning
-            friendRequestRepository.save(FriendRequestEntity(
-                    sender = charlie,
-                    receiver = admin,
-                    status = FriendRequestStatus.PENDING
+            val admin = userRepository.save(UserEntity(
+                    "admin@mail.com",
+                    "AdminGiven", "AdminFamily"
             ))
-        }
 
-
-        val users = (0..55).map {
-
-            userRepository.save(UserEntity(
-                    email = faker.internet().emailAddress(),
-                    givenName = faker.name().firstName(),
-                    familyName = faker.name().lastName()
+            val adam = userRepository.save(UserEntity(
+                    "adam@mail.com",
+                    "Adam", "Adamson"
             ))
-        }.toMutableList().apply {
 
-            addAll(listOf(
-                    admin, adam, charlie
+            val charlie = userRepository.save(UserEntity(
+                    "charlie@mail.com",
+                    "Charlie", "Charlson"
             ))
-        }
 
-        users.forEach {
 
-            val messageCount = Random.nextInt(1, 25)
-            (0 until messageCount).forEach { _ ->
+            //NOTE: this may be the case if running postgres multiple times or similar
+            val adminAndCharlieAreFriends = friendRequestRepository.existsBetween(admin.email, charlie.email)
+            if (!adminAndCharlieAreFriends) {
 
-                messageRepository.save(MessageEntity(
-                        sender = it,
-                        receiver = it,
-                        text = faker.lorem().paragraph(),
-                        creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+                // adding friend request from beginning
+                friendRequestRepository.save(FriendRequestEntity(
+                        sender = charlie,
+                        receiver = admin,
+                        status = FriendRequestStatus.PENDING
                 ))
             }
-        }
 
-        (0..40).forEach {
 
-            val sender = randomUser(users)
-            val receiver = randomUser(users, sender) //avoiding that people make friends with themselves
+            val users = (0..25).map {
 
-            /*
-            * NOTE: charlie has already sent a request to admin, and we want to avoid duplicates.
-            * This is handy for testing purposes.
-            * */
-            if (!((sender.email == charlie.email) && (receiver.email == admin.email))) {
-
-                friendRequestRepository.save(FriendRequestEntity(
-                        sender = sender,
-                        receiver = receiver,
-                        status = FriendRequestStatus.values().random()
+                userRepository.save(UserEntity(
+                        email = faker.internet().emailAddress(),
+                        givenName = faker.name().firstName(),
+                        familyName = faker.name().lastName()
                 ))
+            }.toMutableList().apply {
+
+                addAll(listOf(
+                        admin, adam, charlie
+                ))
+            }
+
+            users.forEach {
+
+                val messageCount = Random.nextInt(1, 25)
+                (0 until messageCount).forEach { _ ->
+
+                    messageRepository.save(MessageEntity(
+                            sender = it,
+                            receiver = it,
+                            text = faker.lorem().paragraph(),
+                            creationTime = faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+                    ))
+                }
+            }
+
+            (0..20).forEach {
+
+                val sender = randomUser(users)
+                val receiver = randomUser(users, sender) //avoiding that people make friends with themselves
+
+                /*
+                * NOTE: charlie has already sent a request to admin, and we want to avoid duplicates.
+                * This is handy for testing purposes.
+                * */
+                if (!((sender.email == charlie.email) && (receiver.email == admin.email))) {
+
+                    friendRequestRepository.save(FriendRequestEntity(
+                            sender = sender,
+                            receiver = receiver,
+                            status = FriendRequestStatus.values().random()
+                    ))
+                }
             }
         }
     }
